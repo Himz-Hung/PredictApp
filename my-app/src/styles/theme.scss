@@ -1,0 +1,16 @@
+:root {
+  --color-primary: #1e3a8a;
+  --color-secondary: #f97316;
+  --bg-color: #ffffff;
+  --text-color: #111111;
+
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+[data-theme="dark"] {
+  --color-primary: #3b82f6;  
+  --color-secondary: #facc15;
+  --bg-color: #0f172a;
+  --text-color: #e2e8f0;
+}

@@ -1,0 +1,117 @@
+.loginPage {
+  position: relative;
+  background: linear-gradient(to bottom, #000000 0%, #010218 100%);
+  overflow: hidden;
+  color: white;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 40vh;
+    pointer-events: none;
+
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(200, 200, 200, 0.4) 30%,
+      rgba(150, 150, 150, 0.25) 50%,
+      rgba(100, 100, 100, 0.15) 70%,
+      transparent 100%
+    );
+
+    filter: blur(30px);
+    animation: fireFlow 10s ease-in-out infinite alternate;
+  }
+  @keyframes fireFlow {
+    0% {
+      transform: scaleY(1);
+      opacity: 0.65;
+    }
+    50% {
+      transform: scaleY(1.1) translateY(-8px);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scaleY(0.95);
+      opacity: 0.7;
+    }
+  }
+  /* form load animation: slide up + fade + glowing border */
+  .loginForm {
+    will-change: transform, opacity, box-shadow;
+    transform: translateY(18px);
+    opacity: 0;
+    /* gộp 2 animation: slideUpFade (chỉ 1 lần) và glowingBorder (lặp vô hạn) */
+    animation: slideUpFade 2s cubic-bezier(.22,.9,.32,1) 1 forwards,
+               glowingBorder 5s ease-in-out infinite alternate;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+  }
+
+  /* aside slide-in (tương tự form, từ trái trên mobile từ dưới) */
+  .aside {
+    will-change: transform, opacity;
+    transform: translateX(-18px);
+    opacity: 0;
+    animation: asideSlideIn 760ms cubic-bezier(.22,.9,.32,1) 1 forwards;
+  }
+
+  @keyframes asideSlideIn {
+    0% {
+      transform: translateX(-18px);
+      opacity: 0;
+    }
+    60% {
+      transform: translateX(6px);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  /* giữ tương thích với reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .loginForm,
+    .aside {
+      animation: none;
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  /* keyframes */
+  @keyframes slideUpFade {
+    from {
+      transform: translateY(18px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes glowingBorder {
+    0% {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    }
+    100% {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loginForm {
+      animation: none;
+      transform: none;
+      opacity: 1;
+    }
+  }
+}
