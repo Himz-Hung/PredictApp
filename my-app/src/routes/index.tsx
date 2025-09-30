@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "../pages/HomePage/HomePage";
+import NBAReportPage from "../pages/NBAReportPage/NBAReportPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import NotFound from "../pages/NotFound";
 import MainLayout from "../components/layout/MainLayout";
@@ -12,7 +12,7 @@ export default function AppRoutes() {
           path="/"
           element={
             <MainLayout>
-              <HomePage />
+              <NBAReportPage />
             </MainLayout>
           }
         />
