@@ -2,7 +2,7 @@ import type { MainTableHeaderProps } from "../../../models/mainTableModels";
 
 export default function MainTableHeader(mainTableHeaderProps: MainTableHeaderProps): React.JSX.Element {
     return (
-        <thead className="bg-gray-50 dark:bg-gray-700">
+        <thead className=" sticky top-0 bg-gray-50 dark:bg-gray-700">
                 <tr>
                   {
                     mainTableHeaderProps.tableTitle.map((title,index) => (

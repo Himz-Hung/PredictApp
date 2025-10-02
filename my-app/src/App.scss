@@ -2,9 +2,7 @@ body {
   margin: 0;
 }
 .app-dark-bg {
-  position: relative;
   min-height: 100vh;
   background: linear-gradient(to bottom, #000000 0%, #010218 100%);
-  overflow: hidden;
   color: white;
 }

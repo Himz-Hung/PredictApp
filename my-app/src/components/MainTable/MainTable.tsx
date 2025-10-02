@@ -4,9 +4,9 @@ import type { MainTableProps } from '../../models/mainTableModels';
 
 export default function MainTable({tableTitle,tableMainData,tableFooterTitle} : MainTableProps): React.JSX.Element {
     return (
-      <div className="w-full max-w-full overflow-x-auto">
-        <div className="inline-block min-w-full align-middle">
-          <div className="overflow-hidden border border-gray-200 dark:border-gray-700 rounded-lg">
+      <div className="w-full max-w-full h-full overflow-x-auto">
+        <div className="inline-block min-w-full h-full align-middle">
+          <div className="overflow-scroll max-h-80 border border-gray-200 dark:border-gray-700 rounded-lg">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <MainTableHeader tableTitle={tableTitle} />
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">

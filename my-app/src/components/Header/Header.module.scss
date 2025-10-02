@@ -1,6 +1,7 @@
 .header {
   position: sticky;
   top: 0;
+  max-height: 10vh;
   z-index: 60;
   background: linear-gradient(180deg, #081020, #060711);
   color: #fff;
