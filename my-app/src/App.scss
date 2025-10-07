@@ -1,8 +1,8 @@
 body {
   margin: 0;
-}
-.app-dark-bg {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #000000 0%, #010218 100%);
-  color: white;
+  .app-dark-bg {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #000000 0%, #010218 100%);
+    color: white;
+  }
 }

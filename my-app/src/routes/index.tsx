@@ -3,6 +3,7 @@ import NBAReportPage from "../pages/NBAReportPage/NBAReportPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import NotFound from "../pages/NotFound";
 import MainLayout from "../components/layout/MainLayout";
+import PrivateRoute from "./PrivateRoute"; // ✅ import component vừa tạo
 
 export default function AppRoutes() {
   return (
@@ -11,17 +12,16 @@ export default function AppRoutes() {
         <Route
           path="/"
           element={
-            <MainLayout>
-              <NBAReportPage />
-            </MainLayout>
+            <PrivateRoute>
+              <MainLayout>
+                <NBAReportPage />
+              </MainLayout>
+            </PrivateRoute>
           }
         />
-        <Route
-          path="/login"
-          element={
-              <LoginPage />
-          }
-        />
+
+        <Route path="/login" element={<LoginPage />} />
+
         <Route
           path="*"
           element={

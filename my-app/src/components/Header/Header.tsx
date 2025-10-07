@@ -1,36 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+// src/components/layout/Header/Header.tsx
 import styles from "./Header.module.scss";
+import useHeaderHook, { NAV_ITEMS } from "./useHeaderHook";
 
-const NAV_ITEMS = ["NBA Report", "MLB Report", "NFL Report", "Admin"];
-
-const Header = (): React.JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-  }, [isOpen]);
-
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (!isOpen) return;
-      if (!menuRef.current) return;
-      if (!(e.target instanceof Node)) return;
-      if (!menuRef.current.contains(e.target)) setIsOpen(false);
-    };
-    window.addEventListener("mousedown", onClick);
-    return () => window.removeEventListener("mousedown", onClick);
-  }, [isOpen]);
+export default function Header(): React.JSX.Element {
+  const { state, ref, handler } = useHeaderHook();
 
   return (
-    <header className={styles.header} aria-expanded={isOpen}>
+    <header className={styles.header} aria-expanded={state.isOpen}>
       <div className={styles.inner}>
         <div className={styles.brand}>
           <img src="/logo.png" alt="Logo" className={styles.logo} />
           <span className={styles.title}>MyApp</span>
         </div>
 
-        {/* RIGHT GROUP: desktop nav + mobile control */}
+        {/* RIGHT GROUP */}
         <div className={styles.right}>
           <nav className={styles.desktopNav} aria-label="Primary">
             {NAV_ITEMS.map((item) => (
@@ -42,17 +25,19 @@ const Header = (): React.JSX.Element => {
                 {item}
               </a>
             ))}
-            <button className={styles.logout}>Logout</button>
+            <button className={styles.logout} onClick={handler.handleLogout}>
+              Logout
+            </button>
           </nav>
 
           <div className={styles.mobileCtrl}>
             <button
               className={styles.burger}
-              onClick={() => setIsOpen((s) => !s)}
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isOpen}
+              onClick={handler.toggleMenu}
+              aria-label={state.isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={state.isOpen}
             >
-              {isOpen ? (
+              {state.isOpen ? (
                 <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden>
                   <path
                     d="M6 6L18 18M6 18L18 6"
@@ -80,14 +65,14 @@ const Header = (): React.JSX.Element => {
 
       {/* overlay + mobile menu */}
       <div
-        className={`${styles.overlay} ${isOpen ? styles.show : ""}`}
-        aria-hidden={!isOpen}
+        className={`${styles.overlay} ${state.isOpen ? styles.show : ""}`}
+        aria-hidden={!state.isOpen}
       />
       <aside
-        ref={menuRef}
-        className={`${styles.mobileMenu} ${isOpen ? styles.open : ""}`}
+        ref={ref.menuRef}
+        className={`${styles.mobileMenu} ${state.isOpen ? styles.open : ""}`}
         role="menu"
-        aria-hidden={!isOpen}
+        aria-hidden={!state.isOpen}
       >
         <div className={styles.mobileContent}>
           {NAV_ITEMS.map((item, i) => (
@@ -97,14 +82,14 @@ const Header = (): React.JSX.Element => {
               href={`/${item.split(" ")[0].toLowerCase()}`}
               className={styles.mobileItem}
               style={{ animationDelay: `${i * 70}ms` }}
-              onClick={() => setIsOpen(false)}
+              onClick={handler.closeMenu}
             >
               {item}
             </a>
           ))}
           <button
             className={styles.mobileLogout}
-            onClick={() => setIsOpen(false)}
+            onClick={handler.handleLogout}
             style={{ animationDelay: `${NAV_ITEMS.length * 70}ms` }}
           >
             Logout
@@ -113,6 +98,4 @@ const Header = (): React.JSX.Element => {
       </aside>
     </header>
   );
-};
-
-export default Header;
+}

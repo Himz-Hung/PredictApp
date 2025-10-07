@@ -3,6 +3,7 @@ import type { MainTableProps } from "../../models/mainTableModels";
 function useNBAReportPageHook() {
   const tableMainData : MainTableProps = {
     tableTitle: ["Date", "Games", "Pick", "Result", "Profit"],
+    tableName: "Today's Results",
     tableMainData: [
       {
         id: "1",
@@ -167,7 +168,8 @@ function useNBAReportPageHook() {
     ],
     tableFooterTitle: "Total Profit:",
   };
-  const state={tableMainData};
+  const todayDate = new Date().toISOString().split("T")[0];
+  const state={tableMainData,todayDate};
   const handler = {};
   return { state, handler };
 }

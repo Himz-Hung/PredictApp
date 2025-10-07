@@ -1,8 +1,15 @@
  interface MainTableHeaderProps {
+  tableName?: string;
   tableTitle: string[];
 }
   interface MainTableFooterProps {
     tableFooterTitle: string;
+    page?: number;
+    setPage?: (n: number) => void;
+    pageSize?: number;
+    setPageSize?: (n: number) => void;
+    total?: number;
+    totalPages?: number;
   }
  interface MainTableData {
     id:string;
@@ -13,6 +20,7 @@
     profit: string;
 }
  interface MainTableProps {
+  tableName?: string; 
   tableTitle: string[];
   tableMainData : MainTableData[];
   tableFooterTitle: string;
