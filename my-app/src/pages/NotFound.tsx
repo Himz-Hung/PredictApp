@@ -9,7 +9,7 @@ export default function NotFound() {
 
       <button
         type="button"
-        onClick={() => navigate("/", { replace: true })}
+        onClick={() => navigate("/nba-Report", { replace: true })}
         className="flex items-center justify-center
             text-blue-400 border border-blue-400
             bg-transparent
