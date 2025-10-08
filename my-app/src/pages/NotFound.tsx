@@ -9,7 +9,7 @@ export default function NotFound() {
 
       <button
         type="button"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/", { replace: true })}
         className="flex items-center justify-center
             text-blue-400 border border-blue-400
             bg-transparent
