@@ -2,7 +2,7 @@ import MainTable from "../../components/MainTable/MainTable";
 import useNBAReportPageHook from "./useNBAReportPageHook";
 
 export default function NBAReportPage() {
-  const { state, handler } = useNBAReportPageHook();
+  const { state } = useNBAReportPageHook();
   return (
     <div className="overflow-hidden p-5 w-full flex flex-col items-center text-white">
       {/* Title chính cho cả trang */}
