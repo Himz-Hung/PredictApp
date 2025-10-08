@@ -36,7 +36,7 @@ export default function AppRoutes() {
         <Route
           path="*"
           element={
-            <MainLayout>
+            <MainLayout is404={true}>
               <NotFound />
             </MainLayout>
           }

@@ -9,7 +9,7 @@ export default function useLoginPageHook() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) navigate("/", { replace: true });
+    if (token) navigate("/nba-report", { replace: true });
   }, [navigate]);
 
   // ---------- STATE ----------
@@ -38,7 +38,7 @@ export default function useLoginPageHook() {
       const result = await dispatch(loginThunk({ username, password }));
 
       if (loginThunk.fulfilled.match(result)) {
-        navigate("/", { replace: true });
+        navigate("/nba-report", { replace: true });
       } else {
         setLoading(false);
         setError(result.payload as string);
