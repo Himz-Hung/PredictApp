@@ -9,6 +9,7 @@ export default function MainTableFooter({
   setPageSize,
   total,
   totalPages,
+  isAdmin = false,
 }: MainTableFooterProps): React.JSX.Element {
   return (
     <tfoot>
@@ -17,7 +18,7 @@ export default function MainTableFooter({
         <td className="px-6 py-3 text-base text-left">
           <div className="text-sm">{total ? `${total}` : "0"}</div>
         </td>
-        <td colSpan={3} className="px-6 py-3 ">
+        <td colSpan={isAdmin ? 4 : 3} className="px-6 py-3 ">
           <div className="flex flex-col gap-2">
             {/* Pagination controls under the total */}
             {setPage && setPageSize ? (

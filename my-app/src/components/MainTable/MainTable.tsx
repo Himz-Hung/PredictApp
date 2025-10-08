@@ -10,6 +10,7 @@ export default function MainTable({
   tableMainData,
   tableFooterTitle,
   tableName,
+  isAdmin = false,
 }: MainTableProps): React.JSX.Element {
   const { state, handler } = useMainTableHook(tableMainData, 10);
   const { pageSize, page, total, totalPages, paginatedData } = state;
@@ -20,14 +21,18 @@ export default function MainTable({
       <div className="inline-block w-full h-full align-middle">
         <div className="max-h-[400px] md:max-h-[60vh] max-w-[90vw] border m-auto border-gray-200 dark:border-gray-700 overflow-x-auto overflow-y-auto overscroll-none rounded-lg table-container">
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <MainTableHeader tableName={tableName} tableTitle={tableTitle} />
+            <MainTableHeader
+              isAdmin={isAdmin}
+              tableName={tableName}
+              tableTitle={tableTitle}
+            />
             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
               {paginatedData?.map(p => (
                 <tr
                   key={p?.id}
-                  className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
-                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-white dark:text-white">
+                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                     {p.date}
                   </td>
                   <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
@@ -50,10 +55,42 @@ export default function MainTable({
                   >
                     {p.profit}
                   </td>
+                  {isAdmin && (
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm flex gap-2">
+                      <button
+                        // onClick={() => handleView(p)}
+                        className="rounded-lg border border-gray-600 text-blue-500 px-3 py-1 font-medium
+                transition-all duration-300 hover:border-blue-500 hover:bg-blue-600/20 hover:scale-105 hover:cursor-pointer
+                 active:scale-95"
+                      >
+                        View
+                      </button>
+
+                      <button
+                        // onClick={() => handleEdit(p)}
+                        className="rounded-lg border border-gray-600 text-yellow-500 px-3 py-1 font-medium
+                transition-all duration-300 hover:bg-yellow-600/20 hover:border-yellow-500 hover:scale-105 hover:cursor-pointer
+                 active:scale-95"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        // onClick={() => handleDelete(p.id)}
+                        className="rounded-lg border border-gray-600 text-red-500 px-3 py-1 font-medium
+                transition-all duration-300 hover:bg-red-600/20 hover:border-red-500 hover:scale-105 hover:cursor-pointer
+                 active:scale-95"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
+
             <MainTableFooter
+              isAdmin={isAdmin}
               tableFooterTitle={tableFooterTitle}
               page={page}
               setPage={setPage}

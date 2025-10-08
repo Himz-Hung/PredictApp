@@ -19,7 +19,7 @@ export default function Header(): React.JSX.Element {
             {NAV_ITEMS.map((item) => (
               <a
                 key={item}
-                href={`/${item.split(" ")[0].toLowerCase()}`}
+                href={`/${item.replace(" ", "-").toLowerCase()}`}
                 className={styles.navLink}
               >
                 {item}

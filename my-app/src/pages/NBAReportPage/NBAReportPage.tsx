@@ -13,7 +13,7 @@ export default function NBAReportPage() {
       {/* Container chứa 2 bảng */}
       <div className="flex flex-wrap w-full items-start gap-8 justify-evenly">
         {/* Bảng 1 */}
-        <div className="overflow-hidden w-full lg:w-5/12 flex flex-col items-center bg-gray-800/40 backdrop-blur-md shadow-lg ">
+        <div className="overflow-hidden w-full lg:w-5/12 flex flex-col items-center backdrop-blur-md shadow-lg ">
           <MainTable
             tableFooterTitle={state?.tableMainData?.tableFooterTitle}
             tableTitle={state?.tableMainData?.tableTitle}
@@ -23,7 +23,7 @@ export default function NBAReportPage() {
         </div>
 
         {/* Bảng 2 */}
-        <div className="overflow-hidden w-full lg:w-5/12 flex flex-col items-center bg-gray-800/40 backdrop-blur-md  shadow-lg">
+        <div className="overflow-hidden w-full lg:w-5/12 flex flex-col items-center backdrop-blur-md  shadow-lg">
           <MainTable
             tableFooterTitle={state?.tableMainData?.tableFooterTitle}
             tableTitle={state?.tableMainData?.tableTitle}

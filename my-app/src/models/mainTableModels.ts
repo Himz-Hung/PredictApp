@@ -1,8 +1,10 @@
  interface MainTableHeaderProps {
   tableName?: string;
+  isAdmin?: boolean;
   tableTitle: string[];
 }
   interface MainTableFooterProps {
+    isAdmin?: boolean;
     tableFooterTitle: string;
     page?: number;
     setPage?: (n: number) => void;
@@ -20,6 +22,7 @@
     profit: string;
 }
  interface MainTableProps {
+  isAdmin?: boolean;
   tableName?: string; 
   tableTitle: string[];
   tableMainData : MainTableData[];
