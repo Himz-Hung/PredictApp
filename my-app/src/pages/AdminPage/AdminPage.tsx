@@ -2,7 +2,7 @@ import MainTable from "../../components/MainTable/MainTable";
 import useAdminPageHook from "./useAdminPageHook";
 
 export default function AdminPage() {
-  const { state, handler } = useAdminPageHook();
+  const { state } = useAdminPageHook();
   return (
     <div className="overflow-hidden p-5 w-full flex flex-col items-center text-white">
       <div className="flex w-11/12 flex-col lg:flex-row justify-between items-center flex-wrap gap-4 mb-8">
