@@ -32,13 +32,14 @@ export default function AppRoutes() {
         />
 
         <Route path="/login" element={<LoginPage />} />
-
         <Route
           path="*"
           element={
-            <MainLayout is404={true}>
+            <PrivateRoute>
+             <MainLayout is404={true}>
               <NotFound />
             </MainLayout>
+            </PrivateRoute>
           }
         />
       </Routes>
