@@ -6,7 +6,9 @@ import { loginThunk } from "../../features/authThunk";
 export default function useLoginPageHook() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
+  useEffect(() => {
+    document.title = "Phatify-Login Page";
+  }, []);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) navigate("/nba-report", { replace: true });

@@ -5,6 +5,8 @@ import NotFound from "../pages/NotFound";
 import MainLayout from "../components/layout/MainLayout";
 import PrivateRoute from "./PrivateRoute"; // ✅ import component vừa tạo
 import AdminPage from "../pages/AdminPage/AdminPage";
+import MLBReportPage from "../pages/MLBReportPage/MLBReportPage";
+import NFLReportPage from "../pages/NFLReportPage/NFLReportPage";
 
 export default function AppRoutes() {
   return (
@@ -16,6 +18,26 @@ export default function AppRoutes() {
             <PrivateRoute>
               <MainLayout>
                 <NBAReportPage />
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/mlb-Report"
+          element={
+            <PrivateRoute>
+              <MainLayout>
+                <MLBReportPage />
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/nfl-Report"
+          element={
+            <PrivateRoute>
+              <MainLayout>
+                <NFLReportPage />
               </MainLayout>
             </PrivateRoute>
           }

@@ -1,8 +1,19 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function NotFound() {
   const navigate = useNavigate();
+  const location = useLocation();
 
+  useEffect(() => {
+    const path = location.pathname || "/";
+    if (path === "/" || path === "") {
+      navigate("/nba-Report", { replace: true });
+    }
+  }, [location.pathname, navigate]);
+  useEffect(() => {
+    document.title = "Phatify-Not Found Page";
+  }, []);
   return (
     <div className="text-center p-8 flex flex-col items-center justify-center text-white">
       <h1 className="text-3xl font-bold mb-6">404 - Page Not Found</h1>

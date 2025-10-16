@@ -4,6 +4,7 @@ import MainTableHeader from "./MainTableHeader/MainTableHeader";
 import type { MainTableProps } from "../../models/mainTableModels";
 import useMainTableHook from "./useMainTableHook";
 import "./MainTable.scss";
+import { GameStatus } from "../../models/gameStatusEnum";
 
 export default function MainTable({
   tableTitle,
@@ -11,6 +12,7 @@ export default function MainTable({
   tableFooterTitle,
   tableName,
   isAdmin = false,
+  setIsOpenRecord = () => {},
 }: MainTableProps): React.JSX.Element {
   const { state, handler } = useMainTableHook(tableMainData, 10);
   const { pageSize, page, total, totalPages, paginatedData } = state;
@@ -42,12 +44,34 @@ export default function MainTable({
                     {p.pick}
                   </td>
                   <td
-                    className={`${
-                      p.result ? "text-green-600" : "text-red-600"
-                    } px-3 sm:px-6 py-4 whitespace-nowrap text-sm`}
+                    className={`px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-semibold
+    ${
+      p.result === GameStatus.WIN
+        ? "text-green-400"
+        : p.result === GameStatus.LOSE
+        ? "text-red-400"
+        : p.result === GameStatus.DRAW
+        ? "text-yellow-400"
+        : p.result === GameStatus.PENDING
+        ? "text-gray-400"
+        : p.result === GameStatus.CANCEL
+        ? "text-orange-400"
+        : "text-white"
+    }`}
                   >
-                    {p.result ? "Win" : "Lose"}
+                    {p.result === GameStatus.WIN
+                      ? "Win"
+                      : p.result === GameStatus.LOSE
+                      ? "Lose"
+                      : p.result === GameStatus.DRAW
+                      ? "Draw"
+                      : p.result === GameStatus.PENDING
+                      ? "Pending"
+                      : p.result === GameStatus.CANCEL
+                      ? "Cancel"
+                      : "Unknown"}
                   </td>
+
                   <td
                     className={`${
                       Number(p.profit) >= 0 ? "text-green-600" : "text-red-600"
@@ -62,6 +86,7 @@ export default function MainTable({
                         className="rounded-lg border border-gray-600 text-blue-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:border-blue-500 hover:bg-blue-600/20 hover:scale-105 hover:cursor-pointer
                  active:scale-95"
+                        onClick={() => setIsOpenRecord('VIEW')}
                       >
                         View
                       </button>
@@ -71,6 +96,7 @@ export default function MainTable({
                         className="rounded-lg border border-gray-600 text-yellow-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:bg-yellow-600/20 hover:border-yellow-500 hover:scale-105 hover:cursor-pointer
                  active:scale-95"
+                        onClick={() => setIsOpenRecord('EDIT')}
                       >
                         Edit
                       </button>
@@ -88,7 +114,7 @@ export default function MainTable({
                 </tr>
               ))}
             </tbody>
-
+            {/* <ViewRecord isOpen={isOpenRecord}/> */}
             <MainTableFooter
               isAdmin={isAdmin}
               tableFooterTitle={tableFooterTitle}

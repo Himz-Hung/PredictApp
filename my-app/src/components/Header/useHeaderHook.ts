@@ -1,12 +1,16 @@
-
 import { useEffect, useRef, useState } from "react";
-
-export const NAV_ITEMS = ["NBA Report", "MLB Report", "NFL Report", "Admin"];
+import { isAdmin } from "../../utils/jwt";
 
 export default function useHeaderHook() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLElement | null>(null);
-
+  const token = localStorage.getItem("token");
+  const NAV_ITEMS = ["NBA Report", "MLB Report", "NFL Report", "Admin"];
+  if (token && isAdmin(token)) {
+    console.log("✅ Là admin");
+  } else {
+    console.log("❌ Không phải admin");
+  }
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
   }, [isOpen]);
@@ -24,10 +28,8 @@ export default function useHeaderHook() {
     return () => window.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-
-  const toggleMenu = () => setIsOpen((prev) => !prev);
+  const toggleMenu = () => setIsOpen(prev => !prev);
   const closeMenu = () => setIsOpen(false);
-
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -35,7 +37,7 @@ export default function useHeaderHook() {
   };
 
   return {
-    state: { isOpen },
+    state: { isOpen,NAV_ITEMS },
     ref: { menuRef },
     handler: { toggleMenu, closeMenu, handleLogout },
   };

@@ -7,7 +7,6 @@ function useMainTableHook(
 ) {
   const [pageSize, setPageSize] = useState<number>(initialPageSize);
   const [page, setPage] = useState<number>(1);
-
   const total = tableMainData?.length ?? 0;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 

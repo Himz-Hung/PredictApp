@@ -1,6 +1,6 @@
 // src/components/layout/Header/Header.tsx
 import styles from "./Header.module.scss";
-import useHeaderHook, { NAV_ITEMS } from "./useHeaderHook";
+import useHeaderHook from "./useHeaderHook";
 
 export default function Header(): React.JSX.Element {
   const { state, ref, handler } = useHeaderHook();
@@ -16,7 +16,7 @@ export default function Header(): React.JSX.Element {
         {/* RIGHT GROUP */}
         <div className={styles.right}>
           <nav className={styles.desktopNav} aria-label="Primary">
-            {NAV_ITEMS.map((item) => (
+            {state.NAV_ITEMS.map((item) => (
               <a
                 key={item}
                 href={`/${item.replace(" ", "-").toLowerCase()}`}
@@ -75,7 +75,7 @@ export default function Header(): React.JSX.Element {
         aria-hidden={!state.isOpen}
       >
         <div className={styles.mobileContent}>
-          {NAV_ITEMS.map((item, i) => (
+          {state.NAV_ITEMS.map((item, i) => (
             <a
               key={item}
               role="menuitem"
@@ -90,7 +90,7 @@ export default function Header(): React.JSX.Element {
           <button
             className={styles.mobileLogout}
             onClick={handler.handleLogout}
-            style={{ animationDelay: `${NAV_ITEMS.length * 70}ms` }}
+            style={{ animationDelay: `${state.NAV_ITEMS.length * 70}ms` }}
           >
             Logout
           </button>
