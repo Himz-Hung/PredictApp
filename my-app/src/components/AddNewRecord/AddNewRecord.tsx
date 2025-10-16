@@ -3,9 +3,12 @@ import useAddNewRecordHook from "./useAddNewRecordHook";
 
 interface AddNewRecordProps {
   gameRecordData?: GameRecordData;
-  isOpenRecord: { id: string; action: "add" | "edit" | "view" |"close"  };
+  isOpenRecord: { id: string; action: "add" | "edit" | "view" | "close" };
   setIsOpenRecord: React.Dispatch<
-    React.SetStateAction<{ id: string; action: "add" | "edit" | "view" |"close"  }>
+    React.SetStateAction<{
+      id: string;
+      action: "add" | "edit" | "view" | "close";
+    }>
   >;
 }
 
@@ -62,26 +65,24 @@ export default function AddNewRecord({
       </button>
 
       {/* --- Popup Modal --- */}
-      {(isOpen || isOpenRecord.action === "view" || isOpenRecord.action === "edit") && (
+      {(isOpen ||
+        isOpenRecord.action === "view" ||
+        isOpenRecord.action === "edit") && (
         <div
-          className={`fixed inset-0 z-50 flex items-center justify-center 
-          bg-black/50 backdrop-blur-sm transition-opacity duration-300
-          ${isClosing ? "opacity-0" : "opacity-100"}`}
+          className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-center
+  bg-black/50 backdrop-blur-sm transition-opacity duration-300
+  h-[100dvh] ${isClosing ? "opacity-0" : "opacity-100"}`}
         >
           <div
-            className={`bg-gray-900 text-white rounded-2xl shadow-2xl w-[90%] max-w-lg p-6 
-                       transform transition-all duration-300
-                        max-h-[75vh] overflow-y-auto
-                       ${
-                         isClosing
-                           ? "scale-95 opacity-0"
-                           : "scale-100 opacity-100"
-                       }`}
+            className={`bg-gray-900 text-white rounded-2xl shadow-2xl w-[90%] max-w-lg p-6
+    transform transition-all duration-300 max-h-[75vh] overflow-y-auto
+    ${isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100"}`}
           >
             <h2 className="text-xl font-bold mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400">
               {isOpenRecord.action === "add"
                 ? "Add New Record"
-                : isOpenRecord.action === "edit" ? "Edit Record"
+                : isOpenRecord.action === "edit"
+                ? "Edit Record"
                 : "View Record"}
             </h2>
 
