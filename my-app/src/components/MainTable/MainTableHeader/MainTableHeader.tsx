@@ -9,7 +9,7 @@ export default function MainTableHeader(
         <tr>
           <th
             key={"main-header"}
-            colSpan={mainTableHeaderProps?.isAdmin ? 6 : 5}
+            colSpan={mainTableHeaderProps?.isAdmin ? 7 : 5}
             className="px-3 sm:px-6 py-3 text-left text-sm font-bold text-indigo-300 uppercase tracking-wider"
           >
             {mainTableHeaderProps.tableName}

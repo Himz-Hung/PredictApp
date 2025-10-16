@@ -24,6 +24,7 @@ export default function useLoginPageHook() {
   const validateForm = (): boolean => {
     if (!username.trim() || !password.trim()) {
       setError("Username and password cannot be left blank.");
+      setLoading(false)
       return false;
     }
     setError(null);

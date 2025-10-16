@@ -9,7 +9,7 @@ export default function useAddNewRecordHook(
   setIsOpenRecord: (value: string) => void,
   gameRecordData?: GameRecordData
 ) {
-  const {showToast} = useToast();
+  const { showToast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -116,9 +116,15 @@ export default function useAddNewRecordHook(
   const onSubmit = async (data: GameRecordData) => {
     setIsSaving(true);
     try {
-      await axiosClient.post("/predict_records", formatSubmitGameData(data)).then(() => {
-        showToast({ title: "Lưu thành công", message: "Record đã được lưu", type: "success" });
-      });
+      await axiosClient
+        .post("/predict_records", formatSubmitGameData(data))
+        .then(() => {
+          showToast({
+            title: "Saved successfully",
+            message: "The record has been saved",
+            type: "success",
+          });
+        });
       reset();
       closeModal();
     } finally {

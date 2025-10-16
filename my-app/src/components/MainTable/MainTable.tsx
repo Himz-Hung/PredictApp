@@ -34,15 +34,32 @@ export default function MainTable({
                   key={p?.id}
                   className=" hover:bg-gray-700 transition-colors"
                 >
+                  {isAdmin && (
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                      {p.id}
+                    </td>
+                  )}
+                  {isAdmin && (
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                      {p.sportType}
+                    </td>
+                  )}
                   <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                     {p.date}
                   </td>
                   <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
                     {p.games}
                   </td>
-                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
-                    {p.pick}
-                  </td>
+                  {!isAdmin && (
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
+                      {p.pick}
+                    </td>
+                  )}
+                  {isAdmin && (
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
+                      {p.predictValue}
+                    </td>
+                  )}
                   <td
                     className={`px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-semibold
     ${
@@ -71,14 +88,17 @@ export default function MainTable({
                       ? "Cancel"
                       : "Unknown"}
                   </td>
-
-                  <td
-                    className={`${
-                      Number(p.profit) >= 0 ? "text-green-600" : "text-red-600"
-                    } px-3 sm:px-6 py-4 whitespace-nowrap text-sm`}
-                  >
-                    {p.profit}
-                  </td>
+                  {!isAdmin && (
+                    <td
+                      className={`${
+                        Number(p.profit) >= 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                      } px-3 sm:px-6 py-4 whitespace-nowrap text-sm`}
+                    >
+                      {p.profit}
+                    </td>
+                  )}
                   {isAdmin && (
                     <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm flex gap-2">
                       <button
@@ -86,7 +106,7 @@ export default function MainTable({
                         className="rounded-lg border border-gray-600 text-blue-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:border-blue-500 hover:bg-blue-600/20 hover:scale-105 hover:cursor-pointer
                  active:scale-95"
-                        onClick={() => setIsOpenRecord('VIEW')}
+                        onClick={() => setIsOpenRecord("VIEW")}
                       >
                         View
                       </button>
@@ -96,7 +116,7 @@ export default function MainTable({
                         className="rounded-lg border border-gray-600 text-yellow-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:bg-yellow-600/20 hover:border-yellow-500 hover:scale-105 hover:cursor-pointer
                  active:scale-95"
-                        onClick={() => setIsOpenRecord('EDIT')}
+                        onClick={() => setIsOpenRecord("EDIT")}
                       >
                         Edit
                       </button>

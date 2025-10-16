@@ -18,7 +18,7 @@ export default function MainTableFooter({
         <td className="px-6 py-3 text-base text-left">
           <div className="text-sm">{total ? `${total}` : "0"}</div>
         </td>
-        <td colSpan={isAdmin ? 4 : 3} className="px-6 py-3 ">
+        <td colSpan={isAdmin ? 5 : 3} className="px-6 py-3 ">
           <div className="flex flex-col gap-2">
             {/* Pagination controls under the total */}
             {setPage && setPageSize ? (

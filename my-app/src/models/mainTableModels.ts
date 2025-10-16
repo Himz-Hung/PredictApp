@@ -20,8 +20,20 @@ interface MainTableData {
   date: string;
   games: string;
   pick: string;
+  sportType?: string;
   result: GameStatusType;
   profit: number;
+  predictValue: string;
+}
+interface MainTableDataRespond {
+  id: string;
+  date: string;
+  game: string;
+  pick: string;
+  sportType?: string;
+  result: GameStatusType;
+  profit: number;
+  predictValue: string;
 }
 interface MainTableProps {
   isAdmin?: boolean;
@@ -46,5 +58,6 @@ export type {
   MainTableHeaderProps,
   MainTableData,
   MainTableFooterProps,
-  GameRecordData
+  GameRecordData,
+  MainTableDataRespond
 };
