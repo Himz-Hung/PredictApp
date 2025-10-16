@@ -6,7 +6,12 @@ import type { GameOption } from "../../models/gameOptionModels";
 import { useToast } from "../../hooks/useContextHook";
 
 export default function useAddNewRecordHook(
-  setIsOpenRecord: (value: string) => void,
+  setIsOpenRecord: React.Dispatch<
+    React.SetStateAction<{
+      id: string;
+      action: "add" | "edit" | "view" | "close";
+    }>
+  >,
   gameRecordData?: GameRecordData
 ) {
   const { showToast } = useToast();
@@ -97,7 +102,7 @@ export default function useAddNewRecordHook(
 
   const closeModal = () => {
     setIsClosing(true);
-    setIsOpenRecord("");
+    setIsOpenRecord({ id: "", action: "close" });
     setTimeout(() => {
       setIsOpen(false);
       setIsClosing(false);

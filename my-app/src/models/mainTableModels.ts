@@ -41,8 +41,13 @@ interface MainTableProps {
   tableTitle: string[];
   tableMainData: MainTableData[];
   tableFooterTitle: string;
-  isOpenRecord?: string,
-  setIsOpenRecord?: (value: string) => void
+  isOpenRecord?: { id: string; action: "add" | "edit" | "view" | "close" };
+  setIsOpenRecord?: React.Dispatch<
+    React.SetStateAction<{
+      id: string;
+      action: "add" | "edit" | "view" | "close";
+    }>
+  >;
 }
 interface GameRecordData {
   id?: string;
@@ -59,5 +64,5 @@ export type {
   MainTableData,
   MainTableFooterProps,
   GameRecordData,
-  MainTableDataRespond
+  MainTableDataRespond,
 };

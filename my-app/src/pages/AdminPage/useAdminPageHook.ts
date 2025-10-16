@@ -28,7 +28,10 @@ function useAdminPageHook() {
     tableFooterTitle: "",
   };
   const isAdmin = true;
-  const [isOpenRecord, setIsOpenRecord] = useState("");
+  const [isOpenRecord, setIsOpenRecord] = useState<{
+    id: string;
+    action: "add" | "edit" | "view" | "close" ;
+  }>({ id: "", action: "add" });
 
   const formatRecordsData = (data: MainTableDataRespond[]) => {
     return data.map((item, index) => ({

@@ -118,7 +118,7 @@ export default function MainTable({
                         className="rounded-lg border border-gray-600 text-blue-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:border-blue-500 hover:bg-blue-600/20 hover:scale-105 hover:cursor-pointer
                  active:scale-95"
-                        onClick={() => setIsOpenRecord("VIEW")}
+                        onClick={() => setIsOpenRecord({id: p.id, action: "view"})}
                       >
                         View
                       </button>
@@ -128,7 +128,7 @@ export default function MainTable({
                         className="rounded-lg border border-gray-600 text-yellow-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:bg-yellow-600/20 hover:border-yellow-500 hover:scale-105 hover:cursor-pointer
                  active:scale-95"
-                        onClick={() => setIsOpenRecord("EDIT")}
+                        onClick={() => setIsOpenRecord({id: p.id, action: "edit"})}
                       >
                         Edit
                       </button>

@@ -3,17 +3,19 @@ import useAddNewRecordHook from "./useAddNewRecordHook";
 
 interface AddNewRecordProps {
   gameRecordData?: GameRecordData;
-  setIsOpenRecord?: (value: string) => void;
-  isOpenRecord?: string;
+  isOpenRecord: { id: string; action: "add" | "edit" | "view" |"close"  };
+  setIsOpenRecord: React.Dispatch<
+    React.SetStateAction<{ id: string; action: "add" | "edit" | "view" |"close"  }>
+  >;
 }
 
 export default function AddNewRecord({
   gameRecordData,
   setIsOpenRecord,
-  isOpenRecord = "",
+  isOpenRecord = { id: "", action: "add" },
 }: AddNewRecordProps) {
   const { state, handler } = useAddNewRecordHook(
-    setIsOpenRecord || (() => {}),
+    setIsOpenRecord,
     gameRecordData
   );
   const {
@@ -60,7 +62,7 @@ export default function AddNewRecord({
       </button>
 
       {/* --- Popup Modal --- */}
-      {(isOpen || isOpenRecord === "VIEW" || isOpenRecord === "EDIT") && (
+      {(isOpen || isOpenRecord.action === "view" || isOpenRecord.action === "edit") && (
         <div
           className={`fixed inset-0 z-50 flex items-center justify-center 
           bg-black/50 backdrop-blur-sm transition-opacity duration-300
@@ -69,6 +71,7 @@ export default function AddNewRecord({
           <div
             className={`bg-gray-900 text-white rounded-2xl shadow-2xl w-[90%] max-w-lg p-6 
                        transform transition-all duration-300
+                        max-h-[75vh] overflow-y-auto
                        ${
                          isClosing
                            ? "scale-95 opacity-0"
@@ -76,7 +79,10 @@ export default function AddNewRecord({
                        }`}
           >
             <h2 className="text-xl font-bold mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400">
-              Add New Record
+              {isOpenRecord.action === "add"
+                ? "Add New Record"
+                : isOpenRecord.action === "edit" ? "Edit Record"
+                : "View Record"}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
