@@ -70,7 +70,7 @@ export default function AddNewRecord({
         isOpenRecord.action === "edit") && (
         <div
           className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-center
-                      bg-black/50 backdrop-blur-sm transition-opacity duration-300 mt-[65px] md:mt-0
+                      bg-black/50 backdrop-blur-sm transition-opacity duration-300 mt-[50px] md:mt-0
                       h-[100dvh] ${isClosing ? "opacity-0" : "opacity-100"}`}
         >
           <div
