@@ -6,10 +6,11 @@
 
   --font-heading: "Poppins", sans-serif;
   --font-body: "Inter", sans-serif;
+  padding-top: env(safe-area-inset-top);
 }
 
 [data-theme="dark"] {
-  --color-primary: #3b82f6;  
+  --color-primary: #3b82f6;
   --color-secondary: #facc15;
   --bg-color: #0f172a;
   --text-color: #e2e8f0;
