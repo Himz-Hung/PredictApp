@@ -25,7 +25,7 @@ function useAdminPageHook() {
     ],
     tableName: "Today's Results",
     tableMainData: recordsData || [],
-    tableFooterTitle: "Total Profit:",
+    tableFooterTitle: "",
   };
   const isAdmin = true;
   const [isOpenRecord, setIsOpenRecord] = useState("");

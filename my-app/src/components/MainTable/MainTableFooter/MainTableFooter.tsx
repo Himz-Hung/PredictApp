@@ -15,10 +15,12 @@ export default function MainTableFooter({
     <tfoot>
       <tr className="font-semibold text-white sticky bottom-0 bg-gray-700">
         <td className="px-6 py-3 text-base text-left">{tableFooterTitle}</td>
-        <td className="px-6 py-3 text-base text-left">
-          <div className="text-sm">{total ? `${total}` : "0"}</div>
-        </td>
-        <td colSpan={isAdmin ? 5 : 3} className="px-6 py-3 ">
+        {!isAdmin && (
+          <td className="px-6 py-3 text-base text-left">
+            <div className="text-sm">{total ? `${total}` : "0"}</div>
+          </td>
+        )}
+        <td colSpan={isAdmin ? 6 : 3} className="px-6 py-3 ">
           <div className="flex flex-col gap-2">
             {/* Pagination controls under the total */}
             {setPage && setPageSize ? (

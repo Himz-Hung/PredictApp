@@ -29,6 +29,18 @@ export default function MainTable({
               tableTitle={tableTitle}
             />
             <tbody className="bg-gray-800 dark:bg-gray-800 divide-y divide-gray-70 divide-gray-700">
+              {paginatedData.length === 0 && (
+                <tr
+                  key={"no-data"}
+                  className=" hover:bg-gray-700 transition-colors"
+                >
+                  {isAdmin && (
+                    <td colSpan={isAdmin ? 7 : 5} className="px-3 sm:px-6 py-4 whitespace-nowrap text-center text-sm font-medium text-white">
+                      No Record Found
+                    </td>
+                  )}
+                  </tr>
+              )}
               {paginatedData?.map(p => (
                 <tr
                   key={p?.id}
