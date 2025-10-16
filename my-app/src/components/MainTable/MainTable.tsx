@@ -21,18 +21,18 @@ export default function MainTable({
   return (
     <div className="mainTable w-full max-w-full flex justify-center items-center h-full">
       <div className="inline-block w-full h-full align-middle">
-        <div className="max-h-[400px] md:max-h-[60vh] max-w-[90vw] border m-auto border-gray-200 dark:border-gray-700 overflow-x-auto overflow-y-auto overscroll-none rounded-lg table-container">
-          <table className="w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="max-h-[400px] md:max-h-[60vh] max-w-[90vw] border m-auto border-gray-700 overflow-x-auto overflow-y-auto overscroll-none rounded-lg table-container">
+          <table className="w-full divide-y divide-gray-700">
             <MainTableHeader
               isAdmin={isAdmin}
               tableName={tableName}
               tableTitle={tableTitle}
             />
-            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            <tbody className="bg-gray-800 dark:bg-gray-800 divide-y divide-gray-70 divide-gray-700">
               {paginatedData?.map(p => (
                 <tr
                   key={p?.id}
-                  className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  className=" hover:bg-gray-700 transition-colors"
                 >
                   <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                     {p.date}

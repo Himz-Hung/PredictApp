@@ -13,7 +13,7 @@ export default function MainTableFooter({
 }: MainTableFooterProps): React.JSX.Element {
   return (
     <tfoot>
-      <tr className="font-semibold text-white sticky bottom-0 dark:bg-gray-700">
+      <tr className="font-semibold text-white sticky bottom-0 bg-gray-700">
         <td className="px-6 py-3 text-base text-left">{tableFooterTitle}</td>
         <td className="px-6 py-3 text-base text-left">
           <div className="text-sm">{total ? `${total}` : "0"}</div>
@@ -31,12 +31,11 @@ export default function MainTableFooter({
                   <select
                     id="rows-per-page-select"
                     value={pageSize}
-                    onTouchStart={(e) => e.currentTarget.focus()} 
+                    onTouchStart={e => e.currentTarget.focus()}
                     onChange={e => setPageSize(Number(e.target.value))}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg 
-               focus:ring-blue-500 focus:border-blue-500 block w-24 p-1
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className=" border text-base rounded-lg block w-24 p-1
+               bg-gray-700 border-gray-600 placeholder-gray-400 
+               text-white focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value={10}>10</option>
                     <option value={15}>15</option>

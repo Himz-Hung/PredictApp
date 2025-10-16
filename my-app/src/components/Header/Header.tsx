@@ -1,14 +1,20 @@
 // src/components/layout/Header/Header.tsx
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";
 import useHeaderHook from "./useHeaderHook";
 
 export default function Header(): React.JSX.Element {
   const { state, ref, handler } = useHeaderHook();
+  const navigate = useNavigate();
 
   return (
     <header className={styles.header} aria-expanded={state.isOpen}>
       <div className={styles.inner}>
-        <div className={styles.brand}>
+        <div
+          className={styles.brand}
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
+        >
           <img src="/logo.png" alt="Logo" className={styles.logo} />
           <span className={styles.title}>MyApp</span>
         </div>
@@ -16,15 +22,14 @@ export default function Header(): React.JSX.Element {
         {/* RIGHT GROUP */}
         <div className={styles.right}>
           <nav className={styles.desktopNav} aria-label="Primary">
-            {state.NAV_ITEMS.map((item) => (
-              <a
-                key={item}
-                href={`/${item.replace(" ", "-").toLowerCase()}`}
-                className={styles.navLink}
-              >
-                {item}
-              </a>
-            ))}
+            {state.NAV_ITEMS.map((item) => {
+              const path = `/${item.replace(" ", "-").toLowerCase()}`;
+              return (
+                <Link key={item} to={path} className={styles.navLink}>
+                  {item}
+                </Link>
+              );
+            })}
             <button className={styles.logout} onClick={handler.handleLogout}>
               Logout
             </button>
@@ -67,6 +72,7 @@ export default function Header(): React.JSX.Element {
       <div
         className={`${styles.overlay} ${state.isOpen ? styles.show : ""}`}
         aria-hidden={!state.isOpen}
+        onClick={handler.closeMenu}
       />
       <aside
         ref={ref.menuRef}
@@ -75,18 +81,21 @@ export default function Header(): React.JSX.Element {
         aria-hidden={!state.isOpen}
       >
         <div className={styles.mobileContent}>
-          {state.NAV_ITEMS.map((item, i) => (
-            <a
-              key={item}
-              role="menuitem"
-              href={`/${item.split(" ")[0].toLowerCase()}`}
-              className={styles.mobileItem}
-              style={{ animationDelay: `${i * 70}ms` }}
-              onClick={handler.closeMenu}
-            >
-              {item}
-            </a>
-          ))}
+          {state.NAV_ITEMS.map((item, i) => {
+            const path = `/${item.replace(" ", "-").toLowerCase()}`;
+            return (
+              <Link
+                key={item}
+                to={path}
+                role="menuitem"
+                className={styles.mobileItem}
+                style={{ animationDelay: `${i * 70}ms` }}
+                onClick={handler.closeMenu}
+              >
+                {item}
+              </Link>
+            );
+          })}
           <button
             className={styles.mobileLogout}
             onClick={handler.handleLogout}
