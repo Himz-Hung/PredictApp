@@ -4,6 +4,7 @@ interface MainTableHeaderProps {
   tableName?: string;
   isAdmin?: boolean;
   tableTitle: string[];
+  isFromTo?:boolean;
 }
 interface MainTableFooterProps {
   isAdmin?: boolean;
@@ -36,6 +37,7 @@ interface MainTableDataRespond {
   predictValue: string;
 }
 interface MainTableProps {
+  isFromTo?:boolean;
   isAdmin?: boolean;
   tableName?: string;
   tableTitle: string[];

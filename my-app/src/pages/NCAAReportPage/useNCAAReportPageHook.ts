@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { tableMainDataFake } from "../../hooks/fakeData";
 import type { MainTableProps } from "../../models/mainTableModels";
 
-function useMLBReportPageHook() {
+function useNCAAReportPageHook() {
     useEffect(() => {
-      document.title = "Phatify-MLB Report Page";
+      document.title = "Phatify-NFL Report Page";
     }, []);
   const tableMainData: MainTableProps = {
     tableTitle: ["Date", "Games", "Pick", "Result", "Profit"],
@@ -12,15 +12,9 @@ function useMLBReportPageHook() {
     tableMainData: tableMainDataFake,
     tableFooterTitle: "Total Profit:",
   };
-  const tableMainDataHistory: MainTableProps = {
-    tableTitle: ["Date", "Games", "Pick", "Result", "Profit"],
-    tableName: "History's Results",
-    tableMainData: tableMainDataFake,
-    tableFooterTitle: "Total Profit:",
-  };
   const todayDate = new Date().toISOString().split("T")[0];
-  const state = { tableMainData, todayDate,tableMainDataHistory };
+  const state = { tableMainData, todayDate };
   const handler = {};
   return { state, handler };
 }
-export default useMLBReportPageHook;
+export default useNCAAReportPageHook;

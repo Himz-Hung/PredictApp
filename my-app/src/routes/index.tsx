@@ -7,6 +7,8 @@ import PrivateRoute from "./PrivateRoute"; // ✅ import component vừa tạo
 import AdminPage from "../pages/AdminPage/AdminPage";
 import MLBReportPage from "../pages/MLBReportPage/MLBReportPage";
 import NFLReportPage from "../pages/NFLReportPage/NFLReportPage";
+import NHLReportPage from "../pages/NHLReportPage/NHLReportPage";
+import NCAAReportPage from "../pages/NCAAReportPage/NCAAReportPage";
 
 export default function AppRoutes() {
   return (
@@ -38,6 +40,26 @@ export default function AppRoutes() {
             <PrivateRoute>
               <MainLayout>
                 <NFLReportPage />
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/nhl-Report"
+          element={
+            <PrivateRoute>
+              <MainLayout>
+                <NHLReportPage />
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/ncaa-Report"
+          element={
+            <PrivateRoute>
+              <MainLayout>
+                <NCAAReportPage />
               </MainLayout>
             </PrivateRoute>
           }

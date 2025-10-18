@@ -12,6 +12,7 @@ export default function MainTable({
   tableFooterTitle,
   tableName,
   isAdmin = false,
+  isFromTo = false,
   setIsOpenRecord = () => {},
 }: MainTableProps): React.JSX.Element {
   const { state, handler } = useMainTableHook(tableMainData, 10);
@@ -27,6 +28,7 @@ export default function MainTable({
               isAdmin={isAdmin}
               tableName={tableName}
               tableTitle={tableTitle}
+              isFromTo={isFromTo}
             />
             <tbody className="bg-gray-800 dark:bg-gray-800 divide-y divide-gray-70 divide-gray-700">
               {paginatedData.length === 0 && (

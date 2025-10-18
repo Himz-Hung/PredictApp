@@ -13,14 +13,17 @@ export default function AdminPage() {
         </h1>
 
         <div className="flex w-full md:w-auto flex-col sm:flex-row items-center gap-3 justify-center md:justify-end">
-          <label htmlFor="sport-select" className="text-sm text-gray-300 mr-0 sm:mr-2 hidden sm:inline">
+          <label
+            htmlFor="sport-select"
+            className="text-sm text-gray-300 mr-0 sm:mr-2 hidden sm:inline"
+          >
             Sport:
           </label>
 
           <select
             id="sport-select"
             value={state.sportType}
-            onChange={(e) => handler.setSportType(e.target.value)}
+            onChange={e => handler.setSportType(e.target.value)}
             className="bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-green-400 w-full sm:w-48"
           >
             <option value="nba-basketball">NBA - Basketball</option>
@@ -34,16 +37,15 @@ export default function AdminPage() {
             <AddNewRecord
               isOpenRecord={state?.isOpenRecord}
               setIsOpenRecord={handler?.setIsOpenRecord}
-              // sportType={sportType} // uncomment if you pass sportType into modal
             />
           </div>
         </div>
       </div>
 
       <div className="flex flex-wrap w-full items-start gap-8 justify-evenly">
-        {/* Bảng 1 */}
         <div className="w-full lg:w-12/12 flex flex-col items-center backdrop-blur-md shadow-lg">
           <MainTable
+            isFromTo={true}
             isAdmin={state?.isAdmin}
             tableFooterTitle={state?.tableMainData?.tableFooterTitle}
             tableTitle={state?.tableMainData?.tableTitle}
@@ -51,7 +53,6 @@ export default function AdminPage() {
             tableName={state?.tableMainData?.tableName}
             isOpenRecord={state?.isOpenRecord}
             setIsOpenRecord={handler?.setIsOpenRecord}
-            // sportType={sportType}
           />
         </div>
       </div>

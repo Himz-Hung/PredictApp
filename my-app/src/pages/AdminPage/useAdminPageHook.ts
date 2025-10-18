@@ -24,16 +24,19 @@ function useAdminPageHook() {
       "Result",
       "Actions",
     ],
-    tableName: "Today's Results",
+    tableName: "Predict Records Results",
     tableMainData: recordsData || [],
     tableFooterTitle: "",
   };
   const isAdmin = true;
   const [isOpenRecord, setIsOpenRecord] = useState<{
     id: string;
-    action: "add" | "edit" | "view" | "close" ;
+    action: "add" | "edit" | "view" | "close";
   }>({ id: "", action: "add" });
 
+  useEffect(() => {
+    console.log(isOpenRecord);
+  }, [isOpenRecord]);
   const formatRecordsData = (data: MainTableDataRespond[]) => {
     return data.map((item, index) => ({
       id: `${index}`,

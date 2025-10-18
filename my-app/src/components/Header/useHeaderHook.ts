@@ -5,7 +5,14 @@ export default function useHeaderHook() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLElement | null>(null);
   const token = localStorage.getItem("token");
-  const NAV_ITEMS = ["NBA Report", "MLB Report", "NFL Report", "Admin"];
+  const NAV_ITEMS = [
+    "NBA Report",
+    "MLB Report",
+    "NFL Report",
+    "NHL Report",
+    "NCAA Report",
+    "Admin",
+  ];
   if (token && isAdmin(token)) {
     console.log("✅ Là admin");
   } else {
@@ -37,7 +44,7 @@ export default function useHeaderHook() {
   };
 
   return {
-    state: { isOpen,NAV_ITEMS },
+    state: { isOpen, NAV_ITEMS },
     ref: { menuRef },
     handler: { toggleMenu, closeMenu, handleLogout },
   };
