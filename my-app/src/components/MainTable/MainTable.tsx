@@ -21,7 +21,7 @@ export default function MainTable({
   return (
     <div className="mainTable w-full max-w-full flex justify-center items-center h-full">
       <div className="inline-block w-full h-full align-middle">
-        <div className="max-h-[400px] md:max-h-[60vh] max-w-[90vw] border m-auto border-gray-700 overflow-x-auto overflow-y-auto overscroll-none rounded-lg table-container">
+        <div className="max-h-[400px] md:max-h-[60vh] max-w-[90vw] border m-auto border-gray-700 overflow-x-auto overflow-y-auto rounded-lg table-container">
           <table className="w-full divide-y divide-gray-700">
             <MainTableHeader
               isAdmin={isAdmin}
@@ -35,22 +35,25 @@ export default function MainTable({
                   className=" hover:bg-gray-700 transition-colors"
                 >
                   {isAdmin && (
-                    <td colSpan={isAdmin ? 7 : 5} className="px-3 sm:px-6 py-4 whitespace-nowrap text-center text-sm font-medium text-white">
+                    <td
+                      colSpan={isAdmin ? 8 : 5}
+                      className="px-3 sm:px-6 py-4 whitespace-nowrap text-center text-sm font-medium text-white"
+                    >
                       No Record Found
                     </td>
                   )}
-                  </tr>
+                </tr>
               )}
               {paginatedData?.map(p => (
                 <tr
                   key={p?.id}
                   className=" hover:bg-gray-700 transition-colors"
                 >
-                  {isAdmin && (
+                  {/* {isAdmin && (
                     <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                       {p.id}
                     </td>
-                  )}
+                  )} */}
                   {isAdmin && (
                     <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                       {p.sportType}
@@ -62,11 +65,9 @@ export default function MainTable({
                   <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
                     {p.games}
                   </td>
-                  {!isAdmin && (
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
-                      {p.pick}
-                    </td>
-                  )}
+                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
+                    {p.pick}
+                  </td>
                   {isAdmin && (
                     <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
                       {p.predictValue}
@@ -100,17 +101,13 @@ export default function MainTable({
                       ? "Cancel"
                       : "Unknown"}
                   </td>
-                  {!isAdmin && (
-                    <td
-                      className={`${
-                        Number(p.profit) >= 0
-                          ? "text-green-600"
-                          : "text-red-600"
-                      } px-3 sm:px-6 py-4 whitespace-nowrap text-sm`}
-                    >
-                      {p.profit}
-                    </td>
-                  )}
+                  <td
+                    className={`${
+                      Number(p.profit) >= 0 ? "text-green-600" : "text-red-600"
+                    } px-3 sm:px-6 py-4 whitespace-nowrap text-sm`}
+                  >
+                    {p.profit}
+                  </td>
                   {isAdmin && (
                     <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm flex gap-2">
                       <button
@@ -118,7 +115,9 @@ export default function MainTable({
                         className="rounded-lg border border-gray-600 text-blue-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:border-blue-500 hover:bg-blue-600/20 hover:scale-105 hover:cursor-pointer
                  active:scale-95"
-                        onClick={() => setIsOpenRecord({id: p.id, action: "view"})}
+                        onClick={() =>
+                          setIsOpenRecord({ id: p.id, action: "view" })
+                        }
                       >
                         View
                       </button>
@@ -128,7 +127,9 @@ export default function MainTable({
                         className="rounded-lg border border-gray-600 text-yellow-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:bg-yellow-600/20 hover:border-yellow-500 hover:scale-105 hover:cursor-pointer
                  active:scale-95"
-                        onClick={() => setIsOpenRecord({id: p.id, action: "edit"})}
+                        onClick={() =>
+                          setIsOpenRecord({ id: p.id, action: "edit" })
+                        }
                       >
                         Edit
                       </button>

@@ -15,10 +15,11 @@ function useAdminPageHook() {
 
   const tableMainData: MainTableProps = {
     tableTitle: [
-      "Id",
       "Sport type",
       "Date",
       "Games",
+      "Pick",
+      "Profit",
       "Predict value",
       "Result",
       "Actions",

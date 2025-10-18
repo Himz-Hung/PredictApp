@@ -14,13 +14,22 @@ export default function MainTableFooter({
   return (
     <tfoot>
       <tr className="font-semibold text-white sticky bottom-0 bg-gray-700">
-        <td className="px-6 py-3 text-base text-left">{tableFooterTitle}</td>
-        {!isAdmin && (
+        <td className="px-6 py-3 w-full text-base text-left">
+          <div className="flex items-center gap-3">
+            <span className="font-semibold text-base">{tableFooterTitle}</span>
+            {!isAdmin && (
+              <span className="text-sm text-gray-200">
+                {total ?? 0}
+              </span>
+            )}
+          </div>
+        </td>
+        {/* {!isAdmin && (
           <td className="px-6 py-3 text-base text-left">
             <div className="text-sm">{total ? `${total}` : "0"}</div>
           </td>
-        )}
-        <td colSpan={isAdmin ? 6 : 3} className="px-6 py-3 ">
+        )} */}
+        <td colSpan={isAdmin ? 7 : 4} className="px-6 py-3 ">
           <div className="flex flex-col gap-2">
             {/* Pagination controls under the total */}
             {setPage && setPageSize ? (
