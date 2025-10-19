@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 const axiosClient = axios.create({
@@ -8,37 +7,36 @@ const axiosClient = axios.create({
   },
 });
 
-
 axiosClient.interceptors.request.use(
-  (config) => {
+  config => {
     const token = localStorage.getItem("token");
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  error => Promise.reject(error)
 );
 
-
 axiosClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  response => response,
+  error => {
     const status = error.response?.status;
-
+    const currentPath = window.location.pathname;
     if (status === 401) {
       const token = localStorage.getItem("token");
-      const currentPath = window.location.pathname;
-
       if (token && currentPath !== "/login") {
         localStorage.removeItem("token");
-        window.location.href = "/login";
+
+        const authError = new Error(
+          "JWT-INVALID"
+        );
+        return Promise.reject(authError);
       }
     }
 
-    return Promise.reject(error);
+    return Promise.reject(error); // Trả về lỗi ban đầu nếu không phải 401 hoặc đã ở /login
   }
 );
-
 
 export default axiosClient;

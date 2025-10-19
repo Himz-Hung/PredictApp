@@ -75,13 +75,9 @@ function useAdminPageHook() {
   }, []);
 
   useEffect(() => {
-    // fetch whenever sportType changes (or on mount)
     let cancelled = false;
-
     const fetchData = async () => {
-      // reset current data so UI can show loading state if implemented
       setRecordsData(undefined);
-
       try {
         const response = await axiosClient.get("/predict_records", {
           params: { page: 1, sportType },
@@ -97,7 +93,15 @@ function useAdminPageHook() {
           message: "The record was loaded successfully",
           type: "success",
         });
-      } catch (error) {
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          if (error && error.message === "JWT-INVALID") {
+            navigate("/login", {
+              replace: true,
+              state: { message: "EXP-JWT" },
+            });
+          }
+        }
         if (cancelled) return;
         console.error("Failed to fetch records data:", error);
         showToast({
@@ -113,7 +117,7 @@ function useAdminPageHook() {
     return () => {
       cancelled = true;
     };
-  }, [sportType, showToast]);
+  }, [sportType, showToast, navigate]);
 
   const todayDate = new Date().toISOString().split("T")[0];
   const state = {

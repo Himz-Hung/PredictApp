@@ -17,8 +17,8 @@ export const loginThunk = createAsyncThunk<LoginResponse, LoginPayload>(
       const response = await axios.post("/login", data);
       
       return response.data as LoginResponse;
-    } catch (err: any) {
-      return rejectWithValue(err.response?.data?.message || "Login failed");
+    } catch (error) {
+      return rejectWithValue(error|| "Login failed");
     }
   }
 );

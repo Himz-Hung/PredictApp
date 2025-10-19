@@ -4,6 +4,7 @@ import type { GameRecordData } from "../../models/mainTableModels";
 import axiosClient from "../../api/axiosClient";
 import type { GameOption } from "../../models/gameOptionModels";
 import { useToast } from "../../hooks/useContextHook";
+import { useNavigate } from "react-router-dom";
 
 export default function useAddNewRecordHook(
   setIsOpenRecord: React.Dispatch<
@@ -14,6 +15,7 @@ export default function useAddNewRecordHook(
   >,
   gameRecordData?: GameRecordData
 ) {
+  const navigate = useNavigate();
   const { showToast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -67,6 +69,14 @@ export default function useAddNewRecordHook(
           // Giả lập dữ liệu trả về
           return response.data;
         } catch (error) {
+          if (error instanceof Error) {
+            if (error && error.message === "JWT-INVALID") {
+              navigate("/login", {
+                replace: true,
+                state: { message: "EXP-JWT" },
+              });
+            }
+          }
           setGameOptionsStatus({ label: "Loading games failed!", value: "3" });
           console.error("Error fetching games:", error);
           return [];
@@ -98,7 +108,7 @@ export default function useAddNewRecordHook(
     } else {
       setGameOptions([]);
     }
-  }, [sportType, dateTime, setValue]);
+  }, [sportType, dateTime, setValue, navigate]);
 
   const closeModal = () => {
     setIsClosing(true);
@@ -129,6 +139,17 @@ export default function useAddNewRecordHook(
             message: "The record has been saved",
             type: "success",
           });
+        })
+        .catch(error => {
+          if (error instanceof Error) {
+            if (error && error.message === "JWT-INVALID") {
+              navigate("/login", {
+                replace: true,
+                state: { message: "EXP-JWT" },
+              });
+            }
+          }
+          return;
         });
       reset();
       closeModal();
