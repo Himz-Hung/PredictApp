@@ -5,19 +5,17 @@ export default function useHeaderHook() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLElement | null>(null);
   const token = localStorage.getItem("token");
-  const NAV_ITEMS = [
-    "NBA Report",
-    "MLB Report",
-    "NFL Report",
-    "NHL Report",
-    "NCAA Report",
-    "Admin",
-  ];
-  if (token && isAdmin(token)) {
-    console.log("✅ Là admin");
-  } else {
-    console.log("❌ Không phải admin");
-  }
+  const NAV_ITEMS =
+    token && isAdmin(token)
+      ? [
+          "NBA Report",
+          "MLB Report",
+          "NFL Report",
+          "NHL Report",
+          "NCAA Report",
+          "Admin",
+        ]
+      : ["NBA Report", "MLB Report", "NFL Report", "NHL Report", "NCAA Report"];
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
   }, [isOpen]);

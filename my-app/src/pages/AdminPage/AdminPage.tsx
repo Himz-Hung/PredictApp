@@ -46,7 +46,7 @@ export default function AdminPage() {
         <div className="w-full lg:w-12/12 flex flex-col items-center backdrop-blur-md shadow-lg">
           <MainTable
             isFromTo={true}
-            isAdmin={state?.isAdmin}
+            isAdmin={state?.isAdminRole}
             tableFooterTitle={state?.tableMainData?.tableFooterTitle}
             tableTitle={state?.tableMainData?.tableTitle}
             tableMainData={state?.tableMainData?.tableMainData}

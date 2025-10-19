@@ -7,12 +7,14 @@ import type {
 import axiosClient from "../../api/axiosClient";
 import { useToast } from "../../hooks/useContextHook";
 import type { GameStatusType } from "../../models/gameStatusEnum";
+import { isAdmin } from "../../utils/jwt";
+import { useNavigate } from "react-router-dom";
 
 function useAdminPageHook() {
   const { showToast } = useToast();
   const [recordsData, setRecordsData] = useState<MainTableData[]>();
   const [sportType, setSportType] = useState<string>("nba-basketball");
-
+  const navigate = useNavigate();
   const tableMainData: MainTableProps = {
     tableTitle: [
       "Sport type",
@@ -28,15 +30,22 @@ function useAdminPageHook() {
     tableMainData: recordsData || [],
     tableFooterTitle: "",
   };
-  const isAdmin = true;
   const [isOpenRecord, setIsOpenRecord] = useState<{
     id: string;
     action: "add" | "edit" | "view" | "close";
   }>({ id: "", action: "add" });
-
+  const token = localStorage.getItem("token");
+  const isAdminRole = isAdmin(token ? token : "");
   useEffect(() => {
-    console.log(isOpenRecord);
-  }, [isOpenRecord]);
+    if (token && !isAdminRole) {
+      navigate("/");
+      showToast({
+        title: "Unavailable Access",
+        message: "You do not have permission to access the page.",
+        type: "error",
+      });
+    }
+  }, [isAdminRole, navigate, showToast, token]);
   const formatRecordsData = (data: MainTableDataRespond[]) => {
     return data.map((item, index) => ({
       id: `${index}`,
@@ -110,7 +119,7 @@ function useAdminPageHook() {
   const state = {
     tableMainData,
     todayDate,
-    isAdmin,
+    isAdminRole,
     isOpenRecord,
     sportType,
     recordsData,
