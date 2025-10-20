@@ -14,7 +14,7 @@ export default function PrivateRoute({
   const token = localStorage.getItem("token");
 
   if (!token) {
-    return <Navigate to="/login" replace state={{message:"EXP-JWT"}} />;
+    return <Navigate to="/login" replace state={{message:""}} />;
   }
   if (isAdminRoute && !isAdmin(token)) {
     return <Navigate to="/nba-Report" replace state={{message:"UNAUTHORIZED"}} />;

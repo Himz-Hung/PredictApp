@@ -35,7 +35,7 @@ axiosClient.interceptors.response.use(
       }
     }
 
-    return Promise.reject(error); // Trả về lỗi ban đầu nếu không phải 401 hoặc đã ở /login
+    return Promise.reject(error); 
   }
 );
 
