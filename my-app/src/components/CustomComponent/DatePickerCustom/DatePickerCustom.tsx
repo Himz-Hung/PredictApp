@@ -177,108 +177,100 @@ export default function DatePickerCustom({
             isDateTo ? "calendar-popup-dateTo" : ""
           } ${show ? "open" : "close"}`}
         >
-          <div
-            className={`calendar-popup ${
-              isDateTo ? "calendar-popup-dateTo" : ""
-            } ${show ? "open" : "close"}`}
-          >
-            <div className="calendar-header">
-              <button type="button" onClick={handlePrevMonth}>
-                &lt;
-              </button>
-              <div className="calendar-title">
-                {view === "day" && (
-                  <>
-                    <span onClick={() => setView("month")}>
-                      {monthNames[currentMonth]}
-                    </span>
-                    <span onClick={() => setView("year")}>{currentYear}</span>
-                  </>
-                )}
-                {view === "month" && (
+          <div className="calendar-header">
+            <button type="button" onClick={handlePrevMonth}>
+              &lt;
+            </button>
+            <div className="calendar-title">
+              {view === "day" && (
+                <>
+                  <span onClick={() => setView("month")}>
+                    {monthNames[currentMonth]}
+                  </span>
                   <span onClick={() => setView("year")}>{currentYear}</span>
-                )}
-                {view === "year" && <span>Select Year</span>}
-              </div>
-              <button type="button" onClick={handleNextMonth}>
-                &gt;
-              </button>
+                </>
+              )}
+              {view === "month" && (
+                <span onClick={() => setView("year")}>{currentYear}</span>
+              )}
+              {view === "year" && <span>Select Year</span>}
             </div>
+            <button type="button" onClick={handleNextMonth}>
+              &gt;
+            </button>
+          </div>
 
-            {view === "day" && (
-              <div className="calendar-grid">
-                {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => (
-                  <div key={d} className="calendar-day-name">
-                    {d}
-                  </div>
-                ))}
-                {Array.from({
-                  length: new Date(currentYear, currentMonth, 1).getDay(),
-                }).map((_, i) => (
-                  <div key={`empty-${i}`} className="calendar-empty" />
-                ))}
-                {Array.from({ length: daysInMonth }, (_, i) => i + 1).map(
-                  day => {
-                    const dateObj = new Date(currentYear, currentMonth, day);
-                    const disabled = isDateDisabled(dateObj);
+          {view === "day" && (
+            <div className="calendar-grid">
+              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => (
+                <div key={d} className="calendar-day-name">
+                  {d}
+                </div>
+              ))}
+              {Array.from({
+                length: new Date(currentYear, currentMonth, 1).getDay(),
+              }).map((_, i) => (
+                <div key={`empty-${i}`} className="calendar-empty" />
+              ))}
+              {Array.from({ length: daysInMonth }, (_, i) => i + 1).map(day => {
+                const dateObj = new Date(currentYear, currentMonth, day);
+                const disabled = isDateDisabled(dateObj);
 
-                    return (
-                      <div
-                        key={day}
-                        className={`calendar-day 
+                return (
+                  <div
+                    key={day}
+                    className={`calendar-day 
                     ${day === currentDay ? "selected" : ""} 
                     ${disabled ? "disabled" : ""}`}
-                        onClick={() => !disabled && handleDayClick(day)}
-                      >
-                        {day}
-                      </div>
-                    );
-                  }
-                )}
-              </div>
-            )}
-
-            {view === "month" && (
-              <div className="calendar-grid month-grid">
-                {monthNames.map((m, i) => (
-                  <div
-                    key={m}
-                    className={`calendar-month ${
-                      i === currentMonth ? "selected" : ""
-                    }`}
-                    onClick={() => handleMonthSelect(i)}
+                    onClick={() => !disabled && handleDayClick(day)}
                   >
-                    {m.slice(0, 3)}
+                    {day}
                   </div>
-                ))}
-              </div>
-            )}
-
-            {view === "year" && (
-              <div className="calendar-grid year-grid">
-                {yearRange.map(y => (
-                  <div
-                    key={y}
-                    className={`calendar-year ${
-                      y === currentYear ? "selected" : ""
-                    }`}
-                    onClick={() => handleYearSelect(y)}
-                  >
-                    {y}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="calendar-footer">
-              <button
-                type="button"
-                className="today-btn"
-                onClick={handleTodayClick}
-              >
-                Today
-              </button>
+                );
+              })}
             </div>
+          )}
+
+          {view === "month" && (
+            <div className="calendar-grid month-grid">
+              {monthNames.map((m, i) => (
+                <div
+                  key={m}
+                  className={`calendar-month ${
+                    i === currentMonth ? "selected" : ""
+                  }`}
+                  onClick={() => handleMonthSelect(i)}
+                >
+                  {m.slice(0, 3)}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {view === "year" && (
+            <div className="calendar-grid year-grid">
+              {yearRange.map(y => (
+                <div
+                  key={y}
+                  className={`calendar-year ${
+                    y === currentYear ? "selected" : ""
+                  }`}
+                  onClick={() => handleYearSelect(y)}
+                >
+                  {y}
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="calendar-footer">
+            <button
+              type="button"
+              className="today-btn"
+              onClick={handleTodayClick}
+            >
+              Today
+            </button>
           </div>
         </div>
       )}
