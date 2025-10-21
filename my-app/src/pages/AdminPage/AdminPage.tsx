@@ -35,6 +35,8 @@ export default function AdminPage() {
 
           <div className="w-full sm:w-auto mt-2 sm:mt-0">
             <AddNewRecord
+              sportTypeDefault={state.sportType}
+              onchangeSportType={handler.setSportType}
               isOpenRecord={state?.isOpenRecord}
               setIsOpenRecord={handler?.setIsOpenRecord}
             />

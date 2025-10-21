@@ -16,14 +16,15 @@ export default function MainTable({
   setIsOpenRecord = () => {},
 }: MainTableProps): React.JSX.Element {
   const { state, handler } = useMainTableHook(tableMainData, 10);
-  const { pageSize, page, total, totalPages, paginatedData } = state;
+  const { pageSize, page, totalPages, paginatedData, totalProfit } =
+    state;
   const { setPageSize, setPage } = handler;
 
   return (
     <div className="mainTable w-full max-w-full flex justify-center items-center h-full">
       <div className="inline-block w-full h-full align-middle">
         <div className="max-h-[400px] md:max-h-[60vh] max-w-[90vw] border m-auto border-gray-700 overflow-x-auto overflow-y-auto rounded-lg table-container">
-          <table className="w-full divide-y divide-gray-700">
+          <table className="w-full divide-y divide-gray-700 min-h-[400px]">
             <MainTableHeader
               isAdmin={isAdmin}
               tableName={tableName}
@@ -67,9 +68,11 @@ export default function MainTable({
                   <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
                     {p.games}
                   </td>
-                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
-                    {p.pick}
-                  </td>
+                  {!isAdmin && (
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
+                      {p.pick}
+                    </td>
+                  )}
                   {isAdmin && (
                     <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-white">
                       {p.predictValue}
@@ -111,8 +114,9 @@ export default function MainTable({
                     {p.profit}
                   </td>
                   {isAdmin && (
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm flex gap-2">
-                      <button
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm gap-2">
+                      <div className="flex justify-evenly">
+                        <button
                         // onClick={() => handleView(p)}
                         className="rounded-lg border border-gray-600 text-blue-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:border-blue-500 hover:bg-blue-600/20 hover:scale-105 hover:cursor-pointer
@@ -144,6 +148,7 @@ export default function MainTable({
                       >
                         Delete
                       </button>
+                      </div>
                     </td>
                   )}
                 </tr>
@@ -151,6 +156,7 @@ export default function MainTable({
             </tbody>
             {/* <ViewRecord isOpen={isOpenRecord}/> */}
             <MainTableFooter
+              totalProfit={totalProfit}
               isAdmin={isAdmin}
               tableFooterTitle={tableFooterTitle}
               page={page}
@@ -160,7 +166,6 @@ export default function MainTable({
                 setPageSize(n);
                 setPage(1);
               }}
-              total={total}
               totalPages={totalPages}
             />
           </table>

@@ -1,0 +1,107 @@
+.select-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: "Inter", sans-serif;
+}
+
+.select-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #9aa0b5;
+  padding-left: 2px;
+}
+
+.select-box {
+  background: #1a1f2b;
+  border: 1px solid #2d3344;
+  color: #e0e6f0;
+  border-radius: 6px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 400;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #3c78ff;
+  }
+
+  &.active {
+    border-color: #3c78ff;
+    background: #232a3c;
+  }
+
+  svg {
+    color: #a0a6ba;
+  }
+}
+
+.select-text {
+  color: #e0e6f0;
+  white-space: nowrap;         /* ⬅ giữ text trên 1 dòng */
+  overflow: hidden;            /* ⬅ ẩn phần tràn */
+  text-overflow: ellipsis;     /* ⬅ thêm dấu ... */
+  max-width: 90%;              /* ⬅ đảm bảo không đè lên icon */
+  display: inline-block;       /* ⬅ cần thiết cho ellipsis */
+  &.placeholder {
+    color: #8087a1;
+  }
+}
+
+.select-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #1f2433;
+  border: 1px solid #2c3244;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+  max-height: 180px;
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+  transition: all 0.18s ease;
+  z-index: 100;
+  &.open {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+}
+
+.select-option {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  color: #d8deed;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: #2c334a;
+  }
+
+  &.selected {
+    background: #3c78ff;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  &.empty {
+    color: #777e95;
+    text-align: center;
+    cursor: default;
+  }
+}
+
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}

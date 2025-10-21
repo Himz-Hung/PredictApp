@@ -1,8 +1,11 @@
 import type { MainTableHeaderProps } from "../../../models/mainTableModels";
+import DatePickerCustom from "../../CustomComponent/DatePickerCustom/DatePickerCustom";
+import useMainTableHeaderHook from "./useMainTableHeaderHook";
 
 export default function MainTableHeader(
   mainTableHeaderProps: MainTableHeaderProps
 ): React.JSX.Element {
+  const { state, handler } = useMainTableHeaderHook();
   return (
     <thead className="sticky top-0 bg-slate-800/80 backdrop-blur-md border-b border-slate-600">
       {mainTableHeaderProps.tableName && (
@@ -14,37 +17,31 @@ export default function MainTableHeader(
           >
             <div className="flex items-center justify-between gap-4">
               <span className="truncate">{mainTableHeaderProps.tableName}</span>
-
               {/* Date range + Search */}
               {mainTableHeaderProps?.isFromTo && (
                 <div className="flex items-center gap-3 text-xs text-gray-300">
                   {/* Desktop */}
                   <div className="hidden sm:flex items-end gap-2">
                     <div className="flex flex-col space-y-1">
-                      <label
-                        htmlFor="date-fr"
-                        className="text-gray-400 tracking-wide"
-                      >
-                        From
-                      </label>
-                      <input
-                        id="date-fr"
-                        type="date"
-                        className="bg-gray-900 text-white px-3 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all duration-200 w-40 placeholder-gray-500"
+                      <DatePickerCustom
+                        label="From Date"
+                        value={state.fromDate}
+                        onChange={d => {
+                          handler.setFromDate(d);
+                        }}
+                        maxDate={state.toDate}
+                        placeholder="Select date"
                       />
                     </div>
 
                     <div className="flex flex-col space-y-1">
-                      <label
-                        htmlFor="date-to"
-                        className="text-gray-400 tracking-wide"
-                      >
-                        To
-                      </label>
-                      <input
-                        id="date-to"
-                        type="date"
-                        className="bg-gray-900 text-white px-3 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all duration-200 w-40 placeholder-gray-500"
+                      <DatePickerCustom
+                        label="To Date"
+                        value={state.toDate}
+                        onChange={d => handler.setToDate(d)}
+                        isDateTo={true}
+                        minDate={state.fromDate}
+                        placeholder="Select date"
                       />
                     </div>
 
@@ -80,27 +77,16 @@ export default function MainTableHeader(
 
                   {/* Mobile */}
                   <div className="flex items-center gap-2 sm:hidden">
-                    <label
-                      htmlFor="date-fr-sm"
-                      className="text-gray-400 tracking-wide"
-                    >
-                      From
-                    </label>
-                    <input
-                      id="date-fr-sm"
-                      type="date"
-                      className="bg-gray-900 text-white px-2 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all duration-200 w-28 text-[11px]"
+                    <DatePickerCustom
+                      value={state.fromDate}
+                      label="From date"
+                      onChange={e => handler.setToDate(e)}
                     />
-                    <label
-                      htmlFor="date-to-sm"
-                      className="text-gray-400 tracking-wide"
-                    >
-                      To
-                    </label>
-                    <input
-                      id="date-to-sm"
-                      type="date"
-                      className="bg-gray-900 text-white px-2 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all duration-200 w-28 text-[11px]"
+                    <DatePickerCustom
+                      value={state.toDate}
+                      isDateTo={true}
+                      label="To date"
+                      onChange={e => handler.setToDate(e)}
                     />
                     {/* Mobile search button (icon only) */}
                     <button
@@ -133,8 +119,12 @@ export default function MainTableHeader(
           <th
             key={index}
             className={
-              title === "Result" || title === "Profit"
+              title === "Result"
                 ? `px-3 sm:px-6 py-3 min-w-[50px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
+                : title === "Profit"
+                ? `px-3 sm:px-6 py-3 min-w-[100px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
+                : title === "Pick"
+                ? `px-3 sm:px-6 py-3 min-w-[200px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
                 : title === "Date"
                 ? mainTableHeaderProps?.isAdmin
                   ? `px-3 sm:px-6 py-3 min-w-[250px]  overflow-hidden whitespace-nowrap text-ellipsis text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`

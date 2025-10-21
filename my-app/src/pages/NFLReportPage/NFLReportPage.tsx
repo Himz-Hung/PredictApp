@@ -24,7 +24,7 @@ export default function NFLReportPage() {
             isFromTo={true}
             tableFooterTitle={state?.tableMainData?.tableFooterTitle}
             tableTitle={state?.tableMainData?.tableTitle}
-            tableMainData={state?.tableMainData?.tableMainData}
+            tableMainData={state?.tableMainDataHistory?.tableMainData}
             tableName={state?.tableMainData?.tableName}
           />
         </div>

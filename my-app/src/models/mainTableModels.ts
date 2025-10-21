@@ -4,7 +4,7 @@ interface MainTableHeaderProps {
   tableName?: string;
   isAdmin?: boolean;
   tableTitle: string[];
-  isFromTo?:boolean;
+  isFromTo?: boolean;
 }
 interface MainTableFooterProps {
   isAdmin?: boolean;
@@ -15,6 +15,7 @@ interface MainTableFooterProps {
   setPageSize?: (n: number) => void;
   total?: number;
   totalPages?: number;
+  totalProfit?: number;
 }
 interface MainTableData {
   id: string;
@@ -37,7 +38,7 @@ interface MainTableDataRespond {
   predictValue: string;
 }
 interface MainTableProps {
-  isFromTo?:boolean;
+  isFromTo?: boolean;
   isAdmin?: boolean;
   tableName?: string;
   tableTitle: string[];
@@ -60,6 +61,14 @@ interface GameRecordData {
   result: GameStatusType;
   profit: number;
 }
+interface CreateGameRecordData {
+  date: string;
+  game: string;
+  predictValue: string;
+  profit: number;
+  result: string;
+  sportType: string;
+}
 export type {
   MainTableProps,
   MainTableHeaderProps,
@@ -67,4 +76,5 @@ export type {
   MainTableFooterProps,
   GameRecordData,
   MainTableDataRespond,
+  CreateGameRecordData
 };

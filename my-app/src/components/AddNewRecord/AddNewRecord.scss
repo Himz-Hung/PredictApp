@@ -1,0 +1,34 @@
+/* Scrollbar Dark Theme - Deep Tone + Subtle Glow */
+.modal-content {
+  scroll-behavior: smooth;
+  overflow-y: auto;
+
+  /* width của thanh scroll */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track (nền thanh cuộn) */
+  &::-webkit-scrollbar-track {
+    background: rgba(17, 24, 39, 0.7); /* #111827 - xám đậm hơn */
+    border-radius: 10px;
+  }
+
+  /* Thumb (phần di chuyển) */
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #0d9488, #064e3b); /* xanh ngọc đậm pha than */
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(6, 78, 59, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  /* Hover: sáng hơn nhẹ, có ánh glow */
+  &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #14b8a6, #0d9488);
+    box-shadow: 0 0 10px rgba(20, 184, 166, 0.5);
+  }
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #0d9488 rgba(17, 24, 39, 0.7);
+}

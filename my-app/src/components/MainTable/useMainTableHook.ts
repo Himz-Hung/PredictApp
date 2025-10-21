@@ -9,7 +9,10 @@ function useMainTableHook(
   const [page, setPage] = useState<number>(1);
   const total = tableMainData?.length ?? 0;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
-
+  const totalProfit = useMemo(() => {
+    if (!tableMainData) return 0;
+    return tableMainData.reduce((acc, record) => acc + record.profit, 0);
+  }, [tableMainData]);
   useEffect(() => {
     if (page > totalPages) setPage(totalPages);
     if (page < 1) setPage(1);
@@ -20,7 +23,7 @@ function useMainTableHook(
     const start = (page - 1) * pageSize;
     return tableMainData.slice(start, start + pageSize);
   }, [tableMainData, page, pageSize]);
-  const state = { pageSize, page, total, totalPages, paginatedData };
+  const state = { pageSize, page, total, totalPages, paginatedData,totalProfit };
   const handler = { setPageSize, setPage };
   return {
     state,

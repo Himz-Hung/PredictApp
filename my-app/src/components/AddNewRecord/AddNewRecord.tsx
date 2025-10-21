@@ -1,8 +1,14 @@
+import { Controller } from "react-hook-form";
+import type { GameStatusType } from "../../models/gameStatusEnum";
 import type { GameRecordData } from "../../models/mainTableModels";
+import CustomSelectField from "../CustomComponent/CustomSelectField/CustomSelectField";
+import DatePickerCustom from "../CustomComponent/DatePickerCustom/DatePickerCustom";
 import useAddNewRecordHook from "./useAddNewRecordHook";
-
+import "./AddNewRecord.scss";
 interface AddNewRecordProps {
+  sportTypeDefault?: string;
   gameRecordData?: GameRecordData;
+  onchangeSportType?: (sportType: string) => void;
   isOpenRecord: { id: string; action: "add" | "edit" | "view" | "close" };
   setIsOpenRecord: React.Dispatch<
     React.SetStateAction<{
@@ -13,14 +19,20 @@ interface AddNewRecordProps {
 }
 
 export default function AddNewRecord({
+  sportTypeDefault,
   gameRecordData,
   setIsOpenRecord,
+  onchangeSportType,
   isOpenRecord = { id: "", action: "add" },
 }: AddNewRecordProps) {
   const { state, handler } = useAddNewRecordHook(
     setIsOpenRecord,
-    gameRecordData
+    onchangeSportType,
+    gameRecordData,
+    isOpenRecord,
+    sportTypeDefault
   );
+
   const {
     isOpen,
     isClosing,
@@ -28,24 +40,36 @@ export default function AddNewRecord({
     gameOptions,
     errors,
     gameOptionsStatus,
-    getValues,
+    sportOptions,
   } = state;
-  const { setIsOpen, closeModal, handleSubmit, register, reset } = handler;
+
+  const {
+    setIsOpen,
+    closeModal,
+    handleSubmit,
+    register,
+    reset,
+    watch,
+    setValue,
+    control,
+  } = handler;
 
   return (
     <div>
       {/* --- Button mở popup --- */}
       <button
         onClick={() => {
-          setIsOpen(true);
           reset();
+          setIsOpenRecord({ id: "", action: "add" });
+          setValue("sportType", sportTypeDefault ? sportTypeDefault : "1");
+          setIsOpen(true);
         }}
         className="flex items-center text-green-400 border border-green-400 
-          bg-transparent font-medium rounded-xl text-sm px-5 py-2.5 text-center 
-          shadow-none transition-all duration-300 ease-out 
-          hover:text-white hover:bg-green-400/20 hover:border-green-500
-          hover:shadow-lg hover:shadow-green-500/30
-          hover:scale-[1.02] active:scale-[0.98]"
+        bg-transparent font-medium rounded-xl text-sm px-5 py-2.5 text-center 
+        shadow-none transition-all duration-300 ease-out 
+        hover:text-white hover:bg-green-400/20 hover:border-green-500
+        hover:shadow-lg hover:shadow-green-500/30
+        hover:scale-[1.02] active:scale-[0.98]"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -70,18 +94,15 @@ export default function AddNewRecord({
         isOpenRecord.action === "edit") && (
         <div
           className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-center
-                      bg-black/50 backdrop-blur-sm transition-opacity duration-300 mt-[40px] md:mt-0
-                      h-[100dvh] ${isClosing ? "opacity-0" : "opacity-100"}`}
+            bg-black/50 backdrop-blur-sm transition-opacity duration-300 mt-[40px] md:mt-0
+            h-[100dvh] ${isClosing ? "opacity-0" : "opacity-100"}`}
         >
           <div
             className={`bg-gray-900 text-white rounded-2xl shadow-2xl w-[90%] max-w-lg p-6
-                         transform transition-all duration-300 max-h-[70vh] md:max-h-full overflow-y-auto
-                         ${
-                           isClosing
-                             ? "scale-95 opacity-0"
-                             : "scale-100 opacity-100"
-                         }`}
+              transform transition-all duration-300 max-h-[70vh] md:max-h-full modal-content overflow-y-auto
+              ${isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100"}`}
           >
+            {/* --- Title --- */}
             <h2 className="text-xl font-bold mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400">
               {isOpenRecord.action === "add"
                 ? "Add New Record"
@@ -90,26 +111,30 @@ export default function AddNewRecord({
                 : "View Record"}
             </h2>
 
+            {/* --- Form --- */}
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="flex justify-between items-center flex-wrap">
-                {/* --- Sport Type --- */}
+              {/* --- Sport Type + Date --- */}
+              <div className="flex justify-between items-center flex-wrap gap-4">
                 <div className="w-full sm:w-48">
                   <label className="block mb-1 text-sm text-gray-300">
                     Sport Type
                   </label>
-                  <select
-                    {...register("sportType", {
-                      required: "Please select a sport",
-                    })}
-                    className="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-green-400 focus:outline-none transition"
-                  >
-                    <option value="">Select sport...</option>
-                    <option value="nba-basketball">NBA-Basketball</option>
-                    <option value="nfl-football">NFL-Football</option>
-                    <option value="nhl-hockey">NHL-Hockey</option>
-                    <option value="mlb-baseball">MLB-Baseball</option>
-                    <option value="ncaa-basketbal">NCAA-Basketball</option>
-                  </select>
+                  <Controller
+                    name="sportType"
+                    control={control}
+                    rules={{ required: "Please select a sport" }}
+                    render={({ field }) => (
+                      <>
+                        <CustomSelectField
+                          disabled={isOpenRecord.action === "view"}
+                          options={sportOptions}
+                          value={field.value}
+                          onChange={val => field.onChange(val.toString())}
+                          placeholder="Select sport..."
+                        />
+                      </>
+                    )}
+                  />
                   {errors.sportType && (
                     <p className="text-red-400 text-sm mt-1">
                       {errors.sportType.message}
@@ -117,17 +142,26 @@ export default function AddNewRecord({
                   )}
                 </div>
 
-                {/* --- Date & Time --- */}
-                <div className="w-full sm:w-48 mt-4 sm:mt-0">
+                <div className="w-full sm:w-48">
                   <label className="block mb-1 text-sm text-gray-300">
                     Date
                   </label>
-                  <input
-                    type="date"
-                    {...register("dateTime", {
-                      required: "Please select date",
-                    })}
-                    className="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-green-400 focus:outline-none transition"
+                  <Controller
+                    name="dateTime"
+                    disabled={isOpenRecord.action === "view"}
+                    control={handler.control}
+                    rules={{ required: "Please select a date" }}
+                    render={({ field }) => (
+                      <DatePickerCustom
+                        isDisabled={isOpenRecord.action === "view"}
+                        isDefaultNone
+                        isDateTo
+                        value={field.value ? new Date(field.value) : undefined}
+                        onChange={date =>
+                          field.onChange(handler.formatDateToISOString(date))
+                        }
+                      />
+                    )}
                   />
                   {errors.dateTime && (
                     <p className="text-red-400 text-sm mt-1">
@@ -136,42 +170,62 @@ export default function AddNewRecord({
                   )}
                 </div>
               </div>
+
               {/* --- Game --- */}
               <div>
                 <label className="block mb-1 text-sm text-gray-300">Game</label>
-                <select
-                  {...register("game", {
-                    required: "Please select a game",
-                    validate: value =>
-                      !["2", "3", "4"].includes(value) ||
-                      "Please select a game",
-                  })}
-                  className="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-green-400 focus:outline-none transition disabled:opacity-50"
-                  disabled={
-                    !gameOptions.length ||
-                    ["2", "3", "4"].includes(gameOptionsStatus.value)
-                  }
-                >
-                  {gameOptionsStatus.value && (
-                    <option value={gameOptionsStatus.value}>
-                      {gameOptionsStatus.label}
-                    </option>
-                  )}
-                  {!gameOptions.length && (
-                    <option value="">Select sport and date first</option>
-                  )}
-                  {gameOptions.map((g, index) => (
-                    <option key={index} value={g.value}>
-                      {g.label}
-                    </option>
-                  ))}
-                </select>
-                {errors.game &&
-                  ["2", "3", "4", ""].includes(getValues("game")) && (
-                    <p className="text-red-400 text-sm mt-1">
-                      {errors.game.message}
-                    </p>
-                  )}
+                <Controller
+                  name="game"
+                  control={control}
+                  rules={{ required: "Please select a game" }}
+                  render={({ field, fieldState }) => {
+                    // Hiển thị placeholder và trạng thái dựa trên value
+                    let placeholderText = "Select a game...";
+                    let isDisabled = false;
+
+                    switch (gameOptionsStatus.value) {
+                      case "1":
+                        placeholderText = "Select sport and date first";
+                        isDisabled = true;
+                        break;
+                      case "2":
+                        placeholderText = "Loading games...";
+                        isDisabled = true;
+                        break;
+                      case "3":
+                        placeholderText = "Loading games failed!";
+                        isDisabled = true;
+                        break;
+                      case "4":
+                        placeholderText = "No games available";
+                        isDisabled = true;
+                        break;
+                      default:
+                        placeholderText = "Select a game...";
+                        isDisabled = gameOptions.length === 0;
+                        break;
+                    }
+
+                    return (
+                      <>
+                        <CustomSelectField
+                          options={gameOptions}
+                          value={field.value}
+                          onChange={field.onChange}
+                          placeholder={placeholderText}
+                          disabled={
+                            isDisabled || isOpenRecord.action === "view"
+                          }
+                        />
+                        {fieldState.error && (
+                          <p className="text-red-400 text-sm mt-1">
+                            {fieldState.error.message}
+                          </p>
+                        )}
+                      </>
+                    );
+                  }}
+                />
               </div>
 
               {/* --- Predict Value --- */}
@@ -181,42 +235,11 @@ export default function AddNewRecord({
                 </label>
                 <input
                   type="text"
-                  inputMode="decimal"
-                  pattern="^-?\d+(\.\d+)?$"
-                  {...register("predictValue", {
-                    required: "Enter a value",
-                    pattern: {
-                      value: /^-?\d+(\.\d+)?$/,
-                      message: "Enter a valid number",
-                    },
-                  })}
-                  onKeyDown={e => {
-                    const allowed = [
-                      "Backspace",
-                      "Tab",
-                      "ArrowLeft",
-                      "ArrowRight",
-                      "Delete",
-                      "Enter",
-                    ];
-                    if (allowed.includes(e.key)) return;
-                    const target = e.currentTarget as HTMLInputElement;
-                    // allow one dot and optional leading minus
-                    if (e.key === ".") {
-                      if (target.value.includes(".")) e.preventDefault();
-                      return;
-                    }
-                    if (e.key === "-") {
-                      if (
-                        target.selectionStart !== 0 ||
-                        target.value.includes("-")
-                      )
-                        e.preventDefault();
-                      return;
-                    }
-                    if (!/\d/.test(e.key)) e.preventDefault();
-                  }}
-                  className="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-green-400 focus:outline-none transition"
+                  disabled={isOpenRecord.action === "view"}
+                  inputMode="text"
+                  {...register("predictValue", { required: "Enter a value" })}
+                  className="w-full p-2 rounded-lg bg-[#1a1f2b] border border-gray-700 
+                    focus:border-green-400 focus:outline-none transition"
                   placeholder="Enter value..."
                 />
                 {errors.predictValue && (
@@ -231,17 +254,23 @@ export default function AddNewRecord({
                 <label className="block mb-1 text-sm text-gray-300">
                   Result
                 </label>
-                <select
-                  {...register("result", { required: "Please select result" })}
-                  className="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-green-400 focus:outline-none transition"
-                >
-                  <option value="">Select result...</option>
-                  <option value="WIN">Win</option>
-                  <option value="LOSE">Lose</option>
-                  <option value="DRAW">Draw</option>
-                  <option value="CANCEL">Cancel</option>
-                  <option value="PENDING">Pending</option>
-                </select>
+                <CustomSelectField
+                  disabled={isOpenRecord.action === "view"}
+                  options={[
+                    { value: "WIN", label: "Win" },
+                    { value: "LOSE", label: "Lose" },
+                    { value: "DRAW", label: "Draw" },
+                    { value: "CANCEL", label: "Cancel" },
+                    { value: "PENDING", label: "Pending" },
+                  ]}
+                  value={watch("result")}
+                  onChange={val =>
+                    setValue("result", val as GameStatusType, {
+                      shouldValidate: true,
+                    })
+                  }
+                  placeholder="Select result..."
+                />
                 {errors.result && (
                   <p className="text-red-400 text-sm mt-1">
                     {errors.result.message}
@@ -255,12 +284,14 @@ export default function AddNewRecord({
                   Profit
                 </label>
                 <input
+                  disabled={isOpenRecord.action === "view"}
                   type="number"
                   {...register("profit", {
                     required: "Enter profit value",
                     valueAsNumber: true,
                   })}
-                  className="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-green-400 focus:outline-none transition"
+                  className="w-full p-2 rounded-lg bg-[#1a1f2b] border border-gray-700
+                    focus:border-green-400 focus:outline-none transition"
                   placeholder="Enter profit..."
                 />
                 {errors.profit && (
@@ -270,59 +301,57 @@ export default function AddNewRecord({
                 )}
               </div>
 
-              {/* --- Buttons --- */}
+              {/* --- Action Buttons --- */}
               <div className="flex justify-end gap-3 mt-6">
-                {/* Cancel Button */}
                 <button
                   type="button"
                   onClick={closeModal}
                   className="px-5 py-2 rounded-lg border border-gray-600 text-gray-300
-               bg-transparent
-               transition-all duration-300 ease-out
-               hover:bg-gray-800 hover:text-white hover:border-gray-400
-               hover:shadow-lg hover:shadow-gray-700/40
-               hover:scale-[1.02] active:scale-[0.98] hover:cursor-pointer"
+                    bg-transparent transition-all duration-300 ease-out
+                    hover:bg-[#1a1f2b] hover:text-white hover:border-gray-400
+                    hover:shadow-lg hover:shadow-gray-700/40
+                    hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Cancel
                 </button>
-
-                {/* Save Button */}
-                <button
-                  type="submit"
-                  disabled={isSaving}
-                  className={`px-5 py-2 rounded-lg font-semibold flex items-center justify-center
-                bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
-                text-white transition-all duration-300 ease-out
-                hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400
-                hover:shadow-lg hover:shadow-pink-500/30
-                hover:scale-[1.03] active:scale-[0.98]
-                disabled:opacity-80 disabled:cursor-wait hover:cursor-pointer`}
-                >
-                  {isSaving ? (
-                    <svg
-                      className="animate-spin h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                      ></path>
-                    </svg>
-                  ) : (
-                    "Save"
-                  )}
-                </button>
+                {isOpenRecord.action !== "view" && (
+                  <button
+                    type="submit"
+                    disabled={isSaving}
+                    className="px-5 py-2 rounded-lg font-semibold flex items-center justify-center
+                    bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+                    text-white transition-all duration-300 ease-out
+                    hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400
+                    hover:shadow-lg hover:shadow-pink-500/30
+                    hover:scale-[1.03] active:scale-[0.98]
+                    disabled:opacity-80 disabled:cursor-wait"
+                  >
+                    {isSaving ? (
+                      <svg
+                        className="animate-spin h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                        ></path>
+                      </svg>
+                    ) : (
+                      "Save"
+                    )}
+                  </button>
+                )}
               </div>
             </form>
           </div>

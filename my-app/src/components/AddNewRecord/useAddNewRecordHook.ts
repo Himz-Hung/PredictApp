@@ -1,33 +1,55 @@
+// src/hooks/useAddNewRecordHook.ts
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import type { GameRecordData } from "../../models/mainTableModels";
-import axiosClient from "../../api/axiosClient";
-import type { GameOption } from "../../models/gameOptionModels";
-import { useToast } from "../../hooks/useContextHook";
 import { useNavigate } from "react-router-dom";
+import type { GameRecordData } from "../../models/mainTableModels";
+import type { GameOption } from "../../models/gameOptionModels";
+import axiosClient from "../../api/axiosClient";
+import { useToast } from "../../hooks/useContextHook";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { createRecord, fetchRecords } from "../../store/adminRecordsSlice";
+
+interface ModalState {
+  id: string;
+  action: "add" | "edit" | "view" | "close";
+}
 
 export default function useAddNewRecordHook(
-  setIsOpenRecord: React.Dispatch<
-    React.SetStateAction<{
-      id: string;
-      action: "add" | "edit" | "view" | "close";
-    }>
-  >,
-  gameRecordData?: GameRecordData
+  setIsOpenRecord: React.Dispatch<React.SetStateAction<ModalState>>,
+  onchangeSportType?: (sportType: string) => void,
+  gameRecordData?: GameRecordData,
+  isOpenRecord?: ModalState,
+  sportTypeDefault?: string
 ) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { showToast } = useToast();
+
+  // ---------------- STATE ----------------
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [gameOptions, setGameOptions] = useState<GameOption[]>([]);
   const [gameOptionsStatus, setGameOptionsStatus] = useState<
+    | {
+        label: "Select sport and date first";
+        value: "1";
+      }
     | { label: "Loading games..."; value: "2" }
     | { label: "Loading games failed!"; value: "3" }
     | { label: "No games available"; value: "4" }
     | { label: ""; value: "" }
   >({ label: "Loading games...", value: "2" });
-  // --- React Hook Form ---
+
+  const sportOptions = [
+    { value: "nba-basketball", label: "NBA-Basketball" },
+    { value: "nfl-football", label: "NFL-Football" },
+    { value: "nhl-hockey", label: "NHL-Hockey" },
+    { value: "mlb-baseball", label: "MLB-Baseball" },
+    { value: "ncaa-basketbal", label: "NCAA-Basketball" },
+  ];
+
+  // ---------------- FORM ----------------
   const {
     register,
     handleSubmit,
@@ -35,10 +57,11 @@ export default function useAddNewRecordHook(
     reset,
     setValue,
     getValues,
+    control,
     formState: { errors },
   } = useForm<GameRecordData>({
     defaultValues: {
-      sportType: gameRecordData?.sportType || "",
+      sportType: "",
       dateTime: gameRecordData?.dateTime || "",
       game: gameRecordData?.game || "",
       predictValue: gameRecordData?.predictValue || "",
@@ -46,9 +69,40 @@ export default function useAddNewRecordHook(
       profit: gameRecordData?.profit || 0,
     },
   });
-
+  const recordsData = useAppSelector(state => state.adminRecords.data);
   const sportType = watch("sportType");
   const dateTime = watch("dateTime");
+  useEffect(() => {
+    if (isOpenRecord?.action === "edit" || isOpenRecord?.action === "view") {
+      console.log(isOpenRecord);
+      if (recordsData) {
+        console.log(recordsData[Number(isOpenRecord.id)]);
+        const record = recordsData[Number(isOpenRecord.id)];
+
+        if (record?.date) {
+          const datePart = record.date.split(" ")[0]; 
+          const [month, day, year] = datePart.split("/"); 
+          const formattedDate = `${year}-${month.padStart(
+            2,
+            "0"
+          )}-${day.padStart(2, "0")}`; 
+          setValue("dateTime", formattedDate);
+        }
+        setValue("game", recordsData[Number(isOpenRecord.id)].games);
+        setValue("predictValue", recordsData[Number(isOpenRecord.id)].pick);
+        setValue("profit", recordsData[Number(isOpenRecord.id)].profit);
+        setValue("result", recordsData[Number(isOpenRecord.id)].result);
+        setValue("sportType", sportTypeDefault ? sportTypeDefault : "");
+      }
+    }
+  }, [
+    isOpenRecord,
+    isOpenRecord?.action,
+    recordsData,
+    setValue,
+    sportTypeDefault,
+  ]);
+  // ---------------- HELPERS ----------------
   const formatTimeAMPM = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleTimeString("en-US", {
@@ -57,60 +111,16 @@ export default function useAddNewRecordHook(
       hour12: true,
     });
   };
-  useEffect(() => {
-    if (sportType && dateTime) {
-      setGameOptionsStatus({ label: "Loading games...", value: "2" });
-      setValue("game", "2");
-      const fetchGames = async () => {
-        try {
-          const response = await axiosClient.get(
-            `/games?league=${sportType}&date=${dateTime}`
-          );
-          // Giả lập dữ liệu trả về
-          return response.data;
-        } catch (error) {
-          if (error instanceof Error) {
-            if (error && error.message === "JWT-INVALID") {
-              navigate("/login", {
-                replace: true,
-                state: { message: "EXP-JWT" },
-              });
-            }
-          }
-          setGameOptionsStatus({ label: "Loading games failed!", value: "3" });
-          console.error("Error fetching games:", error);
-          return [];
-        }
-      };
-      fetchGames().then(games => {
-        const gameList = games?.member;
-        const gameOptionsRespond: GameOption[] = [];
-        for (let index = 0; index < gameList.length; index++) {
-          const game = gameList[index];
-          gameOptionsRespond.push({
-            label: `(${game?.awayTeamAbbr} vs ${game?.homeTeamAbbr}) ${
-              game?.gameName
-            } at ${formatTimeAMPM(game?.date)}`,
-            value: game?.gameName,
-            date: game?.date,
-          });
-        }
-        setGameOptions(gameOptionsRespond);
-        if (gameOptionsRespond.length > 0) {
-          setValue("game", gameOptionsRespond[0].value);
-        }
-        setGameOptionsStatus(
-          gameOptionsRespond.length > 0
-            ? { label: "", value: "" }
-            : { label: "No games available", value: "4" }
-        );
-      });
-    } else {
-      setGameOptions([]);
-    }
-  }, [sportType, dateTime, setValue, navigate]);
+
+  const formatDateToISOString = (date: Date): string => {
+    const y = date.getFullYear();
+    const m = (date.getMonth() + 1).toString().padStart(2, "0");
+    const d = date.getDate().toString().padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  };
 
   const closeModal = () => {
+    reset();
     setIsClosing(true);
     setIsOpenRecord({ id: "", action: "close" });
     setTimeout(() => {
@@ -118,64 +128,125 @@ export default function useAddNewRecordHook(
       setIsClosing(false);
     }, 250);
   };
-  const formatSubmitGameData = (game: GameRecordData) => {
-    return {
-      date: gameOptions.find(g => g.value === game.game)?.date || "",
-      game: game.game || "",
-      predictValue: game.predictValue.toString() || "",
-      profit: game.profit || 0,
-      result: game.result.toLocaleLowerCase() || "pending",
-      sportType: game.sportType || "",
+
+  // ---------------- FETCH GAMES ----------------
+  useEffect(() => {
+    if (!sportType || !dateTime) {
+      setGameOptions([]);
+      setGameOptionsStatus({
+        label: "Select sport and date first",
+        value: "1",
+      });
+      return;
+    }
+
+    setGameOptionsStatus({ label: "Loading games...", value: "2" });
+    setValue("game", "2");
+
+    const fetchGames = async () => {
+      try {
+        const response = await axiosClient.get(
+          `/games?league=${sportType}&date=${dateTime}`
+        );
+        return response.data;
+      } catch (error) {
+        if (error instanceof Error && error.message === "JWT-INVALID") {
+          navigate("/login", { replace: true, state: { message: "EXP-JWT" } });
+        }
+        console.error("Error fetching games:", error);
+        setGameOptionsStatus({ label: "Loading games failed!", value: "3" });
+        return [];
+      }
     };
-  };
+
+    fetchGames().then(games => {
+      const gameList = games?.member;
+      const gameOptionsRespond: GameOption[] = [];
+      for (let index = 0; index < gameList.length; index++) {
+        const game = gameList[index];
+        gameOptionsRespond.push({
+          label: `(${game?.awayTeamAbbr} vs ${game?.homeTeamAbbr}) ${
+            game?.gameName
+          } at ${formatTimeAMPM(game?.date)}`,
+          value: game?.gameName,
+          date: game?.date,
+        });
+      }
+      setGameOptions(gameOptionsRespond);
+
+      if (gameOptionsRespond.length === 0) {
+        setGameOptionsStatus({ label: "No games available", value: "4" });
+      } else {
+        setGameOptionsStatus({ label: "", value: "" });
+        setValue("game", gameOptionsRespond[0]?.value || "");
+      }
+    });
+  }, [sportType, dateTime, setValue, navigate]);
+
+  // ---------------- SUBMIT ----------------
+  const formatSubmitGameData = (game: GameRecordData) => ({
+    date: gameOptions.find(g => g.value === game.game)?.date || "",
+    game: game.game || "",
+    predictValue: game.predictValue.toString() || "",
+    profit: game.profit || 0,
+    result: game.result.toLowerCase() || "pending",
+    sportType: game.sportType || "",
+  });
+
   const onSubmit = async (data: GameRecordData) => {
     setIsSaving(true);
     try {
-      await axiosClient
-        .post("/predict_records", formatSubmitGameData(data))
-        .then(() => {
-          showToast({
-            title: "Saved successfully",
-            message: "The record has been saved",
-            type: "success",
-          });
-        })
-        .catch(error => {
-          if (error instanceof Error) {
-            if (error && error.message === "JWT-INVALID") {
-              navigate("/login", {
-                replace: true,
-                state: { message: "EXP-JWT" },
-              });
-            }
-          }
-          return;
-        });
+      await dispatch(createRecord(formatSubmitGameData(data))).unwrap();
+
+      showToast({
+        title: "Saved successfully",
+        message: "The record has been saved",
+        type: "success",
+      });
+
+      if (onchangeSportType) onchangeSportType(sportType);
+      await dispatch(fetchRecords(sportType));
+
       reset();
       closeModal();
+    } catch (error) {
+      if (error === "JWT-INVALID") {
+        navigate("/login", { replace: true, state: { message: "EXP-JWT" } });
+      } else {
+        showToast({
+          title: "Save failed",
+          message: "Unable to save the record",
+          type: "error",
+        });
+      }
     } finally {
       setIsSaving(false);
     }
   };
 
-  const state = {
-    isOpen,
-    isClosing,
-    isSaving,
-    gameOptions,
-    errors,
-    gameOptionsStatus,
-    getValues,
+  // ---------------- RETURN ----------------
+  return {
+    state: {
+      isOpen,
+      isClosing,
+      isSaving,
+      gameOptions,
+      gameOptionsStatus,
+      errors,
+      getValues,
+      sportOptions,
+    },
+    handler: {
+      setIsOpen,
+      closeModal,
+      handleSubmit: handleSubmit(onSubmit),
+      register,
+      formatDateToISOString,
+      setGameOptionsStatus,
+      reset,
+      watch,
+      setValue,
+      control,
+    },
   };
-
-  const handler = {
-    setIsOpen,
-    closeModal,
-    handleSubmit: handleSubmit(onSubmit),
-    register,
-    setGameOptionsStatus,
-    reset,
-  };
-
-  return { state, handler };
 }
