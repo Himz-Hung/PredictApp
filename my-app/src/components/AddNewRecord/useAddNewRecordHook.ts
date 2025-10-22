@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -191,6 +190,7 @@ export default function useAddNewRecordHook(
 
       if (gameOptionsRespond.length === 0) {
         setGameOptionsStatus({ label: "No games available", value: "4" });
+        setValue("game", "");
       } else {
         setGameOptionsStatus({ label: "", value: "" });
         setValue("game", gameOptionsRespond[0]?.value || "");

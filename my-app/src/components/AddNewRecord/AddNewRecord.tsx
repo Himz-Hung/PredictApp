@@ -180,9 +180,14 @@ export default function AddNewRecord({
                 <Controller
                   name="game"
                   control={control}
-                  rules={{ required: "Please select a game" }}
+                  rules={{
+                    required: ["1", "2", "3", "4"].includes(
+                      gameOptionsStatus.value
+                    )
+                      ? "No games available"
+                      : "Please select a game",
+                  }}
                   render={({ field, fieldState }) => {
-                    // Hiển thị placeholder và trạng thái dựa trên value
                     let placeholderText = "Select a game...";
                     let isDisabled = false;
 
