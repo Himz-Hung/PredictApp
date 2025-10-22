@@ -5,7 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import axiosClient from "../api/axiosClient";
 import type {
-  FetchHistoryRecordsParams,
+  FetchRecordsParams,
   MainTableData,
   MainTableDataRespond,
 } from "../models/mainTableModels";
@@ -48,7 +48,7 @@ const formatRecordsData = (data: MainTableDataRespond[]): MainTableData[] => {
 
 export const fetchHistoryRecords = createAsyncThunk<
   MainTableData[],
-  FetchHistoryRecordsParams,
+  FetchRecordsParams,
   { rejectValue: string }
 >("historyRecord/fetch", async (searchParams, { rejectWithValue }) => {
   try {
