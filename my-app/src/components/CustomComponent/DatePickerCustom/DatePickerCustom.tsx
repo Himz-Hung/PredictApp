@@ -130,13 +130,17 @@ export default function DatePickerCustom({
   };
 
   const isDateDisabled = (date: Date) => {
-    if (minDate && date < minDate) return true;
-    if (maxDate && date > maxDate) return true;
+    const normalizedDate = new Date(date);
+    normalizedDate.setHours(0, 0, 0, 0);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    if (disablePast && date < today) return true;
-    if (disableFuture && date > today) return true;
+
+    if (minDate && normalizedDate < minDate) return true;
+    if (maxDate && normalizedDate > maxDate) return true;
+
+    if (disablePast && normalizedDate < today) return true;
+    if (disableFuture && normalizedDate > today) return true;
 
     return false;
   };

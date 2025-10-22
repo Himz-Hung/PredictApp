@@ -1,10 +1,10 @@
 import type { GameStatusType } from "./gameStatusEnum";
-
 interface MainTableHeaderProps {
   tableName?: string;
   isAdmin?: boolean;
   tableTitle: string[];
   isFromTo?: boolean;
+  sportType?: string;
 }
 interface MainTableFooterProps {
   isAdmin?: boolean;
@@ -39,7 +39,13 @@ interface MainTableDataRespond {
   profit: number;
   predictValue: string;
 }
+interface FetchRecordsParams {
+  sportType: string;
+  dateFrom: string;
+  dateTo: string;
+}
 interface MainTableProps {
+  sportType?: string;
   isFromTo?: boolean;
   isAdmin?: boolean;
   tableName?: string;
@@ -72,7 +78,7 @@ interface CreateGameRecordData {
   result: string;
   sportType: string;
 }
-interface updateRecordModal {
+interface UpdateRecordModal {
   profit: number;
   result: string;
   id: string;
@@ -85,5 +91,6 @@ export type {
   GameRecordData,
   MainTableDataRespond,
   CreateGameRecordData,
-  updateRecordModal,
+  UpdateRecordModal,
+  FetchRecordsParams,
 };

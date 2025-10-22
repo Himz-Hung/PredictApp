@@ -8,7 +8,7 @@ import type {
   CreateGameRecordData,
   MainTableData,
   MainTableDataRespond,
-  updateRecordModal,
+  UpdateRecordModal,
 } from "../models/mainTableModels";
 import type { GameStatusType } from "../models/gameStatusEnum";
 
@@ -88,7 +88,7 @@ export const createRecord = createAsyncThunk<
 });
 export const updateRecord = createAsyncThunk<
   void,
-  updateRecordModal,
+  UpdateRecordModal,
   { rejectValue: string }
 >("record/updateRecord", async (data, { rejectWithValue }) => {
   try {

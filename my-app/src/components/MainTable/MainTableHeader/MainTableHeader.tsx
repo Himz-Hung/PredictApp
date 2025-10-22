@@ -5,7 +5,9 @@ import useMainTableHeaderHook from "./useMainTableHeaderHook";
 export default function MainTableHeader(
   mainTableHeaderProps: MainTableHeaderProps
 ): React.JSX.Element {
-  const { state, handler } = useMainTableHeaderHook();
+  const { state, handler } = useMainTableHeaderHook(
+    mainTableHeaderProps.sportType || ""
+  );
   return (
     <thead className="sticky top-0 bg-slate-800/80 backdrop-blur-md border-b border-slate-600">
       {mainTableHeaderProps.tableName && (
@@ -17,10 +19,8 @@ export default function MainTableHeader(
           >
             <div className="flex items-center justify-between gap-4">
               <span className="truncate">{mainTableHeaderProps.tableName}</span>
-              {/* Date range + Search */}
               {mainTableHeaderProps?.isFromTo && (
                 <div className="flex items-center gap-3 text-xs text-gray-300">
-                  {/* Desktop */}
                   <div className="hidden sm:flex items-end gap-2">
                     <div className="flex flex-col space-y-1">
                       <DatePickerCustom
@@ -45,67 +45,128 @@ export default function MainTableHeader(
                       />
                     </div>
 
-                    {/* 🔍 Search button */}
                     <button
                       type="button"
-                      onClick={() => console.log("Search clicked")}
-                      className="flex items-center gap-2 text-green-400 border border-green-400 
-             bg-transparent font-medium rounded-xl text-sm px-3 py-1.5 
-             shadow-none transition-all duration-300 ease-out
-             hover:text-white hover:bg-green-400/20 hover:border-green-500
-             hover:shadow-lg hover:shadow-green-500/30
-             hover:scale-[1.02] active:scale-[0.98]
-             hover:cursor-pointer"
+                      onClick={handler.handleSearchDate}
+                      disabled={state.isLoading}
+                      className={`flex items-center gap-2 text-green-400 border border-green-400 
+    bg-transparent font-medium rounded-xl text-sm px-3 py-1.5 
+    shadow-none transition-all duration-300 ease-out
+    ${
+      state.isLoading
+        ? "opacity-50 cursor-not-allowed"
+        : "hover:text-white hover:bg-green-400/20 hover:border-green-500 hover:shadow-lg hover:shadow-green-500/30 hover:scale-[1.02] active:scale-[0.98] hover:cursor-pointer"
+    }
+  `}
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                        className="w-5 h-5"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m21 21-4.35-4.35m0 0A7.5 7.5 0 1 0 6.75 6.75a7.5 7.5 0 0 0 9.9 9.9Z"
-                        />
-                      </svg>
-                      <span>Search</span>
+                      {state.isLoading ? (
+                        // 🌀 Loading spinner
+                        <svg
+                          className="w-5 h-5 animate-spin text-green-400"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                          ></path>
+                        </svg>
+                      ) : (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            className="w-5 h-5"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="m21 21-4.35-4.35m0 0A7.5 7.5 0 1 0 6.75 6.75a7.5 7.5 0 0 0 9.9 9.9Z"
+                            />
+                          </svg>
+                          <span>Search</span>
+                        </>
+                      )}
                     </button>
                   </div>
 
                   {/* Mobile */}
                   <div className="flex items-center gap-2 sm:hidden">
                     <DatePickerCustom
+                      label="From Date"
                       value={state.fromDate}
-                      label="From date"
-                      onChange={e => handler.setToDate(e)}
+                      onChange={d => {
+                        handler.setFromDate(d);
+                      }}
+                      maxDate={state.toDate}
+                      placeholder="Select date"
                     />
                     <DatePickerCustom
+                      label="To Date"
                       value={state.toDate}
+                      onChange={d => handler.setToDate(d)}
                       isDateTo={true}
-                      label="To date"
-                      onChange={e => handler.setToDate(e)}
+                      minDate={state.fromDate}
+                      placeholder="Select date"
                     />
-                    {/* Mobile search button (icon only) */}
+
                     <button
                       type="button"
-                      onClick={() => console.log("Search clicked")}
-                      className="flex items-center justify-center text-green-400 border border-green-400 
+                      onClick={handler.handleSearchDate}
+                      disabled={state.isLoading}
+                      className={`flex items-center justify-center text-green-400 border border-green-400 
     bg-transparent rounded-xl px-2 py-2 shadow-none transition-all duration-300 ease-out
-    hover:text-white hover:bg-green-400/20 hover:border-green-500
-    hover:shadow-lg hover:shadow-green-500/30
-    hover:scale-[1.05] active:scale-[0.95]"
+    ${
+      state.isLoading
+        ? "opacity-50 cursor-not-allowed"
+        : "hover:text-white hover:bg-green-400/20 hover:border-green-500 hover:shadow-lg hover:shadow-green-500/30 hover:scale-[1.05] active:scale-[0.95]"
+    }
+  `}
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                        className="w-5 h-5"
-                      >
-                        <path d="M10 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16Zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12Zm11 17.59-4.3-4.3a9.99 9.99 0 0 0 1.42-1.42l4.3 4.3a1 1 0 0 1-1.42 1.42Z" />
-                      </svg>
+                      {state.isLoading ? (
+                        <svg
+                          className="w-5 h-5 animate-spin text-green-400"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                          ></path>
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                          className="w-5 h-5"
+                        >
+                          <path d="M10 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16Zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12Zm11 17.59-4.3-4.3a9.99 9.99 0 0 0 1.42-1.42l4.3 4.3a1 1 0 0 1-1.42 1.42Z" />
+                        </svg>
+                      )}
                     </button>
                   </div>
                 </div>

@@ -26,6 +26,7 @@ export default function NBAReportPage() {
             tableTitle={state?.tableMainDataHistory?.tableTitle}
             tableMainData={state?.tableMainDataHistory?.tableMainData}
             tableName={state?.tableMainDataHistory?.tableName}
+            sportType={'nba-basketball'}
           />
         </div>
       </div>

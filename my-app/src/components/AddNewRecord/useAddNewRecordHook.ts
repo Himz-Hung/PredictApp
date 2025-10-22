@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import type {
   GameRecordData,
-  updateRecordModal,
+  UpdateRecordModal,
 } from "../../models/mainTableModels";
 import type { GameOption } from "../../models/gameOptionModels";
 import axiosClient from "../../api/axiosClient";
@@ -206,7 +206,7 @@ export default function useAddNewRecordHook(
     result: game.result.toLowerCase() || "pending",
     sportType: game.sportType || "",
   });
-  const formatUpdateGameData = (game: GameRecordData): updateRecordModal => ({
+  const formatUpdateGameData = (game: GameRecordData): UpdateRecordModal => ({
     profit: game.profit || 0,
     result: game.result.toLowerCase() || "pending",
     id: getValues("recordId") || "",

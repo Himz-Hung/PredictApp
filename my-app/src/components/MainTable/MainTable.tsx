@@ -13,11 +13,11 @@ export default function MainTable({
   tableName,
   isAdmin = false,
   isFromTo = false,
+  sportType,
   setIsOpenRecord = () => {},
 }: MainTableProps): React.JSX.Element {
   const { state, handler } = useMainTableHook(tableMainData, 10);
-  const { pageSize, page, totalPages, paginatedData, totalProfit } =
-    state;
+  const { pageSize, page, totalPages, paginatedData, totalProfit } = state;
   const { setPageSize, setPage } = handler;
 
   return (
@@ -30,6 +30,7 @@ export default function MainTable({
               tableName={tableName}
               tableTitle={tableTitle}
               isFromTo={isFromTo}
+              sportType={sportType}
             />
             <tbody className="bg-gray-800 dark:bg-gray-800 divide-y divide-gray-70 divide-gray-700">
               {paginatedData.length === 0 && (
@@ -37,14 +38,12 @@ export default function MainTable({
                   key={"no-data"}
                   className=" hover:bg-gray-700 transition-colors"
                 >
-                  {isAdmin && (
-                    <td
-                      colSpan={isAdmin ? 8 : 5}
-                      className="px-3 sm:px-6 py-4 whitespace-nowrap text-center text-sm font-medium text-white"
-                    >
-                      No Record Found
-                    </td>
-                  )}
+                  <td
+                    colSpan={isAdmin ? 8 : 5}
+                    className="px-3 sm:px-6 py-4 whitespace-nowrap text-center text-sm font-medium text-white"
+                  >
+                    No Record Found
+                  </td>
                 </tr>
               )}
               {paginatedData?.map(p => (
@@ -117,30 +116,30 @@ export default function MainTable({
                     <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm gap-2">
                       <div className="flex justify-start">
                         <button
-                        // onClick={() => handleView(p)}
-                        className="rounded-lg border border-gray-600 text-blue-500 px-3 py-1 font-medium
+                          // onClick={() => handleView(p)}
+                          className="rounded-lg border border-gray-600 text-blue-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:border-blue-500 hover:bg-blue-600/20 hover:scale-105 hover:cursor-pointer
                  active:scale-95 mr-4"
-                        onClick={() =>
-                          setIsOpenRecord({ id: p.id, action: "view" })
-                        }
-                      >
-                        View
-                      </button>
+                          onClick={() =>
+                            setIsOpenRecord({ id: p.id, action: "view" })
+                          }
+                        >
+                          View
+                        </button>
 
-                      <button
-                        // onClick={() => handleEdit(p)}
-                        className="rounded-lg border border-gray-600 text-yellow-500 px-3 py-1 font-medium
+                        <button
+                          // onClick={() => handleEdit(p)}
+                          className="rounded-lg border border-gray-600 text-yellow-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:bg-yellow-600/20 hover:border-yellow-500 hover:scale-105 hover:cursor-pointer
                  active:scale-95"
-                        onClick={() =>
-                          setIsOpenRecord({ id: p.id, action: "edit" })
-                        }
-                      >
-                        Edit
-                      </button>
+                          onClick={() =>
+                            setIsOpenRecord({ id: p.id, action: "edit" })
+                          }
+                        >
+                          Edit
+                        </button>
 
-                      {/* <button
+                        {/* <button
                         // onClick={() => handleDelete(p.id)}
                         className="rounded-lg border border-gray-600 text-red-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:bg-red-600/20 hover:border-red-500 hover:scale-105 hover:cursor-pointer
