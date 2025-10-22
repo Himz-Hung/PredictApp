@@ -1,13 +1,20 @@
-// src/hooks/useAddNewRecordHook.ts
+
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import type { GameRecordData } from "../../models/mainTableModels";
+import type {
+  GameRecordData,
+  updateRecordModal,
+} from "../../models/mainTableModels";
 import type { GameOption } from "../../models/gameOptionModels";
 import axiosClient from "../../api/axiosClient";
 import { useToast } from "../../hooks/useContextHook";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { createRecord, fetchRecords } from "../../store/adminRecordsSlice";
+import {
+  createRecord,
+  fetchRecords,
+  updateRecord,
+} from "../../store/adminRecordsSlice";
 
 interface ModalState {
   id: string;
@@ -49,7 +56,6 @@ export default function useAddNewRecordHook(
     { value: "ncaa-basketbal", label: "NCAA-Basketball" },
   ];
 
-  // ---------------- FORM ----------------
   const {
     register,
     handleSubmit,
@@ -67,6 +73,7 @@ export default function useAddNewRecordHook(
       predictValue: gameRecordData?.predictValue || "",
       result: gameRecordData?.result || "PENDING",
       profit: gameRecordData?.profit || 0,
+      recordId: gameRecordData?.recordId || "",
     },
   });
   const recordsData = useAppSelector(state => state.adminRecords.data);
@@ -74,25 +81,31 @@ export default function useAddNewRecordHook(
   const dateTime = watch("dateTime");
   useEffect(() => {
     if (isOpenRecord?.action === "edit" || isOpenRecord?.action === "view") {
-      console.log(isOpenRecord);
       if (recordsData) {
-        console.log(recordsData[Number(isOpenRecord.id)]);
         const record = recordsData[Number(isOpenRecord.id)];
 
         if (record?.date) {
-          const datePart = record.date.split(" ")[0]; 
-          const [month, day, year] = datePart.split("/"); 
+          const datePart = record.date.split(" ")[0];
+          const [month, day, year] = datePart.split("/");
           const formattedDate = `${year}-${month.padStart(
             2,
             "0"
-          )}-${day.padStart(2, "0")}`; 
+          )}-${day.padStart(2, "0")}`;
           setValue("dateTime", formattedDate);
         }
+        setGameOptions([
+          {
+            label: recordsData[Number(isOpenRecord.id)].games,
+            value: recordsData[Number(isOpenRecord.id)].games,
+            date: "",
+          },
+        ]);
         setValue("game", recordsData[Number(isOpenRecord.id)].games);
         setValue("predictValue", recordsData[Number(isOpenRecord.id)].pick);
         setValue("profit", recordsData[Number(isOpenRecord.id)].profit);
         setValue("result", recordsData[Number(isOpenRecord.id)].result);
         setValue("sportType", sportTypeDefault ? sportTypeDefault : "");
+        setValue("recordId", recordsData[Number(isOpenRecord.id)].recordId);
       }
     }
   }, [
@@ -102,7 +115,7 @@ export default function useAddNewRecordHook(
     setValue,
     sportTypeDefault,
   ]);
-  // ---------------- HELPERS ----------------
+
   const formatTimeAMPM = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleTimeString("en-US", {
@@ -129,8 +142,10 @@ export default function useAddNewRecordHook(
     }, 250);
   };
 
-  // ---------------- FETCH GAMES ----------------
   useEffect(() => {
+    if (isOpenRecord?.action !== "add") {
+      return;
+    }
     if (!sportType || !dateTime) {
       setGameOptions([]);
       setGameOptionsStatus({
@@ -181,9 +196,8 @@ export default function useAddNewRecordHook(
         setValue("game", gameOptionsRespond[0]?.value || "");
       }
     });
-  }, [sportType, dateTime, setValue, navigate]);
+  }, [sportType, dateTime, setValue, navigate, isOpenRecord?.action]);
 
-  // ---------------- SUBMIT ----------------
   const formatSubmitGameData = (game: GameRecordData) => ({
     date: gameOptions.find(g => g.value === game.game)?.date || "",
     game: game.game || "",
@@ -192,35 +206,80 @@ export default function useAddNewRecordHook(
     result: game.result.toLowerCase() || "pending",
     sportType: game.sportType || "",
   });
+  const formatUpdateGameData = (game: GameRecordData): updateRecordModal => ({
+    profit: game.profit || 0,
+    result: game.result.toLowerCase() || "pending",
+    id: getValues("recordId") || "",
+  });
 
   const onSubmit = async (data: GameRecordData) => {
-    setIsSaving(true);
-    try {
-      await dispatch(createRecord(formatSubmitGameData(data))).unwrap();
+    if (isOpenRecord?.action === "view" || isOpenRecord?.action === "close") {
+      return;
+    }
+    if (isOpenRecord?.action === "edit") {
+      console.log(formatUpdateGameData(data));
 
-      showToast({
-        title: "Saved successfully",
-        message: "The record has been saved",
-        type: "success",
-      });
+      setIsSaving(true);
+      try {
+        await dispatch(updateRecord(formatUpdateGameData(data))).unwrap();
 
-      if (onchangeSportType) onchangeSportType(sportType);
-      await dispatch(fetchRecords(sportType));
-
-      reset();
-      closeModal();
-    } catch (error) {
-      if (error === "JWT-INVALID") {
-        navigate("/login", { replace: true, state: { message: "EXP-JWT" } });
-      } else {
         showToast({
-          title: "Save failed",
-          message: "Unable to save the record",
-          type: "error",
+          title: "Saved successfully",
+          message: "The record has been saved",
+          type: "success",
         });
+
+        if (onchangeSportType) onchangeSportType(sportType);
+        await dispatch(fetchRecords(sportType));
+
+        reset();
+        closeModal();
+        return;
+      } catch (error) {
+        if (error === "JWT-INVALID") {
+          navigate("/login", { replace: true, state: { message: "EXP-JWT" } });
+          return;
+        } else {
+          showToast({
+            title: "Save failed",
+            message: "Unable to save the record",
+            type: "error",
+          });
+          return;
+        }
+      } finally {
+        setIsSaving(false);
       }
-    } finally {
-      setIsSaving(false);
+    }
+    if (isOpenRecord?.action === "add") {
+      setIsSaving(true);
+      try {
+        await dispatch(createRecord(formatSubmitGameData(data))).unwrap();
+
+        showToast({
+          title: "Saved successfully",
+          message: "The record has been saved",
+          type: "success",
+        });
+
+        if (onchangeSportType) onchangeSportType(sportType);
+        await dispatch(fetchRecords(sportType));
+
+        reset();
+        closeModal();
+      } catch (error) {
+        if (error === "JWT-INVALID") {
+          navigate("/login", { replace: true, state: { message: "EXP-JWT" } });
+        } else {
+          showToast({
+            title: "Save failed",
+            message: "Unable to save the record",
+            type: "error",
+          });
+        }
+      } finally {
+        setIsSaving(false);
+      }
     }
   };
 

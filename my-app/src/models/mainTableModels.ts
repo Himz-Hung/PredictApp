@@ -18,6 +18,7 @@ interface MainTableFooterProps {
   totalProfit?: number;
 }
 interface MainTableData {
+  recordId?: string;
   id: string;
   date: string;
   games: string;
@@ -29,6 +30,7 @@ interface MainTableData {
 }
 interface MainTableDataRespond {
   id: string;
+  recordId?: string;
   date: string;
   game: string;
   pick: string;
@@ -55,6 +57,7 @@ interface MainTableProps {
 interface GameRecordData {
   id?: string;
   sportType: string;
+  recordId?: string;
   dateTime: string;
   game: string;
   predictValue: string;
@@ -69,6 +72,11 @@ interface CreateGameRecordData {
   result: string;
   sportType: string;
 }
+interface updateRecordModal {
+  profit: number;
+  result: string;
+  id: string;
+}
 export type {
   MainTableProps,
   MainTableHeaderProps,
@@ -76,5 +84,6 @@ export type {
   MainTableFooterProps,
   GameRecordData,
   MainTableDataRespond,
-  CreateGameRecordData
+  CreateGameRecordData,
+  updateRecordModal,
 };

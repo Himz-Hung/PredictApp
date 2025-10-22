@@ -56,7 +56,6 @@ export default function AddNewRecord({
 
   return (
     <div>
-      {/* --- Button mở popup --- */}
       <button
         onClick={() => {
           reset();
@@ -88,7 +87,6 @@ export default function AddNewRecord({
         Add New Record
       </button>
 
-      {/* --- Popup Modal --- */}
       {(isOpen ||
         isOpenRecord.action === "view" ||
         isOpenRecord.action === "edit") && (
@@ -102,18 +100,15 @@ export default function AddNewRecord({
               transform transition-all duration-300 max-h-[70vh] md:max-h-full modal-content overflow-y-auto
               ${isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100"}`}
           >
-            {/* --- Title --- */}
             <h2 className="text-xl font-bold mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400">
-              {isOpenRecord.action === "add"
+              {isOpenRecord.action === "add" || isOpenRecord.action === "close"
                 ? "Add New Record"
                 : isOpenRecord.action === "edit"
                 ? "Edit Record"
                 : "View Record"}
             </h2>
 
-            {/* --- Form --- */}
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* --- Sport Type + Date --- */}
               <div className="flex justify-between items-center flex-wrap gap-4">
                 <div className="w-full sm:w-48">
                   <label className="block mb-1 text-sm text-gray-300">
@@ -126,7 +121,10 @@ export default function AddNewRecord({
                     render={({ field }) => (
                       <>
                         <CustomSelectField
-                          disabled={isOpenRecord.action === "view"}
+                          disabled={
+                            isOpenRecord.action === "view" ||
+                            isOpenRecord.action === "edit"
+                          }
                           options={sportOptions}
                           value={field.value}
                           onChange={val => field.onChange(val.toString())}
@@ -148,12 +146,18 @@ export default function AddNewRecord({
                   </label>
                   <Controller
                     name="dateTime"
-                    disabled={isOpenRecord.action === "view"}
+                    disabled={
+                      isOpenRecord.action === "view" ||
+                      isOpenRecord.action === "edit"
+                    }
                     control={handler.control}
                     rules={{ required: "Please select a date" }}
                     render={({ field }) => (
                       <DatePickerCustom
-                        isDisabled={isOpenRecord.action === "view"}
+                        isDisabled={
+                          isOpenRecord.action === "view" ||
+                          isOpenRecord.action === "edit"
+                        }
                         isDefaultNone
                         isDateTo
                         value={field.value ? new Date(field.value) : undefined}
@@ -171,7 +175,6 @@ export default function AddNewRecord({
                 </div>
               </div>
 
-              {/* --- Game --- */}
               <div>
                 <label className="block mb-1 text-sm text-gray-300">Game</label>
                 <Controller
@@ -214,7 +217,9 @@ export default function AddNewRecord({
                           onChange={field.onChange}
                           placeholder={placeholderText}
                           disabled={
-                            isDisabled || isOpenRecord.action === "view"
+                            isDisabled ||
+                            isOpenRecord.action === "view" ||
+                            isOpenRecord.action === "edit"
                           }
                         />
                         {fieldState.error && (
@@ -228,18 +233,21 @@ export default function AddNewRecord({
                 />
               </div>
 
-              {/* --- Predict Value --- */}
               <div>
                 <label className="block mb-1 text-sm text-gray-300">
                   Predict Value
                 </label>
                 <input
                   type="text"
-                  disabled={isOpenRecord.action === "view"}
+                  disabled={
+                    isOpenRecord.action === "view" ||
+                    isOpenRecord.action === "edit"
+                  }
                   inputMode="text"
                   {...register("predictValue", { required: "Enter a value" })}
                   className="w-full p-2 rounded-lg bg-[#1a1f2b] border border-gray-700 
-                    focus:border-green-400 focus:outline-none transition"
+    focus:border-green-400 focus:outline-none transition
+    disabled:bg-[#121622] disabled:text-gray-500 disabled:border-gray-600 disabled:opacity-60"
                   placeholder="Enter value..."
                 />
                 {errors.predictValue && (
@@ -249,7 +257,6 @@ export default function AddNewRecord({
                 )}
               </div>
 
-              {/* --- Result --- */}
               <div>
                 <label className="block mb-1 text-sm text-gray-300">
                   Result
@@ -278,7 +285,6 @@ export default function AddNewRecord({
                 )}
               </div>
 
-              {/* --- Profit --- */}
               <div>
                 <label className="block mb-1 text-sm text-gray-300">
                   Profit
@@ -291,7 +297,9 @@ export default function AddNewRecord({
                     valueAsNumber: true,
                   })}
                   className="w-full p-2 rounded-lg bg-[#1a1f2b] border border-gray-700
-                    focus:border-green-400 focus:outline-none transition"
+    focus:border-green-400 focus:outline-none transition-all duration-300 ease-in-out
+    disabled:bg-[#121622] disabled:text-gray-500 disabled:cursor-not-allowed
+    disabled:border-gray-600 disabled:opacity-60"
                   placeholder="Enter profit..."
                 />
                 {errors.profit && (
@@ -318,17 +326,17 @@ export default function AddNewRecord({
                   <button
                     type="submit"
                     disabled={isSaving}
-                    className="px-5 py-2 rounded-lg font-semibold flex items-center justify-center
-                    bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
-                    text-white transition-all duration-300 ease-out
-                    hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400
-                    hover:shadow-lg hover:shadow-pink-500/30
-                    hover:scale-[1.03] active:scale-[0.98]
-                    disabled:opacity-80 disabled:cursor-wait"
+                    className="flex items-center justify-center text-green-400 border border-green-400 
+    bg-transparent font-medium rounded-xl text-sm px-7 py-2.5 text-center 
+    shadow-none transition-all duration-300 ease-out
+    hover:text-white hover:bg-green-400/20 hover:border-green-500
+    hover:shadow-lg hover:shadow-green-500/30
+    hover:scale-[1.02] active:scale-[0.98]
+    disabled:opacity-70 disabled:cursor-wait"
                   >
                     {isSaving ? (
                       <svg
-                        className="animate-spin h-5 w-5 text-white"
+                        className="animate-spin h-5 w-5 text-green-400"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -348,7 +356,7 @@ export default function AddNewRecord({
                         ></path>
                       </svg>
                     ) : (
-                      "Save"
+                      <>Save</>
                     )}
                   </button>
                 )}

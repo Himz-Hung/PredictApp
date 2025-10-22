@@ -8,6 +8,7 @@ import type {
   CreateGameRecordData,
   MainTableData,
   MainTableDataRespond,
+  updateRecordModal,
 } from "../models/mainTableModels";
 import type { GameStatusType } from "../models/gameStatusEnum";
 
@@ -28,6 +29,7 @@ const initialState: RecordState = {
 const formatRecordsData = (data: MainTableDataRespond[]): MainTableData[] => {
   return data.map((item, index) => ({
     id: `${index}`,
+    recordId: item?.id,
     date: new Date(item.date)
       .toLocaleString("en-US", {
         month: "2-digit",
@@ -84,6 +86,33 @@ export const createRecord = createAsyncThunk<
     return rejectWithValue("Failed to save record");
   }
 });
+export const updateRecord = createAsyncThunk<
+  void,
+  updateRecordModal,
+  { rejectValue: string }
+>("record/updateRecord", async (data, { rejectWithValue }) => {
+  try {
+    await axiosClient.patch(
+      `/predict_records/${data?.id}`,
+      {
+        result: data.result,
+        profit: data.profit,
+      },
+      {
+        headers: {
+          "Content-Type": "application/merge-patch+json",
+        },
+      }
+    );
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      if (error && error.message === "JWT-INVALID") {
+        return rejectWithValue("JWT-INVALID");
+      }
+    }
+    return rejectWithValue("Failed to save record");
+  }
+});
 
 const adminRecordSlice = createSlice({
   name: "record",
@@ -122,6 +151,19 @@ const adminRecordSlice = createSlice({
         state.saving = false;
       })
       .addCase(createRecord.rejected, (state, action) => {
+        state.saving = false;
+        state.error = action.payload ?? "Unknown error";
+      })
+
+      //update
+      .addCase(updateRecord.pending, state => {
+        state.saving = true;
+        state.error = null;
+      })
+      .addCase(updateRecord.fulfilled, state => {
+        state.saving = false;
+      })
+      .addCase(updateRecord.rejected, (state, action) => {
         state.saving = false;
         state.error = action.payload ?? "Unknown error";
       });

@@ -115,12 +115,12 @@ export default function MainTable({
                   </td>
                   {isAdmin && (
                     <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm gap-2">
-                      <div className="flex justify-evenly">
+                      <div className="flex justify-start">
                         <button
                         // onClick={() => handleView(p)}
                         className="rounded-lg border border-gray-600 text-blue-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:border-blue-500 hover:bg-blue-600/20 hover:scale-105 hover:cursor-pointer
-                 active:scale-95"
+                 active:scale-95 mr-4"
                         onClick={() =>
                           setIsOpenRecord({ id: p.id, action: "view" })
                         }
@@ -140,14 +140,14 @@ export default function MainTable({
                         Edit
                       </button>
 
-                      <button
+                      {/* <button
                         // onClick={() => handleDelete(p.id)}
                         className="rounded-lg border border-gray-600 text-red-500 px-3 py-1 font-medium
                 transition-all duration-300 hover:bg-red-600/20 hover:border-red-500 hover:scale-105 hover:cursor-pointer
                  active:scale-95"
                       >
                         Delete
-                      </button>
+                      </button> */}
                       </div>
                     </td>
                   )}
