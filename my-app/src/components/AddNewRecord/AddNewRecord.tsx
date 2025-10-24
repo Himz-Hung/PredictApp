@@ -160,7 +160,16 @@ export default function AddNewRecord({
                         }
                         isDefaultNone
                         isDateTo
-                        value={field.value ? new Date(field.value) : undefined}
+                        value={
+                          field.value
+                            ? (() => {
+                                const [year, month, day] = field.value
+                                  .split("-")
+                                  .map(Number);
+                                return new Date(year, month - 1, day);
+                              })()
+                            : undefined
+                        }
                         onChange={date =>
                           field.onChange(handler.formatDateToISOString(date))
                         }
