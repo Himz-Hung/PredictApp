@@ -43,7 +43,7 @@ export default function MainTableHeader(
               <span className="truncate">{mainTableHeaderProps.tableName}</span>
               {mainTableHeaderProps?.isFromTo && (
                 <div className="flex items-center gap-3 text-xs text-gray-300">
-                  <div className="hidden sm:flex items-end gap-2">
+                  <div className="flex items-end gap-2">
                     <DatePickerCustom
                       label="From Date"
                       value={mainTableHeaderProps.fromDate}
