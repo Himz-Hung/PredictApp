@@ -2,7 +2,7 @@ import MainTable from "../../components/MainTable/MainTable";
 import useMLBReportPageHook from "./useMLBReportPageHook";
 
 export default function MLBReportPage() {
-  const { state } = useMLBReportPageHook();
+  const { state, handler } = useMLBReportPageHook();
   return (
     <div className="overflow-hidden p-5 w-full flex flex-col items-center text-white">
       <h1 className="text-3xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400 tracking-wide uppercase text-center drop-shadow-md">
@@ -16,6 +16,10 @@ export default function MLBReportPage() {
             tableTitle={state?.tableMainData?.tableTitle}
             tableMainData={state?.tableMainData?.tableMainData}
             tableName={state?.tableMainData?.tableName}
+            totalRecords={state?.tableMainData?.totalRecords}
+            isLoading={state?.loadingTodayRecords}
+            onPageChange={handler.onPageChange}
+            isTodayRecord={true}
           />
         </div>
 
@@ -26,6 +30,11 @@ export default function MLBReportPage() {
             tableTitle={state?.tableMainDataHistory?.tableTitle}
             tableMainData={state?.tableMainDataHistory?.tableMainData}
             tableName={state?.tableMainDataHistory?.tableName}
+            totalRecords={state?.tableMainDataHistory?.totalRecords}
+            sportType={"mlb-baseball"}
+            isLoading={state?.loadingHistoryRecords}
+            onSearchDate={handler.onSearchDate}
+            onPageChange={handler.onPageChange}
           />
         </div>
       </div>

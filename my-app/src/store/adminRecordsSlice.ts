@@ -6,14 +6,16 @@ import {
 import axiosClient from "../api/axiosClient";
 import type {
   CreateGameRecordData,
+  FetchRecordsParams,
   MainTableData,
   MainTableDataRespond,
+  RespondDataMainTable,
   UpdateRecordModal,
 } from "../models/mainTableModels";
 import type { GameStatusType } from "../models/gameStatusEnum";
 
 interface RecordState {
-  data: MainTableData[] | undefined;
+  data: RespondDataMainTable | undefined;
   loading: boolean;
   error: string | null;
   saving: boolean;
@@ -27,8 +29,8 @@ const initialState: RecordState = {
 };
 
 const formatRecordsData = (data: MainTableDataRespond[]): MainTableData[] => {
-  return data.map((item, index) => ({
-    id: `${index}`,
+  return data.map((item) => ({
+    id: item?.id,
     recordId: item?.id,
     date: new Date(item.date)
       .toLocaleString("en-US", {
@@ -50,16 +52,26 @@ const formatRecordsData = (data: MainTableDataRespond[]): MainTableData[] => {
 };
 
 export const fetchRecords = createAsyncThunk<
-  MainTableData[],
-  string,
+  RespondDataMainTable,
+  FetchRecordsParams,
   { rejectValue: string }
->("record/fetchRecords", async (sportType, { rejectWithValue }) => {
+>("record/fetchRecords", async (searchParams, { rejectWithValue }) => {
   try {
     const response = await axiosClient.get("/predict_records", {
-      params: { page: 1, sportType },
+      params: {
+        page: searchParams?.page || 1,
+        sportType: searchParams.sportType,
+        "date[strictly_before]": searchParams.dateTo,
+        "date[strictly_after]": searchParams.dateFrom,
+      },
     });
     const member: MainTableDataRespond[] = response?.data?.member ?? [];
-    return formatRecordsData(member);
+    const respondData: RespondDataMainTable = {
+      mainData: formatRecordsData(member),
+      currentPage: searchParams.page || 1,
+      totalRecords: response?.data?.totalItems || 0,
+    };
+    return respondData;
   } catch (error: unknown) {
     if (error instanceof Error) {
       if (error && error.message === "JWT-INVALID") {
@@ -132,7 +144,7 @@ const adminRecordSlice = createSlice({
       })
       .addCase(
         fetchRecords.fulfilled,
-        (state, action: PayloadAction<MainTableData[]>) => {
+        (state, action: PayloadAction<RespondDataMainTable>) => {
           state.loading = false;
           state.data = action.payload;
         }

@@ -2,18 +2,17 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import type {
+  FetchRecordsParams,
   GameRecordData,
+  MainTableData,
   UpdateRecordModal,
 } from "../../models/mainTableModels";
 import type { GameOption } from "../../models/gameOptionModels";
 import axiosClient from "../../api/axiosClient";
 import { useToast } from "../../hooks/useContextHook";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import {
-  createRecord,
-  fetchRecords,
-  updateRecord,
-} from "../../store/adminRecordsSlice";
+import { useAppDispatch } from "../../store/hooks";
+import { createRecord, updateRecord } from "../../store/adminRecordsSlice";
+import { normalizeFromDate, normalizeToDate } from "../../utils/dateUtils";
 
 interface ModalState {
   id: string;
@@ -22,10 +21,15 @@ interface ModalState {
 
 export default function useAddNewRecordHook(
   setIsOpenRecord: React.Dispatch<React.SetStateAction<ModalState>>,
+  tableMainData: MainTableData[],
+  adminFromDate: Date,
+  adminToDate: Date,
+  currentPageSize: number,
   onchangeSportType?: (sportType: string) => void,
   gameRecordData?: GameRecordData,
   isOpenRecord?: ModalState,
-  sportTypeDefault?: string
+  sportTypeDefault?: string,
+  onSearchDate?: (paramSearch: FetchRecordsParams, pageSize: number) => void
 ) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -75,14 +79,13 @@ export default function useAddNewRecordHook(
       recordId: gameRecordData?.recordId || "",
     },
   });
-  const recordsData = useAppSelector(state => state.adminRecords.data);
+  const recordsData = tableMainData;
   const sportType = watch("sportType");
   const dateTime = watch("dateTime");
   useEffect(() => {
     if (isOpenRecord?.action === "edit" || isOpenRecord?.action === "view") {
       if (recordsData) {
         const record = recordsData[Number(isOpenRecord.id)];
-
         if (record?.date) {
           const datePart = record.date.split(" ")[0];
           const [month, day, year] = datePart.split("/");
@@ -164,7 +167,7 @@ export default function useAddNewRecordHook(
         );
         return response.data;
       } catch (error) {
-        if (error instanceof Error && error.message === "JWT-INVALID") {
+        if (error === "JWT-INVALID") {
           navigate("/login", { replace: true, state: { message: "EXP-JWT" } });
         }
         console.error("Error fetching games:", error);
@@ -218,7 +221,6 @@ export default function useAddNewRecordHook(
     }
     if (isOpenRecord?.action === "edit") {
       console.log(formatUpdateGameData(data));
-
       setIsSaving(true);
       try {
         await dispatch(updateRecord(formatUpdateGameData(data))).unwrap();
@@ -230,7 +232,15 @@ export default function useAddNewRecordHook(
         });
 
         if (onchangeSportType) onchangeSportType(sportType);
-        await dispatch(fetchRecords(sportType));
+        const paramSearchDate: FetchRecordsParams = {
+          page: 1,
+          sportType: sportType || "",
+          dateFrom: normalizeFromDate(adminFromDate)?.toISOString() || "",
+          dateTo: normalizeToDate(adminToDate)?.toISOString() || "",
+        };
+        if (onSearchDate) {
+          onSearchDate(paramSearchDate, currentPageSize);
+        }
 
         reset();
         closeModal();
@@ -263,7 +273,15 @@ export default function useAddNewRecordHook(
         });
 
         if (onchangeSportType) onchangeSportType(sportType);
-        await dispatch(fetchRecords(sportType));
+        const paramSearchDate: FetchRecordsParams = {
+          page: 1,
+          sportType: sportType || "",
+          dateFrom: normalizeFromDate(adminFromDate)?.toISOString() || "",
+          dateTo: normalizeToDate(adminToDate)?.toISOString() || "",
+        };
+        if (onSearchDate) {
+          onSearchDate(paramSearchDate, currentPageSize);
+        }
 
         reset();
         closeModal();
@@ -283,7 +301,6 @@ export default function useAddNewRecordHook(
     }
   };
 
-  // ---------------- RETURN ----------------
   return {
     state: {
       isOpen,

@@ -1,6 +1,10 @@
 import { Controller } from "react-hook-form";
 import type { GameStatusType } from "../../models/gameStatusEnum";
-import type { GameRecordData } from "../../models/mainTableModels";
+import type {
+  FetchRecordsParams,
+  GameRecordData,
+  MainTableData,
+} from "../../models/mainTableModels";
 import CustomSelectField from "../CustomComponent/CustomSelectField/CustomSelectField";
 import DatePickerCustom from "../CustomComponent/DatePickerCustom/DatePickerCustom";
 import useAddNewRecordHook from "./useAddNewRecordHook";
@@ -16,6 +20,11 @@ interface AddNewRecordProps {
       action: "add" | "edit" | "view" | "close";
     }>
   >;
+  tableMainData: MainTableData[];
+  adminFromDate: Date;
+  adminToDate: Date;
+  onSearchDate?: (paramSearch: FetchRecordsParams, pageSize: number) => void;
+  currentPageSize: number;
 }
 
 export default function AddNewRecord({
@@ -23,14 +32,24 @@ export default function AddNewRecord({
   gameRecordData,
   setIsOpenRecord,
   onchangeSportType,
+  tableMainData,
   isOpenRecord = { id: "", action: "add" },
+  adminFromDate,
+  adminToDate,
+  onSearchDate = () => {},
+  currentPageSize,
 }: AddNewRecordProps) {
   const { state, handler } = useAddNewRecordHook(
     setIsOpenRecord,
+    tableMainData,
+    adminFromDate,
+    adminToDate,
+    currentPageSize,
     onchangeSportType,
     gameRecordData,
     isOpenRecord,
-    sportTypeDefault
+    sportTypeDefault,
+    onSearchDate
   );
 
   const {

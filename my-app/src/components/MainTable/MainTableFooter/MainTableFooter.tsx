@@ -10,6 +10,7 @@ export default function MainTableFooter({
   totalPages,
   isAdmin = false,
   totalProfit = 0,
+  isLoading = false,
 }: MainTableFooterProps): React.JSX.Element {
   return (
     <tfoot>
@@ -32,10 +33,12 @@ export default function MainTableFooter({
             )}
           </div>
         </td>
-        <td colSpan={isAdmin ? 7 : 4} className="px-6 py-3 ">
+
+        <td colSpan={isAdmin ? 7 : 4} className="px-6 py-3">
           <div className="flex flex-col gap-2">
             {setPage && setPageSize ? (
               <div className="mt-2 flex items-center gap-3 justify-end">
+                {/* Dropdown chọn số dòng */}
                 <label
                   htmlFor="rows-per-page-select"
                   className="flex items-center gap-2 cursor-pointer"
@@ -44,36 +47,48 @@ export default function MainTableFooter({
                   <select
                     id="rows-per-page-select"
                     value={pageSize}
+                    disabled={isLoading}
                     onTouchStart={e => e.currentTarget.focus()}
                     onChange={e => setPageSize(Number(e.target.value))}
-                    className=" border text-base rounded-lg block w-24 p-1
-               bg-gray-700 border-gray-600 placeholder-gray-400 
-               text-white focus:ring-blue-500 focus:border-blue-500"
+                    className={`border text-base rounded-lg block w-24 p-1
+                      bg-gray-700 border-gray-600 placeholder-gray-400 
+                      text-white focus:ring-blue-500 focus:border-blue-500
+                      ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
                     <option value={10}>10</option>
                     <option value={15}>15</option>
-                    <option value={20}>20</option>
-                    <option value={25}>25</option>
+                    <option value={30}>30</option>
                   </select>
                 </label>
 
+                {/* Điều khiển phân trang */}
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setPage(Math.max(1, (page ?? 1) - 1))}
-                    disabled={(page ?? 1) <= 1}
-                    className="px-3 py-1 rounded-md border bg-gray-800 text-sm disabled:opacity-50 text-gray-200"
+                    disabled={isLoading || (page ?? 1) <= 1}
+                    className={`px-3 py-1 rounded-md border bg-gray-800 text-sm text-gray-200 transition-all
+                      disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     Prev
                   </button>
-                  <div className="text-sm text-gray-200">
-                    {page} / {totalPages}
+
+                  <div className="text-sm text-gray-200 flex items-center gap-2">
+                    {isLoading ? (
+                      <span className="animate-pulse text-gray-400">Loading...</span>
+                    ) : (
+                      <>
+                        {page} / {totalPages}
+                      </>
+                    )}
                   </div>
+
                   <button
                     onClick={() =>
                       setPage(Math.min(totalPages ?? 1, (page ?? 1) + 1))
                     }
-                    disabled={(page ?? 1) >= (totalPages ?? 1)}
-                    className="px-3 py-1 rounded-md border bg-gray-800 text-sm disabled:opacity-50 text-gray-200"
+                    disabled={isLoading || (page ?? 1) >= (totalPages ?? 1)}
+                    className={`px-3 py-1 rounded-md border bg-gray-800 text-sm text-gray-200 transition-all
+                      disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     Next
                   </button>

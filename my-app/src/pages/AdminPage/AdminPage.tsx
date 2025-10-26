@@ -1,4 +1,5 @@
 import AddNewRecord from "../../components/AddNewRecord/AddNewRecord";
+import CustomSelectField from "../../components/CustomComponent/CustomSelectField/CustomSelectField";
 import MainTable from "../../components/MainTable/MainTable";
 import useAdminPageHook from "./useAdminPageHook";
 
@@ -19,26 +20,30 @@ export default function AdminPage() {
           >
             Sport:
           </label>
-
-          <select
-            id="sport-select"
+          <CustomSelectField
+            width={200}
+            options={[
+              { value: "nba-basketball", label: "NBA - Basketball" },
+              { value: "nfl-football", label: "NFL - Football" },
+              { value: "nhl-hockey", label: "NHL - Hockey" },
+              { value: "mlb-baseball", label: "MLB - Baseball" },
+              { value: "ncaa-basketbal", label: "NCAA - Basketball" },
+            ]}
             value={state.sportType}
-            onChange={e => handler.setSportType(e.target.value)}
-            className="bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-green-400 w-full sm:w-48"
-          >
-            <option value="nba-basketball">NBA - Basketball</option>
-            <option value="nfl-football">NFL - Football</option>
-            <option value="nhl-hockey">NHL - Hockey</option>
-            <option value="mlb-baseball">MLB - Baseball</option>
-            <option value="ncaa-basketbal">NCAA - Basketball</option>
-          </select>
-
-          <div className="w-full sm:w-auto mt-2 sm:mt-0">
+            onChange={e => handler.onChangeSportType(e.toString())}
+            placeholder="Select result..."
+          />
+          <div className="w-full sm:w-auto mt-2 sm:mt-0 flex justify-center items-center">
             <AddNewRecord
               sportTypeDefault={state.sportType}
               onchangeSportType={handler.setSportType}
               isOpenRecord={state?.isOpenRecord}
               setIsOpenRecord={handler?.setIsOpenRecord}
+              tableMainData={state?.tableMainData?.tableMainData}
+              adminFromDate={state?.adminFromDate}
+              adminToDate={state?.adminToDate}
+              onSearchDate={handler.onSearchDate}
+              currentPageSize={state.currentPageSize}
             />
           </div>
         </div>
@@ -55,6 +60,13 @@ export default function AdminPage() {
             tableName={state?.tableMainData?.tableName}
             isOpenRecord={state?.isOpenRecord}
             setIsOpenRecord={handler?.setIsOpenRecord}
+            totalRecords={state?.tableMainData?.totalRecords}
+            sportType={state?.sportType}
+            isLoading={state?.loadingAdminRecords}
+            onSearchDate={handler.onSearchDate}
+            onPageChange={handler.onPageChange}
+            setAdminFromDate={handler.setAdminFromDate}
+            setAdminToDate={handler.setAdminToDate}
           />
         </div>
       </div>

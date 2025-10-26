@@ -8,11 +8,12 @@ import type {
   FetchRecordsParams,
   MainTableData,
   MainTableDataRespond,
+  RespondDataMainTable,
 } from "../models/mainTableModels";
 import type { GameStatusType } from "../models/gameStatusEnum";
 
 interface RecordState {
-  data: MainTableData[] | undefined;
+  data: RespondDataMainTable | undefined;
   loading: boolean;
   error: string | null;
 }
@@ -47,14 +48,14 @@ const formatRecordsData = (data: MainTableDataRespond[]): MainTableData[] => {
 };
 
 export const fetchTodayRecords = createAsyncThunk<
-  MainTableData[],
+  RespondDataMainTable,
   FetchRecordsParams,
   { rejectValue: string }
 >("todayRecord/fetch", async (searchParams, { rejectWithValue }) => {
   try {
     const response = await axiosClient.get("/predict_records", {
       params: {
-        page: 1,
+        page: searchParams?.page || 1,
         sportType: searchParams.sportType,
         "date[strictly_before]": searchParams.dateTo,
         "date[strictly_after]": searchParams.dateFrom,
@@ -62,7 +63,12 @@ export const fetchTodayRecords = createAsyncThunk<
     });
 
     const member: MainTableDataRespond[] = response?.data?.member ?? [];
-    return formatRecordsData(member);
+    const respondData: RespondDataMainTable = {
+      mainData: formatRecordsData(member),
+      currentPage: searchParams.page || 1,
+      totalRecords: response?.data?.totalItems || 0,
+    };
+    return respondData;
   } catch (error: unknown) {
     if (error instanceof Error) {
       if (error && error.message === "JWT-INVALID") {
@@ -90,7 +96,7 @@ const todayRecordSlice = createSlice({
       })
       .addCase(
         fetchTodayRecords.fulfilled,
-        (state, action: PayloadAction<MainTableData[]>) => {
+        (state, action: PayloadAction<RespondDataMainTable>) => {
           state.loading = false;
           state.data = action.payload;
         }

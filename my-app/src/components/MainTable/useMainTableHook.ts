@@ -1,34 +1,29 @@
-import { useEffect, useMemo, useState } from "react";
-import type { MainTableData } from "../../models/mainTableModels";
+import { useState, useEffect } from "react";
 
-function useMainTableHook(
-  tableMainData?: MainTableData[],
-  initialPageSize = 10
-) {
-  const [pageSize, setPageSize] = useState<number>(initialPageSize);
-  const [page, setPage] = useState<number>(1);
-  const total = tableMainData?.length ?? 0;
-  const totalPages = Math.max(1, Math.ceil(total / pageSize));
-  const totalProfit = useMemo(() => {
-    if (!tableMainData) return 0;
-    return tableMainData.reduce((acc, record) => acc + record.profit, 0);
-  }, [tableMainData]);
+interface UseMainTableHookProps {
+  initialPageSize?: number;
+  totalRecords?: number; // tổng số record lấy từ BE
+}
+
+export default function useMainTableHook({
+  initialPageSize = 10,
+  totalRecords = 0,
+}: UseMainTableHookProps) {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(initialPageSize);
+  const [fromDate, setFromDate] = useState<Date>(
+    new Date(new Date().setDate(new Date().getDate() - 10))
+  );
+  const [toDate, setToDate] = useState<Date>(new Date());
+  const totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
+
   useEffect(() => {
     if (page > totalPages) setPage(totalPages);
     if (page < 1) setPage(1);
   }, [page, totalPages]);
 
-  const paginatedData = useMemo(() => {
-    if (!tableMainData) return [] as MainTableData[];
-    const start = (page - 1) * pageSize;
-    return tableMainData.slice(start, start + pageSize);
-  }, [tableMainData, page, pageSize]);
-  const state = { pageSize, page, total, totalPages, paginatedData,totalProfit };
-  const handler = { setPageSize, setPage };
   return {
-    state,
-    handler,
+    state: { page, pageSize, totalPages, fromDate, toDate },
+    handler: { setPage, setPageSize, setFromDate, setToDate },
   };
 }
-
-export default useMainTableHook;
