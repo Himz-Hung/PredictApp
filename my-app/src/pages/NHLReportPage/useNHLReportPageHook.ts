@@ -8,7 +8,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "../../hooks/useContextHook";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchTodayRecords } from "../../store/todayRecordsSlice";
-import { normalizeFromDate, normalizeToDate } from "../../utils/dateUtils";
+import {
+  formatFromDateForApi,
+  formatToDateForApi,
+} from "../../utils/dateUtils";
 import { fetchHistoryRecords } from "../../store/historyRecordsSlice";
 
 function useNHLReportPageHook() {
@@ -40,8 +43,8 @@ function useNHLReportPageHook() {
         fetchTodayRecords({
           page: 1,
           sportType: "nhl-hockey",
-          dateFrom: normalizeFromDate(new Date())?.toISOString() || "",
-          dateTo: normalizeToDate(new Date())?.toISOString() || "",
+          dateFrom: formatFromDateForApi(new Date()) || "",
+          dateTo: formatToDateForApi(new Date()) || "",
         })
       )
         .unwrap()
@@ -57,10 +60,10 @@ function useNHLReportPageHook() {
           page: 1,
           sportType: "nhl-hockey",
           dateFrom:
-            normalizeFromDate(
+            formatFromDateForApi(
               new Date(new Date().setDate(new Date().getDate() - 10))
-            )?.toISOString() || "",
-          dateTo: normalizeToDate(new Date())?.toISOString() || "",
+            ) || "",
+          dateTo: formatToDateForApi(new Date()) || "",
         })
       )
         .unwrap()
@@ -126,8 +129,8 @@ function useNHLReportPageHook() {
           fetchTodayRecords({
             page: pageToFetch,
             sportType: "nhl-hockey",
-            dateFrom: normalizeFromDate(new Date())?.toISOString() || "",
-            dateTo: normalizeToDate(new Date())?.toISOString() || "",
+            dateFrom: formatFromDateForApi(new Date()) || "",
+            dateTo: formatToDateForApi(new Date()) || "",
           })
         )
           .unwrap()

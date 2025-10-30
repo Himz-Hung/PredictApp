@@ -7,7 +7,10 @@ import type {
 import { useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "../../hooks/useContextHook";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { normalizeFromDate, normalizeToDate } from "../../utils/dateUtils";
+import {
+  formatFromDateForApi,
+  formatToDateForApi,
+} from "../../utils/dateUtils";
 import { fetchTodayRecords } from "../../store/todayRecordsSlice";
 import { fetchHistoryRecords } from "../../store/historyRecordsSlice";
 
@@ -40,8 +43,8 @@ function useNBAReportPageHook() {
         fetchTodayRecords({
           page: 1,
           sportType: "nba-basketball",
-          dateFrom: normalizeFromDate(new Date())?.toISOString() || "",
-          dateTo: normalizeToDate(new Date())?.toISOString() || "",
+          dateFrom: formatFromDateForApi(new Date()) || "",
+          dateTo: formatToDateForApi(new Date()) || "",
         })
       )
         .unwrap()
@@ -57,10 +60,10 @@ function useNBAReportPageHook() {
           page: 1,
           sportType: "nba-basketball",
           dateFrom:
-            normalizeFromDate(
+            formatFromDateForApi(
               new Date(new Date().setDate(new Date().getDate() - 10))
-            )?.toISOString() || "",
-          dateTo: normalizeToDate(new Date())?.toISOString() || "",
+            ) || "",
+          dateTo: formatToDateForApi(new Date()) || "",
         })
       )
         .unwrap()
@@ -126,8 +129,8 @@ function useNBAReportPageHook() {
           fetchTodayRecords({
             page: pageToFetch,
             sportType: "nba-basketball",
-            dateFrom: normalizeFromDate(new Date())?.toISOString() || "",
-            dateTo: normalizeToDate(new Date())?.toISOString() || "",
+            dateFrom: formatFromDateForApi(new Date()) || "",
+            dateTo: formatToDateForApi(new Date()) || "",
           })
         )
           .unwrap()

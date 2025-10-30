@@ -12,7 +12,10 @@ import axiosClient from "../../api/axiosClient";
 import { useToast } from "../../hooks/useContextHook";
 import { useAppDispatch } from "../../store/hooks";
 import { createRecord, updateRecord } from "../../store/adminRecordsSlice";
-import { normalizeFromDate, normalizeToDate } from "../../utils/dateUtils";
+import {
+  formatFromDateForApi,
+  formatToDateForApi,
+} from "../../utils/dateUtils";
 
 interface ModalState {
   id: string;
@@ -220,7 +223,6 @@ export default function useAddNewRecordHook(
       return;
     }
     if (isOpenRecord?.action === "edit") {
-      console.log(formatUpdateGameData(data));
       setIsSaving(true);
       try {
         await dispatch(updateRecord(formatUpdateGameData(data))).unwrap();
@@ -235,8 +237,8 @@ export default function useAddNewRecordHook(
         const paramSearchDate: FetchRecordsParams = {
           page: 1,
           sportType: sportType || "",
-          dateFrom: normalizeFromDate(adminFromDate)?.toISOString() || "",
-          dateTo: normalizeToDate(adminToDate)?.toISOString() || "",
+          dateFrom: formatToDateForApi(adminFromDate) || "",
+          dateTo: formatToDateForApi(adminToDate) || "",
         };
         if (onSearchDate) {
           onSearchDate(paramSearchDate, currentPageSize);
@@ -276,8 +278,8 @@ export default function useAddNewRecordHook(
         const paramSearchDate: FetchRecordsParams = {
           page: 1,
           sportType: sportType || "",
-          dateFrom: normalizeFromDate(adminFromDate)?.toISOString() || "",
-          dateTo: normalizeToDate(adminToDate)?.toISOString() || "",
+          dateFrom: formatFromDateForApi(adminFromDate) || "",
+          dateTo: formatToDateForApi(adminToDate) || "",
         };
         if (onSearchDate) {
           onSearchDate(paramSearchDate, currentPageSize);

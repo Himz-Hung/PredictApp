@@ -9,7 +9,10 @@ import { isAdmin } from "../../utils/jwt";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchRecords } from "../../store/adminRecordsSlice";
-import { normalizeFromDate, normalizeToDate } from "../../utils/dateUtils";
+import {
+  formatFromDateForApi,
+  formatToDateForApi,
+} from "../../utils/dateUtils";
 
 function useAdminPageHook() {
   const [adminFromDate, setAdminFromDate] = useState<Date>(
@@ -51,10 +54,10 @@ function useAdminPageHook() {
             page: 1,
             sportType: "nba-basketball",
             dateFrom:
-              normalizeFromDate(
+              formatFromDateForApi(
                 new Date(new Date().setDate(new Date().getDate() - 10))
-              )?.toUTCString() || "",
-            dateTo: normalizeToDate(new Date())?.toUTCString() || "",
+              ) || "",
+            dateTo: formatToDateForApi(new Date()) || "",
           };
           await dispatch(fetchRecords(searchParams))
             .unwrap()

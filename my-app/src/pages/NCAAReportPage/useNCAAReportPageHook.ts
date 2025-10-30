@@ -8,7 +8,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "../../hooks/useContextHook";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchTodayRecords } from "../../store/todayRecordsSlice";
-import { normalizeFromDate, normalizeToDate } from "../../utils/dateUtils";
+import {
+  formatFromDateForApi,
+  formatToDateForApi,
+} from "../../utils/dateUtils";
 import { fetchHistoryRecords } from "../../store/historyRecordsSlice";
 
 function useNCAAReportPageHook() {
@@ -40,8 +43,8 @@ function useNCAAReportPageHook() {
         fetchTodayRecords({
           page: 1,
           sportType: "ncaa-basketbal",
-          dateFrom: normalizeFromDate(new Date())?.toISOString() || "",
-          dateTo: normalizeToDate(new Date())?.toISOString() || "",
+          dateFrom: formatFromDateForApi(new Date()) || "",
+          dateTo: formatToDateForApi(new Date()) || "",
         })
       )
         .unwrap()
@@ -57,10 +60,10 @@ function useNCAAReportPageHook() {
           page: 1,
           sportType: "ncaa-basketbal",
           dateFrom:
-            normalizeFromDate(
+            formatFromDateForApi(
               new Date(new Date().setDate(new Date().getDate() - 10))
-            )?.toISOString() || "",
-          dateTo: normalizeToDate(new Date())?.toISOString() || "",
+            ) || "",
+          dateTo: formatToDateForApi(new Date()) || "",
         })
       )
         .unwrap()
@@ -127,8 +130,8 @@ function useNCAAReportPageHook() {
           fetchTodayRecords({
             page: pageToFetch,
             sportType: "ncaa-basketbal",
-            dateFrom: normalizeFromDate(new Date())?.toISOString() || "",
-            dateTo: normalizeToDate(new Date())?.toISOString() || "",
+            dateFrom: formatFromDateForApi(new Date()) || "",
+            dateTo: formatToDateForApi(new Date()) || "",
           })
         )
           .unwrap()

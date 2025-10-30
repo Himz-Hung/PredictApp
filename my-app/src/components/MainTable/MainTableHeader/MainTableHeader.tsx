@@ -2,7 +2,10 @@ import type {
   FetchRecordsParams,
   MainTableHeaderProps,
 } from "../../../models/mainTableModels";
-import { normalizeFromDate, normalizeToDate } from "../../../utils/dateUtils";
+import {
+  formatFromDateForApi,
+  formatToDateForApi,
+} from "../../../utils/dateUtils";
 import DatePickerCustom from "../../CustomComponent/DatePickerCustom/DatePickerCustom";
 
 export default function MainTableHeader(
@@ -18,11 +21,8 @@ export default function MainTableHeader(
       const paramSearchDate: FetchRecordsParams = {
         page: 1,
         sportType: mainTableHeaderProps?.sportType || "",
-        dateFrom:
-          normalizeFromDate(mainTableHeaderProps?.fromDate)?.toISOString() ||
-          "",
-        dateTo:
-          normalizeToDate(mainTableHeaderProps?.toDate)?.toISOString() || "",
+        dateFrom: formatFromDateForApi(mainTableHeaderProps?.fromDate) || "",
+        dateTo: formatToDateForApi(mainTableHeaderProps?.toDate) || "",
       };
       mainTableHeaderProps.onSearchDate(
         paramSearchDate,

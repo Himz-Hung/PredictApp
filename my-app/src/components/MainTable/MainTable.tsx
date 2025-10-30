@@ -5,7 +5,10 @@ import type { MainTableProps } from "../../models/mainTableModels";
 import useMainTableHook from "./useMainTableHook";
 import "./MainTable.scss";
 import { GameStatus } from "../../models/gameStatusEnum";
-import { normalizeFromDate, normalizeToDate } from "../../utils/dateUtils";
+import {
+  formatFromDateForApi,
+  formatToDateForApi,
+} from "../../utils/dateUtils";
 
 export default function MainTable({
   tableTitle,
@@ -183,8 +186,8 @@ export default function MainTable({
                   onPageChange(
                     p,
                     pageSize,
-                    normalizeFromDate(state?.fromDate)?.toISOString() || "",
-                    normalizeToDate(state?.toDate)?.toISOString() || "",
+                    formatFromDateForApi(state?.fromDate) || "",
+                    formatToDateForApi(state?.toDate) || "",
                     false,
                     true
                   );
@@ -193,8 +196,8 @@ export default function MainTable({
                 onPageChange(
                   p,
                   pageSize,
-                  normalizeFromDate(state?.fromDate)?.toISOString() || "",
-                  normalizeToDate(state?.toDate)?.toISOString() || ""
+                  formatFromDateForApi(state?.fromDate) || "",
+                  formatToDateForApi(state?.toDate) || ""
                 );
               }}
               pageSize={pageSize}
@@ -208,8 +211,8 @@ export default function MainTable({
                   onPageChange(
                     1,
                     n,
-                    normalizeFromDate(state?.fromDate)?.toISOString() || "",
-                    normalizeToDate(state?.toDate)?.toISOString() || "",
+                    formatFromDateForApi(state?.fromDate) || "",
+                    formatToDateForApi(state?.toDate) || "",
                     false,
                     true
                   );
@@ -218,8 +221,8 @@ export default function MainTable({
                 onPageChange(
                   1,
                   n,
-                  normalizeFromDate(state?.fromDate)?.toISOString() || "",
-                  normalizeToDate(state?.toDate)?.toISOString() || ""
+                  formatFromDateForApi(state?.fromDate) || "",
+                  formatToDateForApi(state?.toDate) || ""
                 );
               }}
               totalPages={totalPages}

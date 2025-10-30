@@ -65,6 +65,8 @@ export const fetchRecords = createAsyncThunk<
         "date[strictly_after]": searchParams.dateFrom,
       },
     });
+    console.log(searchParams);
+    
     const member: MainTableDataRespond[] = response?.data?.member ?? [];
     const respondData: RespondDataMainTable = {
       mainData: formatRecordsData(member),
