@@ -26,14 +26,17 @@ function ToastContainer({ toasts, onRemove }: { toasts: Toast[]; onRemove: (id: 
 
 function ToastItem({ toast, onClose }: { toast: Toast; onClose: () => void }) {
   const { title, message, type = "info", removing } = toast;
+
+  // Theme trắng – cam pastel + màu tương ứng cho các type
   const accent =
     type === "success"
-      ? "bg-emerald-400/20 border-emerald-400 text-emerald-300"
+      ? "bg-emerald-50 border-emerald-300 text-emerald-700"
       : type === "error"
-      ? "bg-rose-400/10 border-rose-400 text-rose-300"
+      ? "bg-rose-50 border-rose-300 text-rose-700"
       : type === "warning"
-      ? "bg-amber-400/10 border-amber-400 text-amber-300"
-      : "bg-sky-400/10 border-sky-400 text-sky-300";
+      ? "bg-amber-50 border-amber-300 text-amber-700"
+      : "bg-white border-orange-200 text-orange-600"; // info (default) cam pastel
+
   return (
     <div
       role="status"
@@ -42,18 +45,18 @@ function ToastItem({ toast, onClose }: { toast: Toast; onClose: () => void }) {
       className={`pointer-events-auto w-full
         transform transition-all duration-300 ease-out
         ${accent}
-        border rounded-md p-3 shadow-lg backdrop-blur-sm text-sm
+        border rounded-lg p-3 shadow-md backdrop-blur-sm text-sm
         ${removing ? "opacity-0 -translate-x-5" : "opacity-100 translate-x-0"}
       `}
     >
       <div className="flex items-start gap-3">
         <div className="flex-1 min-w-0">
-          {title ? <div className="font-semibold text-white truncate">{title}</div> : null}
-          <div className="text-gray-200 mt-1 break-words">{message}</div>
+          {title && <div className="font-semibold truncate">{title}</div>}
+          <div className="mt-1 break-words">{message}</div>
         </div>
         <button
           onClick={onClose}
-          className="text-gray-300 hover:text-white p-1 rounded focus:outline-none focus:ring-2 focus:ring-white/20"
+          className="text-gray-500 hover:text-orange-600 p-1 rounded focus:outline-none focus:ring-2 focus:ring-orange-200/50"
           aria-label="Close toast"
         >
           <svg
