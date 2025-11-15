@@ -237,7 +237,7 @@ export default function useAddNewRecordHook(
         const paramSearchDate: FetchRecordsParams = {
           page: 1,
           sportType: sportType || "",
-          dateFrom: formatToDateForApi(adminFromDate) || "",
+          dateFrom: formatFromDateForApi(adminFromDate) || "",
           dateTo: formatToDateForApi(adminToDate) || "",
         };
         if (onSearchDate) {

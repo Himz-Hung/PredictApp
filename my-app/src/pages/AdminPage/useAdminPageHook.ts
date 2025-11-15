@@ -96,6 +96,13 @@ function useAdminPageHook() {
   }, []);
 
   const onChangeSportType = (data: string) => {
+    const currentSearchParams: FetchRecordsParams = {
+      page: 1,
+      sportType: data || "",
+      dateFrom: formatFromDateForApi(adminFromDate) || "",
+      dateTo: formatToDateForApi(adminToDate) || "",
+    };
+    onSearchDate(currentSearchParams, currentPageSize);
     setSportType(data);
     return;
   };
