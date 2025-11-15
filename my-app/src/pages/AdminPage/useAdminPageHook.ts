@@ -96,6 +96,7 @@ function useAdminPageHook() {
   }, []);
 
   const onChangeSportType = (data: string) => {
+    setSportType(data);
     const currentSearchParams: FetchRecordsParams = {
       page: 1,
       sportType: data || "",
@@ -103,7 +104,6 @@ function useAdminPageHook() {
       dateTo: formatToDateForApi(adminToDate) || "",
     };
     onSearchDate(currentSearchParams, currentPageSize);
-    setSportType(data);
     return;
   };
   const onSearchDate = async (
@@ -116,7 +116,8 @@ function useAdminPageHook() {
       paramSearch.dateFrom,
       paramSearch.dateTo,
       true,
-      false
+      false,
+      paramSearch.sportType
     );
   };
   const onPageChange = useCallback(
@@ -126,7 +127,8 @@ function useAdminPageHook() {
       dateFr: string,
       dateTo: string,
       mustCall: boolean = false,
-      isTodayPaginated: boolean = false
+      isTodayPaginated: boolean = false,
+      currentSportType?: string
     ) => {
       if (isTodayPaginated) {
         return;
@@ -154,7 +156,7 @@ function useAdminPageHook() {
         await dispatch(
           fetchRecords({
             page: pageToFetch,
-            sportType: sportType,
+            sportType: mustCall ? currentSportType || sportType : sportType,
             dateFrom: dateFr || "",
             dateTo: dateTo || "",
           })
