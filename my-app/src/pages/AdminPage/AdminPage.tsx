@@ -5,21 +5,23 @@ import useAdminPageHook from "./useAdminPageHook";
 
 export default function AdminPage() {
   const { state, handler } = useAdminPageHook();
+
   return (
-    <div className="p-5 w-full flex flex-col items-center text-white">
-      {/* responsive header: stack on small, row on md+ */}
+    <div className="p-5 w-full flex flex-col items-center text-gray-800">
+      {/* Header */}
       <div className="flex w-11/12 flex-col md:flex-row justify-between items-center gap-4 mb-8">
-        <h1 className="w-full md:flex-1 text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400 tracking-wide uppercase drop-shadow-md text-center md:text-left">
+        <h1 className="w-full md:flex-1 text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-300 to-orange-200 tracking-wide uppercase drop-shadow-sm text-center md:text-left">
           Predict Records Management
         </h1>
 
         <div className="flex w-full md:w-auto flex-col sm:flex-row items-center gap-3 justify-center md:justify-end">
           <label
             htmlFor="sport-select"
-            className="text-sm text-gray-300 mr-0 sm:mr-2 hidden sm:inline"
+            className="text-sm text-orange-500 mr-0 sm:mr-2 hidden sm:inline"
           >
             Sport:
           </label>
+
           <CustomSelectField
             width={200}
             options={[
@@ -30,9 +32,10 @@ export default function AdminPage() {
               { value: "ncaa-basketbal", label: "NCAA - Basketball" },
             ]}
             value={state.sportType}
-            onChange={e => handler.onChangeSportType(e.toString())}
+            onChange={(e) => handler.onChangeSportType(e.toString())}
             placeholder="Select result..."
           />
+
           <div className="w-full sm:w-auto mt-2 sm:mt-0 flex justify-center items-center">
             <AddNewRecord
               sportTypeDefault={state.sportType}
@@ -49,8 +52,9 @@ export default function AdminPage() {
         </div>
       </div>
 
+      {/* Main Table */}
       <div className="flex flex-wrap w-full items-start gap-8 justify-evenly">
-        <div className="w-full lg:w-12/12 flex flex-col items-center backdrop-blur-md shadow-lg">
+        <div className="w-full lg:w-full flex flex-col items-center  rounded-xl p-4 ">
           <MainTable
             isFromTo={true}
             isAdmin={state?.isAdminRole}

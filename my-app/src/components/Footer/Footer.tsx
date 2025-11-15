@@ -4,7 +4,7 @@ import styles from './Footer.module.scss';
 const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
-      <p>© 2025 MyApp. All rights reserved.</p>
+      <p>© 2025 Phatify. All rights reserved.</p>
     </footer>
   );
 };

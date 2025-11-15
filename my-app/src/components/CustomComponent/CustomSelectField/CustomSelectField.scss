@@ -9,99 +9,107 @@
 .select-label {
   font-size: 0.75rem;
   font-weight: 500;
-  color: #9aa0b5;
+  color: #666;
   padding-left: 2px;
 }
 
+/* -------------------------- SELECT BOX -------------------------- */
 .select-box {
-  background: #1a1f2b;
-  border: 1px solid #2d3344;
-  color: #e0e6f0;
-  border-radius: 6px;
-  padding: 0 10px;
+  background: #ffffff;
+  border: 1px solid #ffd8c7;
+  color: #444;
+  border-radius: 8px;
+  padding: 0 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 400;
+  font-size: 0.9rem;
   transition: all 0.2s ease;
+  box-shadow: 0px 1px 4px rgba(255, 162, 110, 0.15);
 
   &:hover {
-    border-color: #3c78ff;
+    border-color: #ffa866;
+    box-shadow: 0px 2px 6px rgba(255, 162, 110, 0.25);
   }
 
   &.active {
-    border-color: #3c78ff;
-    background: #232a3c;
+    border-color: #ffa866;
+    box-shadow: 0px 2px 8px rgba(255, 162, 110, 0.35);
+    background: #fff7f2;
   }
 
   svg {
-    color: #a0a6ba;
+    color: #666;
   }
 }
 
+/* -------------------------- TEXT -------------------------- */
 .select-text {
-  color: #e0e6f0;
-  white-space: nowrap;         /* ⬅ giữ text trên 1 dòng */
-  overflow: hidden;            /* ⬅ ẩn phần tràn */
-  text-overflow: ellipsis;     /* ⬅ thêm dấu ... */
-  max-width: 90%;              /* ⬅ đảm bảo không đè lên icon */
-  display: inline-block;       /* ⬅ cần thiết cho ellipsis */
+  color: #444;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+  display: inline-block;
+
   &.placeholder {
-    color: #8087a1;
+    color: #b8b8b8;
   }
 }
 
+/* -------------------------- DROPDOWN -------------------------- */
 .select-dropdown {
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
   right: 0;
-  background: #1f2433;
-  border: 1px solid #2c3244;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  background: #ffffff;
+  border: 1px solid #ffd8c7;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(255, 162, 110, 0.25);
   overflow-y: auto;
-  max-height: 180px;
+  max-height: 200px;
   opacity: 0;
-  transform: scale(0.95);
+  transform: translateY(-4px);
   pointer-events: none;
-  transition: all 0.18s ease;
-  z-index: 100;
+  transition: all 0.2s ease;
+  z-index: 50;
+
   &.open {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
     pointer-events: auto;
   }
 }
 
+/* -------------------------- OPTION -------------------------- */
 .select-option {
-  padding: 6px 10px;
-  font-size: 0.85rem;
-  color: #d8deed;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: #444;
   cursor: pointer;
   border-radius: 6px;
   transition: background 0.15s ease;
 
   &:hover {
-    background: #2c334a;
+    background: #fff0e8;
   }
 
   &.selected {
-    background: #3c78ff;
-    color: #fff;
+    background: #ffa866;
+    color: white;
     font-weight: 600;
   }
 
   &.empty {
-    color: #777e95;
+    color: #999;
     text-align: center;
     cursor: default;
   }
 }
 
 .disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   pointer-events: none;
 }

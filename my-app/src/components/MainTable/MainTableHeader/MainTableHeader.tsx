@@ -32,30 +32,27 @@ export default function MainTableHeader(
   };
 
   return (
-    <thead className="sticky top-0 bg-slate-800/80 backdrop-blur-md border-b border-slate-600">
+    <thead className="sticky top-0 border-b border-orange-300">
       {mainTableHeaderProps.tableName && (
-        <tr>
+        <tr
+          className="bg-orange-50/80 backdrop-blur-sm"
+        >
           <th
             colSpan={mainTableHeaderProps?.isAdmin ? 8 : 5}
-            className="px-3 sm:px-6 py-3 text-left text-sm font-bold text-indigo-300 uppercase tracking-wider"
+            className="px-3 sm:px-6 py-3 text-left text-sm font-bold text-orange-600 uppercase tracking-wider"
           >
             <div className="flex items-center justify-between gap-4">
               <span className="truncate">{mainTableHeaderProps.tableName}</span>
               {mainTableHeaderProps?.isFromTo && (
-                <div className="flex items-center gap-3 text-xs text-gray-300">
+                <div className="flex items-center gap-3 text-xs text-gray-700">
                   <div className="flex items-end gap-2">
                     <DatePickerCustom
                       label="From Date"
                       value={mainTableHeaderProps.fromDate}
                       onChange={data => {
-                        if (mainTableHeaderProps?.setFromDate) {
-                          mainTableHeaderProps?.setFromDate(data);
-                          if (
-                            mainTableHeaderProps?.isAdmin &&
-                            mainTableHeaderProps?.setAdminFromDate
-                          ) {
-                            mainTableHeaderProps?.setAdminFromDate(data);
-                          }
+                        mainTableHeaderProps?.setFromDate?.(data);
+                        if (mainTableHeaderProps?.isAdmin) {
+                          mainTableHeaderProps?.setAdminFromDate?.(data);
                         }
                       }}
                       maxDate={mainTableHeaderProps.toDate}
@@ -66,14 +63,9 @@ export default function MainTableHeader(
                       label="To Date"
                       value={mainTableHeaderProps.toDate}
                       onChange={data => {
-                        if (mainTableHeaderProps.setToDate) {
-                          mainTableHeaderProps.setToDate(data);
-                          if (
-                            mainTableHeaderProps?.isAdmin &&
-                            mainTableHeaderProps?.setAdminToDate
-                          ) {
-                            mainTableHeaderProps?.setAdminToDate(data);
-                          }
+                        mainTableHeaderProps.setToDate?.(data);
+                        if (mainTableHeaderProps?.isAdmin) {
+                          mainTableHeaderProps?.setAdminToDate?.(data);
                         }
                       }}
                       isDateTo
@@ -85,18 +77,18 @@ export default function MainTableHeader(
                       type="button"
                       onClick={handleSearch}
                       disabled={mainTableHeaderProps.isLoading}
-                      className={`flex items-center gap-2 text-green-400 border border-green-400 
-                        bg-transparent font-medium rounded-xl text-sm px-3 py-1.5 
-                        shadow-none transition-all duration-300 ease-out
+                      className={`flex items-center gap-2 text-orange-600 border border-orange-300
+                        bg-transparent font-medium rounded-xl text-sm px-3 py-1.5
+                        shadow-sm transition-all duration-300 ease-out
                         ${
                           mainTableHeaderProps.isLoading
                             ? "opacity-50 cursor-not-allowed"
-                            : "hover:text-white hover:bg-green-400/20 hover:border-green-500 hover:shadow-lg hover:shadow-green-500/30 hover:scale-[1.02] active:scale-[0.98]"
+                            : " hover:bg-orange-300/20 hover:border-orange-400 hover:shadow-lg hover:shadow-orange-200/50 hover:scale-[1.02] active:scale-[0.98]"
                         }`}
                     >
                       {mainTableHeaderProps.isLoading ? (
                         <svg
-                          className="w-5 h-5 animate-spin text-green-400"
+                          className="w-5 h-5 animate-spin text-orange-600"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -142,33 +134,21 @@ export default function MainTableHeader(
           </th>
         </tr>
       )}
-      <tr>
+
+      <tr className="bg-orange-100/50">
         {mainTableHeaderProps.tableTitle.map((title, index) => (
           <th
             key={index}
-            className={
-              title === "Result"
-                ? `px-3 sm:px-6 py-3 min-w-[50px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
-                : title === "Profit"
-                ? `px-3 sm:px-6 py-3 min-w-[100px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
-                : title === "Pick"
-                ? `px-3 sm:px-6 py-3 min-w-[200px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
-                : title === "Date"
-                ? mainTableHeaderProps?.isAdmin
-                  ? `px-3 sm:px-6 py-3 min-w-[250px]  overflow-hidden whitespace-nowrap text-ellipsis text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
-                  : `px-3 sm:px-6 py-3 min-w-[180px] max-w-[200px]  overflow-hidden whitespace-nowrap text-ellipsis text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
-                : title === "Games"
-                ? mainTableHeaderProps?.isAdmin
-                  ? `px-3 sm:px-6 py-3 min-w-[400px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
-                  : `px-3 sm:px-6 py-3 min-w-[300px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
-                : title === "Actions"
-                ? `px-3 sm:px-6 py-3 min-w-[300px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
-                : mainTableHeaderProps?.isAdmin
-                ? title === "Sport type"
-                  ? `px-3 sm:px-6 py-3 min-w-[150px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
-                  : `px-3 sm:px-6 py-3 min-w-[200px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
-                : `px-3 sm:px-6 py-3 min-w-[150px] text-left text-xs font-medium bg-gray-700 text-slate-200 uppercase tracking-wide`
-            }
+            className={`px-3 sm:px-6 py-3 text-left text-xs font-medium bg-orange-50 text-black uppercase tracking-wide border-b border-orange-200
+            ${
+              title === "Result" ? "min-w-[50px]" :
+              title === "Profit" ? "min-w-[100px]" :
+              title === "Pick" ? "min-w-[200px]" :
+              title === "Date" ? (mainTableHeaderProps?.isAdmin ? "min-w-[250px]" : "min-w-[180px] max-w-[200px]") :
+              title === "Games" ? (mainTableHeaderProps?.isAdmin ? "min-w-[400px]" : "min-w-[300px]") :
+              title === "Actions" ? "min-w-[300px]" :
+              mainTableHeaderProps?.isAdmin && title === "Sport type" ? "min-w-[150px]" : "min-w-[150px]"
+            }`}
           >
             {title}
           </th>

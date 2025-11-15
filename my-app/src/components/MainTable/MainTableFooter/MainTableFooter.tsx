@@ -14,18 +14,18 @@ export default function MainTableFooter({
 }: MainTableFooterProps): React.JSX.Element {
   return (
     <tfoot>
-      <tr className="font-semibold text-white sticky bottom-0 bg-gray-700">
+      <tr className="font-semibold sticky bottom-0 bg-orange-50/80 backdrop-blur-sm border-t border-orange-200">
         <td colSpan={2} className="px-6 py-3 w-full text-base text-left">
           <div className="flex items-center gap-3">
-            <span className="font-semibold text-base">{tableFooterTitle}</span>
+            <span className="font-semibold text-base text-orange-700">{tableFooterTitle}</span>
             {!isAdmin && (
               <span
                 className={`text-base ${
                   totalProfit >= 0
-                    ? "text-green-500"
+                    ? "text-green-600"
                     : totalProfit < 0
-                    ? "text-red-500"
-                    : "text-gray-200"
+                    ? "text-red-600"
+                    : "text-gray-500"
                 }`}
               >
                 {totalProfit >= 0 ? `+${totalProfit}` : totalProfit ?? 0}
@@ -43,7 +43,7 @@ export default function MainTableFooter({
                   htmlFor="rows-per-page-select"
                   className="flex items-center gap-2 cursor-pointer"
                 >
-                  <span className="text-base text-gray-200">Rows:</span>
+                  <span className="text-base text-black">Rows:</span>
                   <select
                     id="rows-per-page-select"
                     value={pageSize}
@@ -51,8 +51,8 @@ export default function MainTableFooter({
                     onTouchStart={e => e.currentTarget.focus()}
                     onChange={e => setPageSize(Number(e.target.value))}
                     className={`border text-base rounded-lg block w-24 p-1
-                      bg-gray-700 border-gray-600 placeholder-gray-400 
-                      text-white focus:ring-blue-500 focus:border-blue-500
+                      bg-white border-orange-300 placeholder-gray-400 
+                      text-black focus:ring-orange-400 focus:border-orange-400
                       ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
                     <option value={10}>10</option>
@@ -66,15 +66,15 @@ export default function MainTableFooter({
                   <button
                     onClick={() => setPage(Math.max(1, (page ?? 1) - 1))}
                     disabled={isLoading || (page ?? 1) <= 1}
-                    className={`px-3 py-1 rounded-md border bg-gray-800 text-sm text-gray-200 transition-all
-                      disabled:opacity-50 disabled:cursor-not-allowed`}
+                    className={`px-3 py-1 rounded-md border border-orange-300 bg-white text-sm text-orange-700 transition-all
+                      hover:bg-orange-100 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     Prev
                   </button>
 
-                  <div className="text-sm text-gray-200 flex items-center gap-2">
+                  <div className="text-sm text-black flex items-center gap-2">
                     {isLoading ? (
-                      <span className="animate-pulse text-gray-400">Loading...</span>
+                      <span className="animate-pulse text-black">Loading...</span>
                     ) : (
                       <>
                         {page} / {totalPages}
@@ -87,8 +87,8 @@ export default function MainTableFooter({
                       setPage(Math.min(totalPages ?? 1, (page ?? 1) + 1))
                     }
                     disabled={isLoading || (page ?? 1) >= (totalPages ?? 1)}
-                    className={`px-3 py-1 rounded-md border bg-gray-800 text-sm text-gray-200 transition-all
-                      disabled:opacity-50 disabled:cursor-not-allowed`}
+                    className={`px-3 py-1 rounded-md border border-orange-300 bg-white text-sm text-orange-700 transition-all
+                      hover:bg-orange-100 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     Next
                   </button>

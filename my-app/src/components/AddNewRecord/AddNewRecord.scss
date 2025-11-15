@@ -1,34 +1,32 @@
-/* Scrollbar Dark Theme - Deep Tone + Subtle Glow */
+/* Scrollbar Light Theme - White + Pastel Orange Glow, smooth & elegant */
 .modal-content {
   scroll-behavior: smooth;
   overflow-y: auto;
 
-  /* width của thanh scroll */
+  /* Webkit Scrollbar */
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
   }
 
-  /* Track (nền thanh cuộn) */
   &::-webkit-scrollbar-track {
-    background: rgba(17, 24, 39, 0.7); /* #111827 - xám đậm hơn */
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.3); // track nhẹ, trong suốt
+    border-radius: 16px; // match modal rounded-2xl
+    margin: 4px 0; // cách mép trên/dưới
   }
 
-  /* Thumb (phần di chuyển) */
   &::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #0d9488, #064e3b); /* xanh ngọc đậm pha than */
-    border-radius: 50%;
-    box-shadow: 0 0 6px rgba(6, 78, 59, 0.3);
+    background: linear-gradient(180deg, #fcd34d, #fbbf24); // cam pastel gradient
+    border-radius: 16px; // match modal rounded-2xl
+    box-shadow: 0 0 6px rgba(252, 211, 77, 0.4); // glow nhẹ
     transition: all 0.3s ease;
   }
 
-  /* Hover: sáng hơn nhẹ, có ánh glow */
   &::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #14b8a6, #0d9488);
-    box-shadow: 0 0 10px rgba(20, 184, 166, 0.5);
+    background: linear-gradient(180deg, #fbbf24, #fcd34d); // đảo gradient khi hover
+    box-shadow: 0 0 12px rgba(252, 211, 77, 0.6); // glow mạnh hơn
   }
 
   /* Firefox */
   scrollbar-width: thin;
-  scrollbar-color: #0d9488 rgba(17, 24, 39, 0.7);
+  scrollbar-color: #fbbf24 rgba(255, 255, 255, 0.3);
 }

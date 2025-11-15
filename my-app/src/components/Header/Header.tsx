@@ -2,6 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import useHeaderHook from "./useHeaderHook";
 import logo from "../../assets/phatify.svg";
+
 export default function Header(): React.JSX.Element {
   const { state, ref, handler } = useHeaderHook();
   const navigate = useNavigate();
@@ -15,11 +16,14 @@ export default function Header(): React.JSX.Element {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b border-white/10 backdrop-blur-lg transition-all duration-300
-        ${state.isOpen ? "border-indigo-400/30 shadow-lg" : "shadow-sm"}
-        bg-gradient-to-b from-[#081020] to-[#060711]`}
+      className={`
+        sticky top-0 z-50 w-full border-b border-[#ffd7ba] backdrop-blur-xl transition-all duration-300
+        ${state.isOpen ? "shadow-lg" : "shadow-sm"}
+        bg-gradient-to-b from-white to-[#fff7f1]
+      `}
     >
       <div className="max-w-[90%] mx-auto flex items-center justify-between py-3">
+        {/* Logo */}
         <div
           onClick={() => handleLinkClick("/")}
           className="flex items-center gap-2 cursor-pointer group"
@@ -27,14 +31,11 @@ export default function Header(): React.JSX.Element {
           <img
             src={logo}
             alt="Logo"
-            className="w-[80px] md:w-[100px] rounded-lg object-contain 
-             bg-gradient-to-b from-[#0b1220] to-[#071021] p-1 
-             shadow-[0_0_10px_rgba(59,130,246,0.4),0_0_20px_rgba(59,130,246,0.2)]
-             group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.6),0_0_25px_rgba(59,130,246,0.4)]
-             transition-all duration-300"
+            className="w-[80px] md:w-[100px] rounded-lg object-contain transition-all duration-300"
           />
         </div>
 
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
           {state.NAV_ITEMS.map(item => {
             const path = `/${item.replace(" ", "-").toLowerCase()}`;
@@ -46,15 +47,17 @@ export default function Header(): React.JSX.Element {
                 className={`relative group font-medium px-2 py-1 rounded-md transition duration-300 ease-out
                   ${
                     active
-                      ? "text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.8)]"
-                      : "text-white/80 hover:text-white"
+                      ? "text-[#FF8C42] drop-shadow-[0_0_8px_rgba(255,140,66,0.6)]"
+                      : "text-[#cc8a5c] hover:text-[#ff8c42]"
                   }
                 `}
               >
                 {item}
+
+                {/* underline highlight */}
                 <span
                   className={`absolute left-0 bottom-0 h-[2px] rounded-full 
-                  bg-gradient-to-r from-indigo-400 via-indigo-500 to-indigo-600
+                  bg-gradient-to-r from-[#FFA447] via-[#FF8C42] to-[#FFA447]
                   transition-all duration-300 ease-out
                   ${
                     active
@@ -66,6 +69,8 @@ export default function Header(): React.JSX.Element {
               </Link>
             );
           })}
+
+          {/* Logout */}
           <button
             onClick={handler.handleLogout}
             className="bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold px-4 py-2 rounded-md 
@@ -76,16 +81,17 @@ export default function Header(): React.JSX.Element {
           </button>
         </nav>
 
+        {/* Mobile Menu Toggle */}
         <div className="md:hidden flex items-center">
           <button
             ref={ref.toggleRef}
             onClick={handler.toggleMenu}
             aria-label={state.isOpen ? "Close menu" : "Open menu"}
             aria-expanded={state.isOpen}
-            className="p-2 rounded-lg text-slate-300 hover:bg-white/5 hover:text-white transition"
+            className="p-2 rounded-lg text-[#cc8a5c] hover:bg-[#fff0e3] hover:text-[#ff8c42] transition"
           >
             {state.isOpen ? (
-              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden>
+              <svg viewBox="0 0 24 24" width="22" height="22">
                 <path
                   d="M6 6L18 18M6 18L18 6"
                   stroke="currentColor"
@@ -94,7 +100,7 @@ export default function Header(): React.JSX.Element {
                 />
               </svg>
             ) : (
-              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden>
+              <svg viewBox="0 0 24 24" width="22" height="22">
                 <path
                   d="M4 6h16M4 12h16M4 18h16"
                   stroke="currentColor"
@@ -110,15 +116,15 @@ export default function Header(): React.JSX.Element {
       {/* Mobile Menu */}
       <aside
         ref={ref.menuRef}
-        className={`fixed left-1/2 -translate-x-1/2 top-[72px] w-[90%] max-w-xs rounded-2xl border border-white/10 
-          bg-[#0b0e18]/95 backdrop-blur-xl shadow-2xl transition-all duration-500 ease-out 
+        className={`fixed left-1/2 -translate-x-1/2 top-[72px] w-[90%] max-w-xs rounded-2xl border border-[#ffd7ba] 
+          bg-white/95 backdrop-blur-xl shadow-2xl transition-all duration-500 ease-out 
           ${
             state.isOpen
               ? "opacity-100 translate-y-0 visible"
               : "opacity-0 -translate-y-4 invisible"
           }`}
       >
-        <div className="flex flex-col divide-y divide-white/10">
+        <div className="flex flex-col divide-y divide-[#ffd7ba]">
           {state.NAV_ITEMS.map((item, i) => {
             const path = `/${item.replace(" ", "-").toLowerCase()}`;
             const active = isActive(path);
@@ -130,8 +136,8 @@ export default function Header(): React.JSX.Element {
                 className={`py-3 px-4 text-left font-semibold transition-all duration-300 ease-out
                   ${
                     active
-                      ? "text-indigo-400 bg-indigo-500/10"
-                      : "text-white hover:bg-indigo-500/10"
+                      ? "text-[#FF8C42] bg-[#FFE9D6]"
+                      : "text-[#cc8a5c] hover:bg-[#FFE9D6]"
                   }
                   animate-slide-in`}
                 style={{
@@ -144,6 +150,7 @@ export default function Header(): React.JSX.Element {
             );
           })}
         </div>
+
         <div className="p-3">
           <button
             className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold py-3 rounded-xl 

@@ -1,8 +1,11 @@
 body {
   margin: 0;
+  button:hover {
+    cursor: pointer;
+  }
   .app-dark-bg {
     min-height: 100vh;
-    background: linear-gradient(to bottom, #000000 0%, #010218 100%);
-    color: white;
+    background: linear-gradient(to bottom, #ffffff 0%, #fff3e8 100%);
+    color: #333;
   }
 }

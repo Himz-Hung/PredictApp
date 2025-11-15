@@ -5,7 +5,9 @@ export default function NBAReportPage() {
   const { state, handler } = useNBAReportPageHook();
   return (
     <div className="overflow-hidden p-5 w-full flex flex-col items-center text-white">
-      <h1 className="text-3xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400 tracking-wide uppercase text-center drop-shadow-md">
+      <h1 className="text-3xl font-extrabold mb-8 text-transparent bg-clip-text 
+  bg-gradient-to-r from-orange-400 via-orange-300 to-orange-300 
+  tracking-wide uppercase text-center drop-shadow-md">
         NBA Scientific Betting {state?.todayDate}
       </h1>
 

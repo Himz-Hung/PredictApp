@@ -8,76 +8,83 @@
   width: 100%;
 }
 
+/* LABEL */
 .date-label {
   font-size: 0.75rem;
   font-weight: 500;
-  color: #9aa0b5;
+  color: #666;
   padding-left: 2px;
 }
 
+/* --------------------- INPUT --------------------- */
 .date-input {
-  background: #1a1f2b;
-  border: 1px solid #2d3344;
-  color: #e0e6f0;
+  background: #ffffff;
+  border: 1px solid #ffd8c7;
+  color: #444;
   padding: 7px 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   min-width: 130px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 0.85rem;
-  font-weight: 400;
+  font-size: 0.88rem;
+  box-shadow: 0px 1px 4px rgba(255, 162, 110, 0.15);
+
   &:hover {
-    border-color: #3c78ff;
+    border-color: #ffa866;
+    box-shadow: 0px 2px 6px rgba(255, 162, 110, 0.25);
   }
 
   &.active {
-    border-color: #3c78ff;
-    background: #232a3c;
+    border-color: #ffa866;
+    background: #fff7f2;
+    box-shadow: 0px 2px 8px rgba(255, 162, 110, 0.35);
   }
 }
-.date-input.disabled {
-  opacity: 0.6;
-  background: #181c29;
-  color: #8b91a6;
-  cursor: not-allowed;
-  pointer-events: none;
-  border-color: #2a2f3d;
 
-  &:hover {
-    border-color: #2a2f3d;
-  }
+/* DISABLED */
+.date-input.disabled {
+  opacity: 0.55;
+  background: #f6f6f6;
+  color: #999;
+  cursor: not-allowed;
+  border-color: #e8e8e8;
+  pointer-events: none;
 }
+
+/* --------------------- POPUP --------------------- */
 .calendar-popup {
   position: absolute;
   top: 110%;
   left: 0;
-  background: #1f2433;
-  border: 1px solid #2c3244;
-  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #ffd8c7;
+  border-radius: 12px;
   padding: 10px;
   min-width: 240px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 14px rgba(255, 162, 110, 0.25);
   z-index: 4;
   opacity: 0;
-  transform: scale(0.95);
+  transform: translateY(-6px);
   pointer-events: none;
-  transition: all 0.18s ease;
+  transition: all 0.2s ease;
 
   &.open {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
     pointer-events: auto;
   }
 }
+
 .calendar-popup-dateTo {
   top: 110%;
   right: 0;
   left: auto;
 }
 
+/* --------------------- HEADER --------------------- */
 .calendar-header {
   display: flex;
   justify-content: space-between;
@@ -87,12 +94,16 @@
   button {
     background: transparent;
     border: none;
-    color: #e0e6f0;
+    color: #444;
     font-size: 0.9rem;
     cursor: pointer;
-    padding: 2px 6px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+
     &:hover {
-      color: #3c78ff;
+      background: #fff0e8;
+      color: #ff8f5e;
     }
   }
 
@@ -101,46 +112,52 @@
     gap: 6px;
     font-weight: 600;
     font-size: 0.9rem;
+    color: #444;
+
     span {
       cursor: pointer;
+      transition: color 0.15s ease;
+
       &:hover {
-        color: #3c78ff;
+        color: #ff8f5e;
       }
     }
   }
 }
 
+/* --------------------- GRID --------------------- */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
+  gap: 3px;
   text-align: center;
 }
 
 .calendar-day-name {
   font-size: 0.7rem;
-  color: #8b91a6;
+  color: #999;
   padding: 2px 0;
 }
 
+/* --------------------- CELLS --------------------- */
 .calendar-day,
 .calendar-month,
 .calendar-year {
-  padding: 4px 0;
-  border-radius: 5px;
+  padding: 6px 0;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 400;
   transition: all 0.15s ease;
-  color: #d8deed;
+  color: #444;
 
   &:hover {
-    background: #2c334a;
+    background: #fff0e8;
   }
 
   &.selected {
-    background: #3c78ff;
-    color: white;
+    background: #ff8f5e;
+    color: #fff;
     font-weight: 600;
   }
 }
@@ -157,30 +174,32 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
-/* ✅ Footer Today */
+/* --------------------- TODAY BUTTON --------------------- */
 .calendar-footer {
   margin-top: 10px;
   display: flex;
   justify-content: flex-end;
 
   .today-btn {
-    background: #3c78ff;
+    background: #ff8f5e;
     border: none;
     color: #fff;
     font-size: 0.75rem;
-    padding: 4px 10px;
-    border-radius: 5px;
+    padding: 4px 12px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background 0.2s ease;
 
     &:hover {
-      background: #2b5ed8;
+      background: #ffa866;
     }
   }
 }
+
+/* DISABLED DAY */
 .calendar-day.disabled {
-  color: #666e84;
+  color: #bbb;
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.5;
   pointer-events: none;
 }
