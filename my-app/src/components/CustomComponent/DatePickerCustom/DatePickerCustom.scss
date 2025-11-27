@@ -1,26 +1,26 @@
+/* -------------------------- CONTAINER -------------------------- */
 .date-picker-container {
   position: relative;
   display: inline-flex;
   flex-direction: column;
   gap: 4px;
   font-family: "Inter", sans-serif;
-  z-index: 3;
   width: 100%;
+  z-index: 3;
 }
 
-/* LABEL */
 .date-label {
   font-size: 0.75rem;
   font-weight: 500;
-  color: #666;
+  color: var(--dp-text);
   padding-left: 2px;
 }
 
-/* --------------------- INPUT --------------------- */
+/* -------------------------- INPUT -------------------------- */
 .date-input {
-  background: #ffffff;
-  border: 1px solid #ffd8c7;
-  color: #444;
+  background: var(--dp-bg);
+  border: 1px solid var(--dp-border);
+  color: var(--dp-text);
   padding: 7px 10px;
   border-radius: 8px;
   min-width: 130px;
@@ -28,63 +28,61 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  transition: all 0.2s ease;
   font-size: 0.88rem;
+  transition: all 0.2s ease;
   box-shadow: 0px 1px 4px rgba(255, 162, 110, 0.15);
 
   &:hover {
-    border-color: #ffa866;
+    border-color: var(--dp-hover-bg);
     box-shadow: 0px 2px 6px rgba(255, 162, 110, 0.25);
   }
 
   &.active {
-    border-color: #ffa866;
-    background: #fff7f2;
-    box-shadow: 0px 2px 8px rgba(255, 162, 110, 0.35);
+    border-color: var(--dp-hover-bg);
+    background: var(--dp-active-bg);
+    box-shadow: 0px 2px 8px var(--dp-active-shadow);
+  }
+
+  &.disabled {
+    opacity: 0.55;
+    background: var(--dp-disabled-bg);
+    border-color: var(--dp-disabled-border);
+    color: var(--dp-disabled-text);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }
 
-/* DISABLED */
-.date-input.disabled {
-  opacity: 0.55;
-  background: #f6f6f6;
-  color: #999;
-  cursor: not-allowed;
-  border-color: #e8e8e8;
-  pointer-events: none;
-}
-
-/* --------------------- POPUP --------------------- */
+/* -------------------------- POPUP -------------------------- */
 .calendar-popup {
   position: absolute;
   top: 110%;
   left: 0;
-  background: #ffffff;
-  border: 1px solid #ffd8c7;
+  background: var(--dp-bg);
+  border: 1px solid var(--dp-border);
   border-radius: 12px;
   padding: 10px;
   min-width: 240px;
   box-shadow: 0 4px 14px rgba(255, 162, 110, 0.25);
-  z-index: 4;
   opacity: 0;
   transform: translateY(-6px);
   pointer-events: none;
   transition: all 0.2s ease;
+  z-index: 4;
 
   &.open {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
   }
+
+  &.calendar-popup-dateTo {
+    left: auto;
+    right: 0;
+  }
 }
 
-.calendar-popup-dateTo {
-  top: 110%;
-  right: 0;
-  left: auto;
-}
-
-/* --------------------- HEADER --------------------- */
+/* -------------------------- HEADER -------------------------- */
 .calendar-header {
   display: flex;
   justify-content: space-between;
@@ -94,7 +92,7 @@
   button {
     background: transparent;
     border: none;
-    color: #444;
+    color: var(--dp-text);
     font-size: 0.9rem;
     cursor: pointer;
     padding: 3px 6px;
@@ -102,8 +100,8 @@
     transition: all 0.15s ease;
 
     &:hover {
-      background: #fff0e8;
-      color: #ff8f5e;
+      background: var(--dp-hover-bg);
+      color: var(--dp-selected-bg);
     }
   }
 
@@ -112,20 +110,20 @@
     gap: 6px;
     font-weight: 600;
     font-size: 0.9rem;
-    color: #444;
+    color: var(--dp-text);
 
     span {
       cursor: pointer;
       transition: color 0.15s ease;
 
       &:hover {
-        color: #ff8f5e;
+        color: var(--dp-selected-bg);
       }
     }
   }
 }
 
-/* --------------------- GRID --------------------- */
+/* -------------------------- GRID -------------------------- */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -135,11 +133,11 @@
 
 .calendar-day-name {
   font-size: 0.7rem;
-  color: #999;
+  color: var(--dp-placeholder);
   padding: 2px 0;
 }
 
-/* --------------------- CELLS --------------------- */
+/* -------------------------- CELLS -------------------------- */
 .calendar-day,
 .calendar-month,
 .calendar-year {
@@ -149,16 +147,23 @@
   font-size: 0.82rem;
   font-weight: 400;
   transition: all 0.15s ease;
-  color: #444;
+  color: var(--dp-text);
 
   &:hover {
-    background: #fff0e8;
+    background: var(--dp-hover-bg);
   }
 
   &.selected {
-    background: #ff8f5e;
-    color: #fff;
+    background: var(--dp-selected-bg);
+    color: var(--dp-selected-text);
     font-weight: 600;
+  }
+
+  &.disabled {
+    color: var(--dp-disabled-text);
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
   }
 }
 
@@ -174,16 +179,16 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
-/* --------------------- TODAY BUTTON --------------------- */
+/* -------------------------- TODAY BUTTON -------------------------- */
 .calendar-footer {
   margin-top: 10px;
   display: flex;
   justify-content: flex-end;
 
   .today-btn {
-    background: #ff8f5e;
+    background: var(--dp-today-btn-bg);
     border: none;
-    color: #fff;
+    color: var(--dp-selected-text);
     font-size: 0.75rem;
     padding: 4px 12px;
     border-radius: 6px;
@@ -191,15 +196,7 @@
     transition: background 0.2s ease;
 
     &:hover {
-      background: #ffa866;
+      background: var(--dp-today-btn-hover);
     }
   }
-}
-
-/* DISABLED DAY */
-.calendar-day.disabled {
-  color: #bbb;
-  cursor: not-allowed;
-  opacity: 0.5;
-  pointer-events: none;
 }

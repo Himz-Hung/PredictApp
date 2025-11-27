@@ -1,8 +1,8 @@
 .loginPage {
   position: relative;
-  background: linear-gradient(to bottom, #ffffff 0%, #fff5ec 100%);
+  background: var(--login-bg);
   overflow: hidden;
-  color: #FFA447;
+  color: var(--loginTextColor);
 
   &::after {
     content: "";
@@ -15,10 +15,10 @@
 
     background: linear-gradient(
       to top,
-      rgba(255, 164, 71, 0.45) 0%,
-      rgba(255, 180, 110, 0.25) 30%,
-      rgba(255, 200, 150, 0.15) 50%,
-      rgba(255, 220, 200, 0.1) 70%,
+      var(--fireBottom1) 0%,
+      var(--fireBottom2) 30%,
+      var(--fireBottom3) 50%,
+      var(--fireBottom4) 70%,
       transparent 100%
     );
 
@@ -42,26 +42,26 @@
   }
 
   .loginForm {
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 164, 71, 0.35);
+    background: var(--formBg);
+    border: 1px solid var(--formBorder);
+    color: var(--formText);
     backdrop-filter: blur(12px);
-    color: #333;
 
     transform: translateY(18px);
     opacity: 0;
 
-    animation: slideUpFade 1.4s cubic-bezier(.22,.9,.32,1) 1 forwards,
-               glowingBorder 4.5s ease-in-out infinite alternate;
+    animation: slideUpFade 1.4s cubic-bezier(0.22, 0.9, 0.32, 1) 1 forwards,
+      glowingBorder 4.5s ease-in-out infinite alternate;
 
-    box-shadow: 0 4px 18px rgba(255, 164, 71, 0.35);
+    box-shadow: 0 4px 18px var(--glowColor);
   }
 
   .aside {
-    color: #FFA447;
+    color: #ffa447;
     transform: translateX(-18px);
     opacity: 0;
 
-    animation: asideSlideIn 700ms cubic-bezier(.22,.9,.32,1) 1 forwards;
+    animation: asideSlideIn 700ms cubic-bezier(0.22, 0.9, 0.32, 1) 1 forwards;
   }
 
   @keyframes asideSlideIn {

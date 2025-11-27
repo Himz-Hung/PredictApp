@@ -1,22 +1,22 @@
 .footer {
   text-align: center;
   padding: 1rem;
-  background: #ffffff;
-  color: #ff8f5e;
   font-size: 0.875rem;
   margin-top: 50px;
 
-  border-top: 1px solid #ffd8c7;
-  box-shadow: 0 -2px 8px rgba(255, 162, 110, 0.18);
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  border-top: 1px solid var(--footer-border);
+  box-shadow: 0 -2px 8px var(--footer-shadow);
 
   a {
-    color: #ff8f5e;
+    color: var(--footer-text);
     font-weight: 600;
     text-decoration: none;
     transition: color 0.2s ease;
 
     &:hover {
-      color: #ffa866;
+      color: var(--footer-hover);
     }
   }
 }

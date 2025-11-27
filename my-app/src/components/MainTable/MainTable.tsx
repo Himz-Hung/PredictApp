@@ -119,13 +119,13 @@ export default function MainTable({
                     <td
                       className={`px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-semibold ${
                         p.result === GameStatus.WIN
-                          ? "text-green-500"
+                          ? "result-win"
                           : p.result === GameStatus.LOSE
-                          ? "text-red-500"
+                          ? "result-lose"
                           : p.result === GameStatus.DRAW
-                          ? "text-yellow-500"
+                          ? "result-draw"
                           : p.result === GameStatus.PENDING
-                          ? "text-gray-400"
+                          ? "result-pending"
                           : "text-black"
                       }`}
                     >
@@ -134,8 +134,8 @@ export default function MainTable({
                     <td
                       className={`${
                         Number(p.profit) >= 0
-                          ? "text-green-600"
-                          : "text-red-600"
+                          ? "profit-positive"
+                          : "profit-negative"
                       } px-3 sm:px-6 py-4 whitespace-nowrap text-sm`}
                     >
                       {p.profit}

@@ -75,7 +75,7 @@ export default function AddNewRecord({
   } = handler;
 
   return (
-    <div>
+    <div className="addNewRecord">
       {/* --- Add Button --- */}
       <button
         onClick={() => {
@@ -349,8 +349,8 @@ export default function AddNewRecord({
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="px-5 py-2 rounded-lg border border-gray-300 text-gray-700
-                    bg-white transition-all duration-300 ease-out
+                  className="px-5 py-2 rounded-lg border text-orange-700
+                    border-orange-700 transition-all duration-300 ease-out
                     hover:bg-orange-100 hover:text-orange-900 hover:border-orange-400
                     hover:shadow-lg hover:shadow-orange-200/40
                     hover:scale-[1.02] active:scale-[0.98]"

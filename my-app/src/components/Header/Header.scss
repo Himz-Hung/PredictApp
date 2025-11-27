@@ -1,14 +1,62 @@
-@keyframes slide-in {
-  0% {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+header {
+  background: var(--header-bg);
+  border-color: var(--header-border);
 
-.animate-slide-in {
-  animation: slide-in 0.4s ease-out;
+  nav a {
+    color: var(--header-text);
+    
+    &.active {
+      color: var(--mobile-text-active);
+      background: var(--mobile-active-bg);
+    }
+
+    &:hover {
+      color: var(--header-text-hover);
+    }
+
+    span {
+      background: var(--header-underline);
+    }
+  }
+
+  .logout-btn {
+    background: linear-gradient(
+      to right,
+      var(--btn-logout-bg-start),
+      var(--btn-logout-bg-end)
+    );
+    box-shadow: 0 0 6px var(--btn-logout-shadow);
+    color: white;
+  }
+
+  aside {
+    background: var(--mobile-menu-bg);
+    border-color: var(--mobile-menu-border);
+
+    button {
+      color: var(--mobile-text-active);
+
+      &:not(.active) {
+        color: var(--header-text);
+      }
+
+      &:hover {
+        background: var(--mobile-text-hover);
+      }
+
+      &.animate-slide-in {
+        animation: slide-in 0.4s ease-out;
+      }
+    }
+  }
+  @keyframes slide-in {
+    0% {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

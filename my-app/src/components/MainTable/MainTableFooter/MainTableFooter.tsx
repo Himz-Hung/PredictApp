@@ -1,6 +1,6 @@
 import React from "react";
 import type { MainTableFooterProps } from "../../../models/mainTableModels";
-
+import "./MainTableFooter.scss";
 export default function MainTableFooter({
   tableFooterTitle,
   page,
@@ -13,11 +13,13 @@ export default function MainTableFooter({
   isLoading = false,
 }: MainTableFooterProps): React.JSX.Element {
   return (
-    <tfoot>
+    <tfoot className="mainTableFooter">
       <tr className="font-semibold sticky bottom-0 bg-orange-50/80 backdrop-blur-sm border-t border-orange-200">
         <td colSpan={2} className="px-6 py-3 w-full text-base text-left">
           <div className="flex items-center gap-3">
-            <span className="font-semibold text-base text-orange-700">{tableFooterTitle}</span>
+            <span className="font-semibold text-base text-orange-700">
+              {tableFooterTitle}
+            </span>
             {!isAdmin && (
               <span
                 className={`text-base ${
@@ -35,7 +37,7 @@ export default function MainTableFooter({
         </td>
 
         <td colSpan={isAdmin ? 7 : 4} className="px-6 py-3">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 pagination">
             {setPage && setPageSize ? (
               <div className="mt-2 flex items-center gap-3 justify-end">
                 {/* Dropdown chọn số dòng */}
@@ -43,7 +45,7 @@ export default function MainTableFooter({
                   htmlFor="rows-per-page-select"
                   className="flex items-center gap-2 cursor-pointer"
                 >
-                  <span className="text-base text-black">Rows:</span>
+                  <span className="text-base">Rows:</span>
                   <select
                     id="rows-per-page-select"
                     value={pageSize}
@@ -52,7 +54,7 @@ export default function MainTableFooter({
                     onChange={e => setPageSize(Number(e.target.value))}
                     className={`border text-base rounded-lg block w-24 p-1
                       bg-white border-orange-300 placeholder-gray-400 
-                      text-black focus:ring-orange-400 focus:border-orange-400
+                      text-black focus:ring-orange-400 focus:border-orange-400 custom-select-wrapper
                       ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
                     <option value={10}>10</option>
@@ -72,9 +74,11 @@ export default function MainTableFooter({
                     Prev
                   </button>
 
-                  <div className="text-sm text-black flex items-center gap-2">
+                  <div className="text-sm text-orange-700 flex items-center gap-2">
                     {isLoading ? (
-                      <span className="animate-pulse text-black">Loading...</span>
+                      <span className="animate-pulse text-orange-700">
+                        Loading...
+                      </span>
                     ) : (
                       <>
                         {page} / {totalPages}

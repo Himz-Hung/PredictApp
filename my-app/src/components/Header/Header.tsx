@@ -2,7 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import useHeaderHook from "./useHeaderHook";
 import logo from "../../assets/phatify.svg";
-
+import "./Header.scss";
 export default function Header(): React.JSX.Element {
   const { state, ref, handler } = useHeaderHook();
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ export default function Header(): React.JSX.Element {
   return (
     <header
       className={`
+        header
         sticky top-0 z-50 w-full border-b border-[#ffd7ba] backdrop-blur-xl transition-all duration-300
         ${state.isOpen ? "shadow-lg" : "shadow-sm"}
         bg-gradient-to-b from-white to-[#fff7f1]

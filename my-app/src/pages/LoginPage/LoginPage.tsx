@@ -1,3 +1,4 @@
+import ThemeButton from "../../components/ThemeButton/ThemeButton";
 import styles from "./LoginPage.module.scss";
 import useLoginPageHook from "./useLoginPageHook";
 
@@ -11,7 +12,6 @@ export default function LoginPage(): React.JSX.Element {
       className={`${styles.loginPage} min-h-screen min-w-screen
                   grid grid-cols-1 md:grid-cols-2 items-center justify-center text-[#FFA447]`}
     >
-
       {/* Sidebar */}
       <aside className={`${styles.aside} flex items-center justify-center`}>
         <div className="text-center px-4">
@@ -45,7 +45,7 @@ export default function LoginPage(): React.JSX.Element {
             <input
               type="username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={e => setUsername(e.target.value)}
               className="w-full px-3 py-2 rounded-md bg-white text-[#333]
                          border border-[#ffd7ba]
                          focus:outline-none focus:ring-2 focus:ring-[#FFA447]"
@@ -58,7 +58,7 @@ export default function LoginPage(): React.JSX.Element {
             <input
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
               className="w-full px-3 py-2 rounded-md bg-white text-[#333]
                          border border-[#ffd7ba]
                          focus:outline-none focus:ring-2 focus:ring-[#FFA447]"
@@ -88,6 +88,9 @@ export default function LoginPage(): React.JSX.Element {
           </button>
         </form>
       </main>
+      <div className="fixed bottom-10 right-4 z-10 mb:bottom-15">
+        <ThemeButton />
+      </div>
     </div>
   );
 }

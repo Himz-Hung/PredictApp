@@ -1,32 +1,79 @@
-/* Scrollbar Light Theme - White + Pastel Orange Glow, smooth & elegant */
-.modal-content {
-  scroll-behavior: smooth;
-  overflow-y: auto;
 
-  /* Webkit Scrollbar */
-  &::-webkit-scrollbar {
-    width: 10px;
+.addNewRecord {
+  /* Header */
+  h2 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    background-clip: text;
+    background-image: var(--addRecord-header-text-gradient);
   }
 
-  &::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.3); // track nhẹ, trong suốt
-    border-radius: 16px; // match modal rounded-2xl
-    margin: 4px 0; // cách mép trên/dưới
+  /* Labels */
+  label {
+    color: var(--addRecord-label-color);
+    font-weight: 500;
+  }
+  input,
+  textarea,
+  select {
+    background: var(--addRecord-input-bg);
+    border: 1px solid var(--addRecord-input-border);
+    color: var(--addRecord-input-text);
+    transition: all 0.25s ease;
+
+    &::placeholder {
+      color: var(--addRecord-input-placeholder);
+    }
+
+    &:focus {
+      border-color: var(--addRecord-input-focus-border);
+      box-shadow: 0 0 10px var(--addRecord-input-focus-shadow);
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   }
 
-  &::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #fcd34d, #fbbf24); // cam pastel gradient
-    border-radius: 16px; // match modal rounded-2xl
-    box-shadow: 0 0 6px rgba(252, 211, 77, 0.4); // glow nhẹ
-    transition: all 0.3s ease;
-  }
+  .modal-content {
+    background: var(--addRecord-modal-bg);
+    border: 1px solid var(--addRecord-input-border);
 
-  &::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #fbbf24, #fcd34d); // đảo gradient khi hover
-    box-shadow: 0 0 12px rgba(252, 211, 77, 0.6); // glow mạnh hơn
-  }
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #fbbf24 rgba(255, 255, 255, 0.3);
+    scroll-behavior: smooth;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
 
-  /* Firefox */
-  scrollbar-width: thin;
-  scrollbar-color: #fbbf24 rgba(255, 255, 255, 0.3);
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.3); 
+      border-radius: 16px; 
+      margin: 4px 0; 
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: linear-gradient(
+        180deg,
+        #fcd34d,
+        #fbbf24
+      ); 
+      border-radius: 16px; 
+      box-shadow: 0 0 6px rgba(252, 211, 77, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(
+        180deg,
+        #fbbf24,
+        #fcd34d
+      ); 
+      box-shadow: 0 0 12px rgba(252, 211, 77, 0.6); 
+    }
+  }
 }

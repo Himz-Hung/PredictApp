@@ -1,3 +1,4 @@
+/* -------------------------- CONTAINER -------------------------- */
 .select-container {
   position: relative;
   display: flex;
@@ -15,9 +16,9 @@
 
 /* -------------------------- SELECT BOX -------------------------- */
 .select-box {
-  background: #ffffff;
-  border: 1px solid #ffd8c7;
-  color: #444;
+  background: var(--select-bg);
+  border: 1px solid var(--select-border);
+  color: var(--select-text);
   border-radius: 8px;
   padding: 0 12px;
   display: flex;
@@ -26,27 +27,27 @@
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.2s ease;
-  box-shadow: 0px 1px 4px rgba(255, 162, 110, 0.15);
+  box-shadow: 0px 1px 4px var(--select-hover-shadow);
 
   &:hover {
-    border-color: #ffa866;
-    box-shadow: 0px 2px 6px rgba(255, 162, 110, 0.25);
+    border-color: var(--select-hover-border);
+    box-shadow: 0px 2px 6px var(--select-hover-shadow);
   }
 
   &.active {
-    border-color: #ffa866;
-    box-shadow: 0px 2px 8px rgba(255, 162, 110, 0.35);
-    background: #fff7f2;
+    border-color: var(--select-hover-border);
+    box-shadow: 0px 2px 8px var(--select-active-shadow);
+    background: var(--select-active-bg);
   }
 
   svg {
-    color: #666;
+    color: var(--select-placeholder);
   }
 }
 
 /* -------------------------- TEXT -------------------------- */
 .select-text {
-  color: #444;
+  color: var(--select-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -54,7 +55,7 @@
   display: inline-block;
 
   &.placeholder {
-    color: #b8b8b8;
+    color: var(--select-placeholder);
   }
 }
 
@@ -64,10 +65,10 @@
   top: calc(100% + 4px);
   left: 0;
   right: 0;
-  background: #ffffff;
-  border: 1px solid #ffd8c7;
+  background: var(--select-bg);
+  border: 1px solid var(--select-border);
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(255, 162, 110, 0.25);
+  box-shadow: 0 4px 12px var(--select-hover-shadow);
   overflow-y: auto;
   max-height: 200px;
   opacity: 0;
@@ -87,18 +88,18 @@
 .select-option {
   padding: 8px 12px;
   font-size: 0.9rem;
-  color: #444;
+  color: var(--select-text);
   cursor: pointer;
   border-radius: 6px;
   transition: background 0.15s ease;
 
   &:hover {
-    background: #fff0e8;
+    background: var(--select-option-hover);
   }
 
   &.selected {
-    background: #ffa866;
-    color: white;
+    background: var(--select-option-selected-bg);
+    color: var(--select-option-selected-text);
     font-weight: 600;
   }
 
@@ -109,6 +110,7 @@
   }
 }
 
+/* -------------------------- DISABLED -------------------------- */
 .disabled {
   opacity: 0.55;
   pointer-events: none;

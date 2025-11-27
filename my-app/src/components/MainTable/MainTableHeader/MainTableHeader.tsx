@@ -7,7 +7,7 @@ import {
   formatToDateForApi,
 } from "../../../utils/dateUtils";
 import DatePickerCustom from "../../CustomComponent/DatePickerCustom/DatePickerCustom";
-
+import "./MainTableHeader.scss";
 export default function MainTableHeader(
   mainTableHeaderProps: MainTableHeaderProps
 ): React.JSX.Element {
@@ -32,11 +32,9 @@ export default function MainTableHeader(
   };
 
   return (
-    <thead className="sticky top-0 border-b border-orange-300">
+    <thead className="mainTableHeader sticky top-0 border-b border-orange-300 mainTableHeader">
       {mainTableHeaderProps.tableName && (
-        <tr
-          className="bg-orange-50/80 backdrop-blur-sm"
-        >
+        <tr className="bg-orange-50/80 backdrop-blur-sm table-title-row">
           <th
             colSpan={mainTableHeaderProps?.isAdmin ? 8 : 5}
             className="px-3 sm:px-6 py-3 text-left text-sm font-bold text-orange-600 uppercase tracking-wider"
@@ -135,19 +133,31 @@ export default function MainTableHeader(
         </tr>
       )}
 
-      <tr className="bg-orange-100/50">
+      <tr className="bg-orange-100/50 header-row">
         {mainTableHeaderProps.tableTitle.map((title, index) => (
           <th
             key={index}
-            className={`px-3 sm:px-6 py-3 text-left text-xs font-medium bg-orange-50 text-black uppercase tracking-wide border-b border-orange-200
+            className={`px-3 sm:px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wide border-b border-orange-200
             ${
-              title === "Result" ? "min-w-[50px]" :
-              title === "Profit" ? "min-w-[100px]" :
-              title === "Pick" ? "min-w-[200px]" :
-              title === "Date" ? (mainTableHeaderProps?.isAdmin ? "min-w-[250px]" : "min-w-[180px] max-w-[200px]") :
-              title === "Games" ? (mainTableHeaderProps?.isAdmin ? "min-w-[400px]" : "min-w-[300px]") :
-              title === "Actions" ? "min-w-[300px]" :
-              mainTableHeaderProps?.isAdmin && title === "Sport type" ? "min-w-[150px]" : "min-w-[150px]"
+              title === "Result"
+                ? "min-w-[50px]"
+                : title === "Profit"
+                ? "min-w-[100px]"
+                : title === "Pick"
+                ? "min-w-[200px]"
+                : title === "Date"
+                ? mainTableHeaderProps?.isAdmin
+                  ? "min-w-[250px]"
+                  : "min-w-[180px] max-w-[200px]"
+                : title === "Games"
+                ? mainTableHeaderProps?.isAdmin
+                  ? "min-w-[400px]"
+                  : "min-w-[300px]"
+                : title === "Actions"
+                ? "min-w-[300px]"
+                : mainTableHeaderProps?.isAdmin && title === "Sport type"
+                ? "min-w-[150px]"
+                : "min-w-[150px]"
             }`}
           >
             {title}
