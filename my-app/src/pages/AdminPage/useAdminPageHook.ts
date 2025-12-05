@@ -92,7 +92,7 @@ function useAdminPageHook() {
     }
   }, [dispatch, isAdminRole, navigate, showToast, token]);
   useEffect(() => {
-    document.title = "Phatify - Admin Page";
+    document.title = "Everwin - Admin Page";
   }, []);
 
   const onChangeSportType = (data: string) => {

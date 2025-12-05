@@ -12,7 +12,7 @@ export default function NotFound() {
     }
   }, [location.pathname, navigate]);
   useEffect(() => {
-    document.title = "Phatify-Not Found Page";
+    document.title = "Everwin-Not Found Page";
   }, []);
   return (
     <div className="text-center p-8 flex flex-col items-center justify-center text-white">
@@ -45,7 +45,7 @@ export default function NotFound() {
             d="M15 19l-7-7 7-7"
           />
         </svg>
-        Quay lại
+        Return
       </button>
     </div>
   );

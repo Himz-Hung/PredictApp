@@ -4,8 +4,16 @@ import useLoginPageHook from "./useLoginPageHook";
 
 export default function LoginPage(): React.JSX.Element {
   const { state, handler } = useLoginPageHook();
-  const { username, password, error, loading } = state;
-  const { setUsername, setPassword, handleSubmit } = handler;
+  const { username, password, error, loading, isRegistered, confirmPassword } =
+    state;
+  const {
+    setUsername,
+    setPassword,
+    handleSubmit,
+    setIsRegistered,
+    resetForm,
+    setConfirmPassword,
+  } = handler;
 
   return (
     <div
@@ -31,7 +39,7 @@ export default function LoginPage(): React.JSX.Element {
           className={`${styles.loginForm} p-6 sm:p-8 rounded-xl shadow-xl w-full max-w-sm`}
         >
           <h2 className="text-2xl font-semibold mb-6 text-center text-[#FF8C42]">
-            Login
+            {isRegistered ? "Register" : "Login"}
           </h2>
 
           {error && (
@@ -54,7 +62,9 @@ export default function LoginPage(): React.JSX.Element {
           </label>
 
           <label className="block mb-6">
-            <span className="block mb-1 text-sm text-[#CC7A3F]">Password</span>
+            <span className="block mb-1 text-sm text-[#CC7A3F]">
+              {!isRegistered ? "Password" : "New Password"}
+            </span>
             <input
               type="password"
               value={password}
@@ -65,7 +75,45 @@ export default function LoginPage(): React.JSX.Element {
               placeholder="••••••••"
             />
           </label>
-
+          {isRegistered && (
+            <label className="block mb-6">
+              <span className="block mb-1 text-sm text-[#CC7A3F]">
+                Confirm Password
+              </span>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+                className="w-full px-3 py-2 rounded-md bg-white text-[#333]
+                         border border-[#ffd7ba]
+                         focus:outline-none focus:ring-2 focus:ring-[#FFA447]"
+                placeholder="••••••••"
+              />
+            </label>
+          )}
+          <label className="block mb-6">
+            <span className="block mb-1 text-sm text-[#CC7A3F]">
+              {isRegistered
+                ? "Already have an account?"
+                : "Don't have an account?"}{" "}
+              <span
+                onClick={() => {
+                  resetForm();
+                  setIsRegistered(!isRegistered);
+                  return;
+                }}
+                className={`
+      underline cursor-pointer
+      text-[#FF8A3D]
+      ${styles.animateGlow}
+      rounded-sm px-1
+      ${styles.shadowOrangeGlow}
+    `}
+              >
+                {isRegistered ? "Login here!" : "Register here!"}
+              </span>
+            </span>
+          </label>
           <button
             type="submit"
             disabled={loading}

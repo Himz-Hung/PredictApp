@@ -86,7 +86,7 @@ function useNCAAReportPageHook() {
     }
   }, [dispatch, navigate, showToast]);
   useEffect(() => {
-    document.title = "Phatify-NCAA Report Page";
+    document.title = "Everwin-NCAA Report Page";
     if (mess === "UNAUTHORIZED") {
       showToast({
         title: "Unavailable Access",

@@ -86,7 +86,7 @@ function useMLBReportPageHook() {
     }
   }, [dispatch, navigate, showToast]);
   useEffect(() => {
-    document.title = "Phatify-MLB Report Page";
+    document.title = "Everwin-MLB Report Page";
     if (mess === "UNAUTHORIZED") {
       showToast({
         title: "Unavailable Access",

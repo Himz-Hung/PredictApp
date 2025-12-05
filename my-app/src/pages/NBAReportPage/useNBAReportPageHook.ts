@@ -86,7 +86,7 @@ function useNBAReportPageHook() {
     }
   }, [dispatch, navigate, showToast]);
   useEffect(() => {
-    document.title = "Phatify-NBA Report Page";
+    document.title = "Everwin-NBA Report Page";
     if (mess === "UNAUTHORIZED") {
       showToast({
         title: "Unavailable Access",

@@ -1,7 +1,7 @@
 // src/components/layout/Header/Header.tsx
 import { Link, useNavigate } from "react-router-dom";
 import useHeaderHook from "./useHeaderHook";
-import logo from "../../assets/phatify.svg";
+import logo from "../../assets/LOGO EVERWIN-01.png";
 import "./Header.scss";
 export default function Header(): React.JSX.Element {
   const { state, ref, handler } = useHeaderHook();
@@ -32,7 +32,7 @@ export default function Header(): React.JSX.Element {
           <img
             src={logo}
             alt="Logo"
-            className="w-[80px] md:w-[100px] rounded-lg object-contain transition-all duration-300"
+            className="w-[60px] md:w-[70px] rounded-lg object-contain transition-all duration-300"
           />
         </div>
 
