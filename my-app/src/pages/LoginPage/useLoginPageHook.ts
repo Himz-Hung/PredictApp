@@ -16,6 +16,7 @@ export default function useLoginPageHook() {
     const token = localStorage.getItem("token");
     if (token) navigate("/nba-report", { replace: true });
   }, [navigate]);
+  const [showWarning, setShowWarning] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -108,7 +109,8 @@ export default function useLoginPageHook() {
       const result = await dispatch(loginThunk({ username, password }));
 
       if (loginThunk.fulfilled.match(result)) {
-        navigate("/nba-report", { replace: true });
+        setShowWarning(true);
+        // navigate("/nba-report", { replace: true });
       } else {
         setLoading(false);
         setError(result.payload as string);
@@ -119,6 +121,9 @@ export default function useLoginPageHook() {
       setError("Login failed. Please try again.");
     }
   };
+  const navigateAfterWarning = () => {
+    navigate("/nba-report", { replace: true });
+  };
 
   const state = {
     username,
@@ -127,6 +132,7 @@ export default function useLoginPageHook() {
     loading,
     isRegistered,
     confirmPassword,
+    showWarning
   };
 
   const handler = {
@@ -136,6 +142,8 @@ export default function useLoginPageHook() {
     setIsRegistered,
     setConfirmPassword,
     resetForm,
+    setShowWarning,
+    navigateAfterWarning
   };
 
   return { state, handler };

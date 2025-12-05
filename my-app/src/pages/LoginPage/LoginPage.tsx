@@ -1,11 +1,19 @@
+import WarningPopup from "../../components/CustomComponent/WarningPopup/WarningPopup";
 import ThemeButton from "../../components/ThemeButton/ThemeButton";
 import styles from "./LoginPage.module.scss";
 import useLoginPageHook from "./useLoginPageHook";
 
 export default function LoginPage(): React.JSX.Element {
   const { state, handler } = useLoginPageHook();
-  const { username, password, error, loading, isRegistered, confirmPassword } =
-    state;
+  const {
+    username,
+    password,
+    error,
+    loading,
+    isRegistered,
+    confirmPassword,
+    showWarning,
+  } = state;
   const {
     setUsername,
     setPassword,
@@ -13,6 +21,7 @@ export default function LoginPage(): React.JSX.Element {
     setIsRegistered,
     resetForm,
     setConfirmPassword,
+    navigateAfterWarning,
   } = handler;
 
   return (
@@ -139,6 +148,14 @@ export default function LoginPage(): React.JSX.Element {
       <div className="fixed bottom-10 right-4 z-10 mb:bottom-15">
         <ThemeButton />
       </div>
+      {showWarning && (
+        <WarningPopup
+          onClose={() => {
+            handler.setShowWarning(false);
+            navigateAfterWarning();
+          }}
+        />
+      )}
     </div>
   );
 }
