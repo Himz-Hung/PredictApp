@@ -71,7 +71,7 @@ export default function useLoginPageHook() {
       try {
         const res = await axiosClient.post("/users", {
           username,
-          plainPassword: password,
+          password: password,
         });
         if (res.status === 200 || res.status === 201) {
           setLoading(false);

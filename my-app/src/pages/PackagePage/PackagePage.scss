@@ -1,0 +1,329 @@
+.packagePage-Wrapper {
+
+  .step-line {
+    flex: 1;
+    height: 2px;
+    background: #555;
+    position: relative;
+    margin: 0 8px;
+  }
+
+  .step-line::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 2px;
+    width: 0%;
+    background: #ffa645;
+    transform: translateY(-50%);
+    transition: width 0.45s ease-in-out;
+  }
+
+  .step-line.active::after {
+    width: 100%;
+  }
+
+
+  .step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.35s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  }
+
+  .step-circle.active {
+    background: #ffa645;
+    color: #000;
+    transform: scale(1.12);
+    box-shadow: 0 0 16px rgba(255, 166, 69, 0.45);
+  }
+
+  .step-circle.inactive {
+    background: #3e3e3e;
+    color: #fff;
+    opacity: 0.5;
+  }
+  /* BUTTON APPEAR ANIMATION */
+  .confirm-btn {
+    background: linear-gradient(135deg, #ff8a3d, #ffb46a);
+    color: white;
+    font-weight: 700;
+    padding: 12px 32px;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(255, 140, 0, 0.35);
+    cursor: pointer;
+    border: none;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+
+    /* xuất hiện animation */
+    opacity: 0;
+    transform: translateY(15px) scale(0.96) rotateX(6deg);
+    animation: confirmEnter 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+
+    /* transition hover */
+    transition: transform 0.25s ease, box-shadow 0.25s ease,
+      background 0.25s ease;
+
+    &:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 8px 20px rgba(255, 150, 40, 0.45);
+      background: linear-gradient(135deg, #ffa14f, #ffc07a);
+    }
+
+    &:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 4px 10px rgba(255, 120, 0, 0.35);
+    }
+  }
+
+  @keyframes confirmEnter {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.92) rotateX(10deg);
+      filter: blur(2px);
+    }
+    60% {
+      opacity: 1;
+      transform: translateY(-3px) scale(1.03);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1) rotateX(0);
+      filter: blur(0);
+    }
+  }
+
+
+  .sport-card {
+    position: relative;
+    height: 140px;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transform-style: preserve-3d;
+  }
+
+  @media (min-width: 768px) {
+    .sport-card {
+      height: 170px;
+    }
+  }
+
+
+  .sport-card:hover {
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  }
+
+  .sport-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255, 180, 90, 0.35) 50%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+  }
+
+  .sport-card:hover::after {
+    transform: translateX(100%);
+  }
+
+  /* Overlay */
+  .sport-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    transition: background 0.25s ease;
+  }
+
+  .sport-card:hover .sport-overlay {
+    background: rgba(0, 0, 0, 0.32);
+  }
+
+  .sport-title {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 1px;
+    transition: transform 0.25s ease, text-shadow 0.25s ease;
+  }
+
+  .sport-card:hover .sport-title {
+    transform: scale(1.08);
+    text-shadow: 0 3px 12px rgba(255, 160, 75, 0.8);
+  }
+
+  .sport-card.active {
+    transform: translateY(-4px) scale(1.06);
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.55),
+      0 12px 28px rgba(255, 140, 0, 0.35);
+  }
+
+  .sport-card.active .sport-overlay {
+    background: rgba(0, 0, 0, 0.28);
+  }
+
+  .sport-card.active .sport-title {
+    color: #ffb974;
+    text-shadow: 0 3px 12px rgba(255, 150, 50, 0.9);
+  }
+
+  /* Image */
+  .sport-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Fade-up for grid */
+  .fade-list > div {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeUp 0.35s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Fade-in */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease forwards;
+  }
+
+  /* Pop animation */
+  @keyframes pop {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  .animate-pop {
+    animation: pop 0.35s cubic-bezier(0.25, 1.3, 0.5, 1) forwards;
+  }
+
+  /* Sport Card Effects */
+  .sport-card {
+    animation: fadeIn 0.4s ease forwards;
+  }
+
+  .sport-selected {
+    transform: scale(1.04);
+    transition: 0.3s;
+  }
+
+  .sport-unselected {
+    opacity: 0.85;
+  }
+
+  @keyframes fadeSlideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    60% {
+      opacity: 0.7;
+      transform: translateY(4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+  .package-disabled {
+    opacity: 0.45;
+    cursor: not-allowed !important;
+    transform: none !important;
+    border-color: #444 !important;
+    background: #222 !important;
+    position: relative;
+    & .package-lock{
+      position: absolute;
+      left: 85%;
+      top: 25%;
+    }
+  }
+  
+  
+  .package-disabled::after {
+    content: "Locked";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 100, 0, 0.9);
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+.sport-disabled {
+  position: relative;
+  cursor: not-allowed;
+  opacity: 0.4;
+  transform: scale(0.98);
+  backdrop-filter: blur(20px);
+  transition: 0.2s;
+  &:hover{
+    cursor: not-allowed;
+  }
+}
+
+
+.sport-lock {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 36px;
+  z-index: 10;
+  color: #f59e0b; // cam đậm
+  text-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+  pointer-events: none;
+}
+}

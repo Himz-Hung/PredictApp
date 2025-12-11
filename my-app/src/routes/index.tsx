@@ -3,22 +3,33 @@ import NBAReportPage from "../pages/NBAReportPage/NBAReportPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import NotFound from "../pages/NotFound";
 import MainLayout from "../components/layout/MainLayout";
-import PrivateRoute from "./PrivateRoute"; // ✅ import component vừa tạo
+import PrivateRoute from "./PrivateRoute";
 import AdminPage from "../pages/AdminPage/AdminPage";
 import MLBReportPage from "../pages/MLBReportPage/MLBReportPage";
 import NFLReportPage from "../pages/NFLReportPage/NFLReportPage";
 import NHLReportPage from "../pages/NHLReportPage/NHLReportPage";
 import NCAAReportPage from "../pages/NCAAReportPage/NCAAReportPage";
+import PackagePage from "../pages/PackagePage/PackagePage";
 
 export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
         <Route
+          path="/prediction-packages"
+          element={
+            <PrivateRoute>
+              <MainLayout currentPage="packagePage">
+                <PackagePage/>
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/nba-Report"
           element={
             <PrivateRoute>
-              <MainLayout>
+              <MainLayout currentPage="nba-basketball">
                 <NBAReportPage />
               </MainLayout>
             </PrivateRoute>
@@ -28,7 +39,7 @@ export default function AppRoutes() {
           path="/mlb-Report"
           element={
             <PrivateRoute>
-              <MainLayout>
+              <MainLayout currentPage="mlb-baseball">
                 <MLBReportPage />
               </MainLayout>
             </PrivateRoute>
@@ -38,7 +49,7 @@ export default function AppRoutes() {
           path="/nfl-Report"
           element={
             <PrivateRoute>
-              <MainLayout>
+              <MainLayout currentPage="nfl-football">
                 <NFLReportPage />
               </MainLayout>
             </PrivateRoute>
@@ -48,7 +59,7 @@ export default function AppRoutes() {
           path="/nhl-Report"
           element={
             <PrivateRoute>
-              <MainLayout>
+              <MainLayout currentPage="nhl-hockey">
                 <NHLReportPage />
               </MainLayout>
             </PrivateRoute>
@@ -58,7 +69,7 @@ export default function AppRoutes() {
           path="/ncaa-Report"
           element={
             <PrivateRoute>
-              <MainLayout>
+              <MainLayout currentPage="ncaa-basketball">
                 <NCAAReportPage />
               </MainLayout>
             </PrivateRoute>
@@ -80,9 +91,9 @@ export default function AppRoutes() {
           path="*"
           element={
             <PrivateRoute>
-             <MainLayout is404={true}>
-              <NotFound />
-            </MainLayout>
+              <MainLayout currentPage="404Page" is404={true}>
+                <NotFound />
+              </MainLayout>
             </PrivateRoute>
           }
         />

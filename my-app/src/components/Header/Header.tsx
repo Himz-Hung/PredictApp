@@ -32,12 +32,12 @@ export default function Header(): React.JSX.Element {
           <img
             src={logo}
             alt="Logo"
-            className="w-[60px] md:w-[70px] rounded-lg object-contain transition-all duration-300"
+            className="w-[60px] lg:w-[70px] rounded-lg object-contain transition-all duration-300"
           />
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden lg:flex items-center gap-6">
           {state.NAV_ITEMS.map(item => {
             const path = `/${item.replace(" ", "-").toLowerCase()}`;
             const active = isActive(path);
@@ -45,7 +45,7 @@ export default function Header(): React.JSX.Element {
               <Link
                 key={item}
                 to={path}
-                className={`relative group font-medium px-2 py-1 rounded-md transition duration-300 ease-out
+                className={`relative group font-medium px-2 py-1 rounded-lg transition duration-300 ease-out
                   ${
                     active
                       ? "text-[#FF8C42] drop-shadow-[0_0_8px_rgba(255,140,66,0.6)]"
@@ -74,7 +74,7 @@ export default function Header(): React.JSX.Element {
           {/* Logout */}
           <button
             onClick={handler.handleLogout}
-            className="bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold px-4 py-2 rounded-md 
+            className="bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold px-4 py-2 rounded-lg 
               shadow-sm transition-all duration-300
               hover:scale-105 hover:shadow-red-500/30 hover:drop-shadow-[0_0_6px_rgba(239,68,68,0.7)]"
           >
@@ -83,7 +83,7 @@ export default function Header(): React.JSX.Element {
         </nav>
 
         {/* Mobile Menu Toggle */}
-        <div className="md:hidden flex items-center">
+        <div className="lg:hidden flex items-center">
           <button
             ref={ref.toggleRef}
             onClick={handler.toggleMenu}

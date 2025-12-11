@@ -8,12 +8,27 @@ export default function useHeaderHook() {
   const menuRef = useRef<HTMLElement | null>(null);
   const toggleRef = useRef<HTMLButtonElement | null>(null);
   const token = localStorage.getItem("token");
-  const location = useLocation(); // ✅ Lấy path hiện tại
+  const location = useLocation();
 
   const NAV_ITEMS =
     token && isAdmin(token)
-      ? ["NBA Report", "MLB Report", "NFL Report", "NHL Report", "NCAA Report", "Admin"]
-      : ["NBA Report", "MLB Report", "NFL Report", "NHL Report", "NCAA Report"];
+      ? [
+          "Prediction Packages",
+          "NBA Report",
+          "MLB Report",
+          "NFL Report",
+          "NHL Report",
+          "NCAA Report",
+          "Admin",
+        ]
+      : [
+          "Prediction Packages",
+          "NBA Report",
+          "MLB Report",
+          "NFL Report",
+          "NHL Report",
+          "NCAA Report",
+        ];
 
   useEffect(() => {
     const body = document.body;
@@ -37,7 +52,7 @@ export default function useHeaderHook() {
     return () => window.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  const toggleMenu = () => setIsOpen((prev) => !prev);
+  const toggleMenu = () => setIsOpen(prev => !prev);
   const closeMenu = () => setIsOpen(false);
 
   const handleLogout = () => {
