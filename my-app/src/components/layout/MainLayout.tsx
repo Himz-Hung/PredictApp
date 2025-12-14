@@ -14,7 +14,6 @@ const MainLayout: React.FC<{
   const dispatch = useAppDispatch();
   const currentPackage = useAppSelector(state => state.userPackageSlice.data);
   useEffect(() => {
-    console.log(currentPackage);
     if (!currentPackage) {
       dispatch(fetchUserPackage());
     }

@@ -5,8 +5,9 @@ import {
   type CheckStatusResponse,
   type PaymentInfo,
 } from "../../models/paymentModels";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useParams } from "react-router-dom";
+import { fetchUserPackage } from "../../store/getUserPackageSlice";
 
 // Fake API check payment status
 function checkPaymentStatus(): Promise<CheckStatusResponse> {
@@ -22,6 +23,7 @@ export default function PaymentPage() {
   const [loading, setLoading] = useState(true);
   const [checking, setChecking] = useState(false);
   const [data, setData] = useState<PaymentInfo | null>(null);
+  const dispatch = useAppDispatch();
   const currentPackage = useAppSelector(state => state.userPackageSlice.data);
 
   useEffect(() => {
@@ -31,6 +33,7 @@ export default function PaymentPage() {
       return;
     }
     if (!currentPackage || currentPackage.length === 0) {
+      dispatch(fetchUserPackage());
       setData(null);
       setLoading(false);
       return;
@@ -54,7 +57,7 @@ export default function PaymentPage() {
     });
 
     setLoading(false);
-  }, [currentPackage, orderId]);
+  }, [currentPackage, dispatch, orderId]);
 
   const handleCheckStatus = async () => {
     setChecking(true);
