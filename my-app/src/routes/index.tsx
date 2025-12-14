@@ -10,6 +10,7 @@ import NFLReportPage from "../pages/NFLReportPage/NFLReportPage";
 import NHLReportPage from "../pages/NHLReportPage/NHLReportPage";
 import NCAAReportPage from "../pages/NCAAReportPage/NCAAReportPage";
 import PackagePage from "../pages/PackagePage/PackagePage";
+import PaymentPage from "../pages/PaymentPage/PaymentPage";
 
 export default function AppRoutes() {
   return (
@@ -20,7 +21,27 @@ export default function AppRoutes() {
           element={
             <PrivateRoute>
               <MainLayout currentPage="packagePage">
-                <PackagePage/>
+                <PackagePage />
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/payment"
+          element={
+            <PrivateRoute>
+              <MainLayout currentPage="packagePage">
+                <PaymentPage />
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/order/:orderId"
+          element={
+            <PrivateRoute>
+              <MainLayout currentPage="packagePage">
+                <PaymentPage />
               </MainLayout>
             </PrivateRoute>
           }

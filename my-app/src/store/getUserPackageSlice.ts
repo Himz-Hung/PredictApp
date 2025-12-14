@@ -34,6 +34,7 @@ export const fetchUserPackage = createAsyncThunk<
         status: item.status,
         sports: item.sports,
         packageCode: item.packageCode,
+        expiresAt: item.expiresAt,
       })
     );
     return formattedData;

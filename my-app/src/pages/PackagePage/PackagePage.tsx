@@ -188,7 +188,7 @@ export default function PackagePage() {
             selectedPackage.limit > 0 && (
               <button
                 onClick={() => setShowConfirm(true)}
-                className="confirm-btn"
+                className="confirm-btn mt-2.5"
               >
                 Confirm Selection
               </button>

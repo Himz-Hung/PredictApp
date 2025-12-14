@@ -1,5 +1,4 @@
 .packagePage-Wrapper {
-
   .step-line {
     flex: 1;
     height: 2px;
@@ -23,7 +22,6 @@
   .step-line.active::after {
     width: 100%;
   }
-
 
   .step-circle {
     width: 40px;
@@ -49,8 +47,8 @@
     color: #fff;
     opacity: 0.5;
   }
-  /* BUTTON APPEAR ANIMATION */
   .confirm-btn {
+    margin-top: 20px;
     background: linear-gradient(135deg, #ff8a3d, #ffb46a);
     color: white;
     font-weight: 700;
@@ -61,16 +59,11 @@
     border: none;
     font-size: 1.1rem;
     letter-spacing: 0.5px;
-
-    /* xuất hiện animation */
     opacity: 0;
     transform: translateY(15px) scale(0.96) rotateX(6deg);
     animation: confirmEnter 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-
-    /* transition hover */
     transition: transform 0.25s ease, box-shadow 0.25s ease,
       background 0.25s ease;
-
     &:hover {
       transform: translateY(-4px) scale(1.04);
       box-shadow: 0 8px 20px rgba(255, 150, 40, 0.45);
@@ -100,7 +93,6 @@
     }
   }
 
-
   .sport-card {
     position: relative;
     height: 140px;
@@ -117,7 +109,6 @@
       height: 170px;
     }
   }
-
 
   .sport-card:hover {
     transform: translateY(-6px) scale(1.05);
@@ -279,14 +270,13 @@
     border-color: #444 !important;
     background: #222 !important;
     position: relative;
-    & .package-lock{
+    & .package-lock {
       position: absolute;
       left: 85%;
       top: 25%;
     }
   }
-  
-  
+
   .package-disabled::after {
     content: "Locked";
     position: absolute;
@@ -302,28 +292,27 @@
     letter-spacing: 0.5px;
   }
 
-.sport-disabled {
-  position: relative;
-  cursor: not-allowed;
-  opacity: 0.4;
-  transform: scale(0.98);
-  backdrop-filter: blur(20px);
-  transition: 0.2s;
-  &:hover{
+  .sport-disabled {
+    position: relative;
     cursor: not-allowed;
+    opacity: 0.4;
+    transform: scale(0.98);
+    backdrop-filter: blur(20px);
+    transition: 0.2s;
+    &:hover {
+      cursor: not-allowed;
+    }
   }
-}
 
-
-.sport-lock {
-  position: absolute;
-  top: 65%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 36px;
-  z-index: 10;
-  color: #f59e0b; // cam đậm
-  text-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
-  pointer-events: none;
-}
+  .sport-lock {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    z-index: 10;
+    color: #f59e0b; // cam đậm
+    text-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+    pointer-events: none;
+  }
 }

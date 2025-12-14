@@ -44,6 +44,7 @@ export default function usePackagePageHook() {
   }, [location.pathname, mess, navigate, showToast]);
   useEffect(() => {
     if (Array.isArray(currentPackage) && currentPackage.length > 0) {
+      navigate("/payment", { replace: true });
       currentPackage.forEach(pkg => {
         const { packageCode, sports } = pkg;
         setPurchasedCode(prev => {

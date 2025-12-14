@@ -1,0 +1,85 @@
+.payment-page {
+  border-radius: 10px;
+  // background: var(--payment-bg);
+  color: var(--payment-text-dark);
+
+  .title {
+    color: var(--payment-text-dark);
+  }
+
+  .card {
+    background: var(--payment-card-bg);
+    border: 1px solid var(--payment-card-border);
+    box-shadow: 0 0 16px var(--payment-card-shadow);
+    border-radius: 16px;
+  }
+
+  .status-badge {
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.85rem;
+
+    &.active {
+      background: var(--status-active-bg);
+      color: var(--status-active-text);
+      border: 1px solid var(--status-active-border);
+    }
+
+    &.pending {
+      background: var(--status-pending-bg);
+      color: var(--status-pending-text);
+      border: 1px solid var(--status-pending-border);
+    }
+
+    &.cancelled {
+      background: var(--status-cancel-bg);
+      color: var(--status-cancel-text);
+      border: 1px solid var(--status-cancel-border);
+      text-decoration: line-through;
+    }
+  }
+
+  .sport-tag {
+    background: var(--payment-orange-bg);
+    border: 1px solid var(--payment-orange-border);
+    color: var(--payment-orange-text);
+    border-radius: 8px;
+
+    &:hover {
+      filter: brightness(1.2);
+      background-color: #ff7700a2;
+      cursor: pointer;
+    }
+  }
+
+  .check-btn {
+    background: var(--payment-btn-bg);
+    color: var(--payment-btn-text);
+
+    &:hover {
+      background: var(--payment-btn-bg-hover);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+
+  .dot-green {
+    background: var(--timeline-green);
+  }
+  .dot-yellow {
+    background: var(--timeline-yellow);
+  }
+  .dot-red {
+    background: var(--timeline-red);
+  }
+
+  .text-light {
+    color: var(--payment-text-light);
+  }
+  .text-mid {
+    color: var(--payment-text-mid);
+  }
+}

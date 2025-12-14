@@ -17,5 +17,6 @@ interface UserPackageRespond {
   status: string;
   sports: string[];
   packageCode: string;
+  expiresAt: string;
 }
 export type { SportImg, StepCircleProps, PackageType, UserPackageRespond };

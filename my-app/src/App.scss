@@ -148,6 +148,40 @@ body {
     --addRecord-btn-hover-bg: #ff8c42;
     --addRecord-btn-hover-shadow: rgba(255, 164, 71, 0.25);
     --addRecord-btn-disabled-opacity: 0.6;
+    /* LIGHT THEME */
+    --payment-bg: #ffffff;
+    --payment-card-bg: #ffffff;
+    --payment-card-border: #e5e7eb;
+    --payment-card-shadow: rgba(0, 0, 0, 0.06);
+
+    --payment-text-dark: #1f2937;
+    --payment-text-mid: #4b5563;
+    --payment-text-light: #9ca3af;
+
+    --payment-orange-bg: #fff7ed;
+    --payment-orange-border: #fed7aa;
+    --payment-orange-text: #c2410c;
+
+    --payment-btn-bg: #f97316;
+    --payment-btn-bg-hover: #ea580c;
+    --payment-btn-text: #ffffff;
+
+    /* STATUS */
+    --status-active-bg: #dcfce7;
+    --status-active-text: #16a34a;
+    --status-active-border: #86efac;
+
+    --status-pending-bg: #fef9c3;
+    --status-pending-text: #ca8a04;
+    --status-pending-border: #fde047;
+
+    --status-cancel-bg: #fee2e2;
+    --status-cancel-text: #dc2626;
+    --status-cancel-border: #fca5a5;
+
+    --timeline-green: #22c55e;
+    --timeline-yellow: #eab308;
+    --timeline-red: #ef4444;
   }
 
   &.dark {
@@ -313,5 +347,37 @@ body {
         outline: none;
       }
     }
+    --payment-bg: #0f0f10;
+    --payment-card-bg: #18181a;
+    --payment-card-border: #2a2a2d;
+    --payment-card-shadow: rgba(255, 255, 255, 0.05);
+
+    --payment-text-dark: #f5f5f5;
+    --payment-text-mid: #d1d5db;
+    --payment-text-light: #9ca3af;
+
+    --payment-orange-bg: #2b1a00;
+    --payment-orange-border: #8a4f12;
+    --payment-orange-text: #ffb86b;
+
+    --payment-btn-bg: #ff7a00;
+    --payment-btn-bg-hover: #ff8f2e;
+    --payment-btn-text: #000000;
+
+    --status-active-bg: #003f24;
+    --status-active-text: #34d399;
+    --status-active-border: #065f46;
+
+    --status-pending-bg: #3f2f00;
+    --status-pending-text: #facc15;
+    --status-pending-border: #eab308;
+
+    --status-cancel-bg: #3f0000;
+    --status-cancel-text: #f87171;
+    --status-cancel-border: #dc2626;
+
+    --timeline-green: #34d399;
+    --timeline-yellow: #facc15;
+    --timeline-red: #f87171;
   }
 }
