@@ -100,7 +100,7 @@ export default function AppRoutes() {
           path="/admin"
           element={
             <PrivateRoute isAdminRoute={true}>
-              <MainLayout>
+              <MainLayout currentPage="adminPage">
                 <AdminPage />
               </MainLayout>
             </PrivateRoute>
