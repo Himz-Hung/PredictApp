@@ -25,6 +25,11 @@
       color: var(--status-active-text);
       border: 1px solid var(--status-active-border);
     }
+    &.paid {
+      background: var(--status-active-bg);
+      color: var(--status-active-text);
+      border: 1px solid var(--status-active-border);
+    }
 
     &.pending {
       background: var(--status-pending-bg);

@@ -8,6 +8,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useParams } from "react-router-dom";
 import { fetchUserPackage } from "../../store/getUserPackageSlice";
+import axiosClient from "../../api/axiosClient";
 
 // Fake API check payment status
 function checkPaymentStatus(): Promise<CheckStatusResponse> {
@@ -25,9 +26,34 @@ export default function PaymentPage() {
   const [data, setData] = useState<PaymentInfo | null>(null);
   const dispatch = useAppDispatch();
   const currentPackage = useAppSelector(state => state.userPackageSlice.data);
-
+  const getOrderById = async (id: string) => {
+    const respond = await axiosClient.get(`/orders/${id}`);
+    if (respond.status === 200 || respond.status === 201) {
+      console.log(respond.data);
+        const order = respond.data;
+        // const expires = new Date(order.expiresAt).toLocaleString(undefined, {
+        //   year: "numeric",
+        //   month: "short",
+        //   day: "2-digit",
+        //   hour: "2-digit",
+        //   minute: "2-digit",
+        // });
+        setData({
+          status: order.status as keyof typeof LABEL_BY_STATUS,
+          packageCode: order.packageCode,
+          sports: order.sports.member,
+          expiresAt: '',
+          limit: order.sports.member.length.toString(),
+        });
+    }
+  };
   useEffect(() => {
     if (orderId) {
+      try {
+        getOrderById(orderId);
+      } catch (error) {
+        console.error(error);
+      }
       setData(null);
       setLoading(false);
       return;

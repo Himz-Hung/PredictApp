@@ -1,4 +1,9 @@
-export type PaymentStatus = "active" | "pending" | "cancelled" | "expired";
+export type PaymentStatus =
+  | "active"
+  | "pending"
+  | "cancelled"
+  | "expired"
+  | "paid";
 
 export interface PaymentInfo {
   status: PaymentStatus;
@@ -19,4 +24,5 @@ export const LABEL_BY_STATUS: Record<PaymentStatus, string> = {
   pending: "Pending Payment",
   cancelled: "Cancelled",
   expired: "Expired",
+  paid: "Paid",
 };
