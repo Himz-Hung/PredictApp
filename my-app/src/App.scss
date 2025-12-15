@@ -182,6 +182,31 @@ body {
     --timeline-green: #22c55e;
     --timeline-yellow: #eab308;
     --timeline-red: #ef4444;
+    /* Prediction Page */
+    --package-search-bg: rgba(255, 255, 255, 0.9);
+    --package-search-bg-focus: #ffffff;
+
+    --package-search-border: rgba(255, 140, 0, 0.35);
+    --package-search-border-focus: #ff8a3d;
+
+    --package-search-placeholder: rgba(0, 0, 0, 0.45);
+    --package-search-text: #222;
+
+    --package-search-btn-bg: linear-gradient(135deg, #ff9b4a, #ffc07a);
+    --package-search-btn-text: #000;
+
+    --package-search-btn-shadow: rgba(255, 150, 40, 0.25);
+    --package-search-btn-shadow-hover: rgba(255, 140, 0, 0.35);
+    --package-btn-bg: linear-gradient(135deg, #ff9b4a, #ffc07a);
+    --package-btn-text: #white;
+
+    --package-btn-shadow: rgba(255, 150, 40, 0.25);
+    --package-btn-shadow-hover: rgba(255, 140, 0, 0.35);
+    --package-btn-shadow-active: rgba(255, 120, 0, 0.25);
+
+    --package-btn-disabled-opacity: 0.45;
+    --package-search-note-text: rgba(0, 0, 0, 0.55);
+    --packageBg: #10182800;
   }
 
   &.dark {
@@ -379,5 +404,30 @@ body {
     --timeline-green: #34d399;
     --timeline-yellow: #facc15;
     --timeline-red: #f87171;
+    /* Prediction Page */
+    --package-search-bg: rgba(30, 30, 30, 0.85);
+    --package-search-bg-focus: rgba(25, 25, 25, 0.95);
+
+    --package-search-border: rgba(255, 166, 69, 0.35);
+    --package-search-border-focus: #ffa645;
+
+    --package-search-placeholder: rgba(255, 255, 255, 0.45);
+    --package-search-text: #ffffff;
+
+    --package-search-btn-bg: linear-gradient(135deg, #ff8a3d, #ffb46a);
+    --package-search-btn-text: #000;
+
+    --package-search-btn-shadow: rgba(255, 140, 0, 0.35);
+    --package-search-btn-shadow-hover: rgba(255, 150, 40, 0.45);
+    --package-btn-bg: linear-gradient(135deg, #ff8a3d, #ffb46a);
+    --package-btn-text: #000;
+
+    --package-btn-shadow: rgba(255, 140, 0, 0.35);
+    --package-btn-shadow-hover: rgba(255, 150, 40, 0.45);
+    --package-btn-shadow-active: rgba(255, 120, 0, 0.35);
+
+    --package-btn-disabled-opacity: 0.45;
+    --package-search-note-text: rgba(255, 255, 255, 0.65);
+    --packageBg: #101828;
   }
 }

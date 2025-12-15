@@ -13,6 +13,9 @@ export default function usePackagePageHook() {
   const { showToast } = useToast();
   const [purchasedCode, setPurchasedCode] = useState<string[]>([]);
   const [purchasedSports, setPurchasedSports] = useState<string[]>([]);
+  const [orderIdPayment, setOrderIdPayment] = useState<string>("");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [loadingPayment, setLoadingPayment] = useState(false);
   const mess = location.state?.message;
   const navigate = useNavigate();
   const [selectedPackage, setSelectedPackage] = useState<PackageType>({
@@ -91,6 +94,14 @@ export default function usePackagePageHook() {
           }
         })
         .catch(err => {
+          console.log(err);
+          const error = err as AxiosError<ErrorProps>;
+          if (error.status === 401) {
+            navigate("/login", {
+              replace: true,
+              state: { message: "EXP-JWT" },
+            });
+          }
           if (err === "JWT-INVALID") {
             navigate("/login", {
               replace: true,
@@ -149,16 +160,26 @@ export default function usePackagePageHook() {
       sports: formattedSports,
     };
     try {
+      setLoadingPayment(true);
       const res = await axiosClient.post("/orders", orderPackage);
+      localStorage.setItem("currentOrder", JSON.stringify(res.data.id));
+      setOrderIdPayment(res.data.id);
       const url = res.data?.paymentUrl;
       if (!url) {
         console.error("No URL returned from /orders");
         return;
       }
+      setLoadingPayment(false);
       window.open(url, "_blank");
     } catch (error) {
+      setShowConfirm(false);
       const err = error as AxiosError<ErrorProps>;
-
+      if (err.status === 401) {
+        navigate("/login", {
+          replace: true,
+          state: { message: "EXP-JWT" },
+        });
+      }
       const message =
         err.response?.data?.description.toString() ||
         "Unable to place the order.";
@@ -176,8 +197,11 @@ export default function usePackagePageHook() {
     packageList,
     purchasedCode,
     purchasedSports,
+    loadingPayment,
+    showConfirm,
+    orderIdPayment,
   };
-  const handler = { selectPackage, toggleSport, confirmSelection };
+  const handler = { selectPackage, toggleSport, confirmSelection, setShowConfirm, setOrderIdPayment };
 
   return { state, handler };
 }

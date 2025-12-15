@@ -1,67 +1,59 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./PaymentPage.scss";
-import {
-  LABEL_BY_STATUS,
-  type CheckStatusResponse,
-  type PaymentInfo,
-} from "../../models/paymentModels";
+import { LABEL_BY_STATUS, type PaymentInfo } from "../../models/paymentModels";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchUserPackage } from "../../store/getUserPackageSlice";
 import axiosClient from "../../api/axiosClient";
-
-// Fake API check payment status
-function checkPaymentStatus(): Promise<CheckStatusResponse> {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({ status: "active" });
-    }, 1200);
-  });
-}
+import type { AxiosError } from "axios";
+import type { ErrorProps } from "../../models/errorProps";
 
 export default function PaymentPage() {
   const { orderId } = useParams<{ orderId: string }>();
   const [loading, setLoading] = useState(true);
   const [checking, setChecking] = useState(false);
   const [data, setData] = useState<PaymentInfo | null>(null);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const currentPackage = useAppSelector(state => state.userPackageSlice.data);
-  const getOrderById = async (id: string) => {
-    const respond = await axiosClient.get(`/orders/${id}`);
-    if (respond.status === 200 || respond.status === 201) {
-      console.log(respond.data);
-        const order = respond.data;
-        // const expires = new Date(order.expiresAt).toLocaleString(undefined, {
-        //   year: "numeric",
-        //   month: "short",
-        //   day: "2-digit",
-        //   hour: "2-digit",
-        //   minute: "2-digit",
-        // });
-        setData({
-          status: order.status as keyof typeof LABEL_BY_STATUS,
-          packageCode: order.packageCode,
-          sports: order.sports.member,
-          expiresAt: '',
-          limit: order.sports.member.length.toString(),
-        });
-    }
-  };
+  const getOrderById = useCallback(
+    async (id: string, showPageLoading = true) => {
+      try {
+        if (showPageLoading) setLoading(true);
+
+        const respond = await axiosClient.get(`/orders/${id}`);
+        if (respond.status === 200 || respond.status === 201) {
+          const order = respond.data;
+          setData({
+            status: order.status as keyof typeof LABEL_BY_STATUS,
+            packageCode: order.packageCode,
+            sports: order.sports.member,
+            expiresAt: "",
+            limit: order.sports.member.length.toString(),
+          });
+        }
+      } catch (error: unknown) {
+        const err = error as AxiosError<ErrorProps>;
+        if (err.status === 401) {
+          navigate("/login", { replace: true, state: { message: "EXP-JWT" } });
+        }
+      } finally {
+        if (showPageLoading) setLoading(false);
+      }
+    },
+    [navigate]
+  );
+
   useEffect(() => {
     if (orderId) {
-      try {
-        getOrderById(orderId);
-      } catch (error) {
-        console.error(error);
-      }
       setData(null);
-      setLoading(false);
+      getOrderById(orderId);
       return;
     }
+
     if (!currentPackage || currentPackage.length === 0) {
-      dispatch(fetchUserPackage());
-      setData(null);
-      setLoading(false);
+      setLoading(true);
+      dispatch(fetchUserPackage()).finally(() => setLoading(false));
       return;
     }
 
@@ -83,12 +75,19 @@ export default function PaymentPage() {
     });
 
     setLoading(false);
-  }, [currentPackage, dispatch, orderId]);
+  }, [currentPackage, dispatch, getOrderById, orderId]);
+  const handleGoToPayment = () => {
+    if (!orderId) return;
 
+    navigate(`/payment/${orderId}`);
+    // hoặc nếu là external payment gateway:
+    // window.location.href = `https://payment-gateway.com/pay/${orderId}`;
+  };
   const handleCheckStatus = async () => {
+    if (!orderId) return;
+
     setChecking(true);
-    const res = await checkPaymentStatus();
-    setData(prev => (prev ? { ...prev, status: res.status } : prev));
+    await getOrderById(orderId, false);
     setChecking(false);
   };
 
@@ -117,7 +116,7 @@ export default function PaymentPage() {
     <div className="payment-page p-6 max-w-2xl mx-auto light">
       <h1 className="title text-2xl font-bold mb-6">Your Payment Details</h1>
 
-      <div className="card p-6">
+      <div className={`card p-6`}>
         <div className="flex items-center justify-between mb-4">
           <div>
             <p className="text-light text-sm">Package</p>
@@ -149,13 +148,23 @@ export default function PaymentPage() {
         <p className="font-medium">{data.expiresAt}</p>
 
         {data.status === "pending" && (
-          <button
-            onClick={handleCheckStatus}
-            disabled={checking}
-            className="mt-6 w-full py-2 rounded-xl font-semibold check-btn"
-          >
-            {checking ? "Checking..." : "Check Payment Status"}
-          </button>
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <button
+              onClick={handleGoToPayment}
+              disabled={checking}
+              className="py-2 rounded-xl font-semibold check-btn go-payment-btn"
+            >
+              Go to Payment
+            </button>
+
+            <button
+              onClick={handleCheckStatus}
+              disabled={checking}
+              className="py-2 rounded-xl font-semibold check-btn"
+            >
+              {checking ? "Checking..." : "Check Payment Status"}
+            </button>
+          </div>
         )}
       </div>
 

@@ -15,7 +15,11 @@ const MainLayout: React.FC<{
   const currentPackage = useAppSelector(state => state.userPackageSlice.data);
   useEffect(() => {
     if (!currentPackage) {
-      dispatch(fetchUserPackage());
+      try {
+        dispatch(fetchUserPackage());
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [currentPackage, dispatch]);
   return (
@@ -28,7 +32,7 @@ const MainLayout: React.FC<{
           show={
             !currentPackage?.some(e => e.sports.includes(currentPage)) &&
             currentPage !== "packagePage" &&
-            currentPage !== "404Page" && 
+            currentPage !== "404Page" &&
             currentPage !== "adminPage"
           }
         />

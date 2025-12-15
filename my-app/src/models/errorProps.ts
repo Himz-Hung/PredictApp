@@ -1,4 +1,5 @@
 interface ErrorProps {
-    description: string;
-  }
+  description: string;
+  status: string;
+}
 export type { ErrorProps };

@@ -1,8 +1,8 @@
-import { useState } from "react";
 import usePackagePageHook from "./usePackagePageHook";
 import ConfirmPopup from "../../components/CustomComponent/CustomPopUp/ConfirmPopup";
 import "./PackagePage.scss";
 import type { SportImg, StepCircleProps } from "../../models/packageModels";
+import { useState } from "react";
 
 export default function PackagePage() {
   const { state, handler } = usePackagePageHook();
@@ -12,10 +12,17 @@ export default function PackagePage() {
     packageList,
     purchasedCode,
     purchasedSports,
+    loadingPayment,
+    showConfirm,
+    orderIdPayment,
   } = state;
-  const { selectPackage, toggleSport, confirmSelection } = handler;
-
-  const [showConfirm, setShowConfirm] = useState(false);
+  const {
+    selectPackage,
+    toggleSport,
+    confirmSelection,
+    setShowConfirm,
+    setOrderIdPayment,
+  } = handler;
 
   const sportImages: SportImg = {
     NBA: "https://wallpapers.com/images/hd/nba-logo-3840-x-2400-m54hudw7ky3u000c.jpg",
@@ -24,6 +31,7 @@ export default function PackagePage() {
     NHL: "https://wallpaperset.com/w/full/3/d/1/84239.jpg",
     NCAA: "https://a57.foxsports.com/statics.foxsports.com/www.foxsports.com/content/uploads/2024/04/1294/728/ncaaH.jpg?ve=1&tl=1",
   };
+  const [searchOrderId, setSearchOrderId] = useState("");
 
   return (
     <div className="packagePage-Wrapper overflow-hidden p-5 w-full flex flex-col items-center text-white">
@@ -35,6 +43,31 @@ export default function PackagePage() {
       >
         Prediction Packages
       </h1>
+      {/* SEARCH ORDER */}
+      <div className="order-search-wrapper">
+        <div className="order-search-note">
+          Want to check your order status? Enter your Order ID below.
+        </div>
+
+        <div className="order-search-box">
+          <input
+            type="text"
+            placeholder="Enter Order ID..."
+            value={searchOrderId}
+            onChange={e => setSearchOrderId(e.target.value)}
+            className="order-search-input"
+          />
+          <button
+            className="order-search-btn"
+            disabled={!searchOrderId.trim()}
+            onClick={() => {
+              window.open(`/order/${searchOrderId.trim()}`, "_blank");
+            }}
+          >
+            Search
+          </button>
+        </div>
+      </div>
 
       {/* STEP BAR */}
       <div className="w-full max-w-xl flex items-center justify-between mb-10 relative">
@@ -79,13 +112,13 @@ export default function PackagePage() {
             <div
               key={pkg.id}
               onClick={() => !isPurchased && selectPackage(pkg)}
-              className={`
+              className={` packageOptions
         cursor-pointer p-6 rounded-xl border shadow-xl text-center relative
         transition-all duration-300
         ${
           selectedPackage?.title === pkg.title && !isPurchased
-            ? "bg-orange-500 border-orange-300 scale-105 shadow-orange-400/50 shadow-2xl"
-            : "bg-gray-800 border-gray-700"
+            ? "bg-orange-500 text-white border-orange-300 scale-105 shadow-orange-400/50 shadow-2xl"
+            : "border-orange-300"
         }
         ${isPurchased ? "package-disabled" : "hover:scale-105"}
       `}
@@ -198,12 +231,16 @@ export default function PackagePage() {
 
       {/* CONFIRM POPUP */}
       <ConfirmPopup
+        loading={loadingPayment}
         open={showConfirm}
         selectedPackage={selectedPackage}
         selectedSports={selectedSports}
-        onClose={() => setShowConfirm(false)}
-        onConfirm={() => {
+        onClose={() => {
           setShowConfirm(false);
+          setOrderIdPayment("");
+        }}
+        orderId={orderIdPayment}
+        onConfirm={() => {
           confirmSelection();
         }}
       />
