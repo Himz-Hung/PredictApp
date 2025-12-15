@@ -74,13 +74,13 @@ export default function usePackagePageHook() {
           const memberList = [...res.data.member].reverse();
 
           for (const currPackage of memberList) {
-            if (currPackage.defaultPrice && currPackage.description) {
+            if (currPackage.unitAmount && currPackage.description) {
               setPackageList(prev => [
                 ...prev,
                 {
                   id: currPackage.id,
                   title: currPackage.name,
-                  price: currPackage.defaultPrice,
+                  price: Number(currPackage.unitAmount) / 100 + "",
                   description: currPackage.description,
                   limit:
                     currPackage.name === "EW_003"

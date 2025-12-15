@@ -15,15 +15,20 @@ export default function PaymentPage() {
   const [data, setData] = useState<PaymentInfo | null>(null);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [paymentLink, setPaymentLink] = useState<string>('');
   const currentPackage = useAppSelector(state => state.userPackageSlice.data);
   const getOrderById = useCallback(
     async (id: string, showPageLoading = true) => {
       try {
         if (showPageLoading) setLoading(true);
-
         const respond = await axiosClient.get(`/orders/${id}`);
         if (respond.status === 200 || respond.status === 201) {
           const order = respond.data;
+          if(order.status === 'paid' || order.status === 'active') {
+            dispatch(fetchUserPackage());
+            return;
+          }
+          setPaymentLink(order.paymentUrl || '');
           setData({
             status: order.status as keyof typeof LABEL_BY_STATUS,
             packageCode: order.packageCode,
@@ -41,11 +46,11 @@ export default function PaymentPage() {
         if (showPageLoading) setLoading(false);
       }
     },
-    [navigate]
+    [dispatch, navigate]
   );
 
   useEffect(() => {
-    if (orderId) {
+    if (orderId && !currentPackage) {
       setData(null);
       getOrderById(orderId);
       return;
@@ -78,10 +83,8 @@ export default function PaymentPage() {
   }, [currentPackage, dispatch, getOrderById, orderId]);
   const handleGoToPayment = () => {
     if (!orderId) return;
-
-    navigate(`/payment/${orderId}`);
-    // hoặc nếu là external payment gateway:
-    // window.location.href = `https://payment-gateway.com/pay/${orderId}`;
+    if (!paymentLink) return;
+    window.open(paymentLink, "_blank");
   };
   const handleCheckStatus = async () => {
     if (!orderId) return;

@@ -117,7 +117,7 @@ export default function PackagePage() {
         transition-all duration-300
         ${
           selectedPackage?.title === pkg.title && !isPurchased
-            ? "bg-orange-500 text-white border-orange-300 scale-105 shadow-orange-400/50 shadow-2xl"
+            ? "bg-orange-600 text-white border-orange-300 scale-105 shadow-orange-400/50 shadow-2xl"
             : "border-orange-300"
         }
         ${isPurchased ? "package-disabled" : "hover:scale-105"}
@@ -152,9 +152,9 @@ export default function PackagePage() {
 
               <h3 className="text-xl font-bold mb-2">{pkg.title}</h3>
               <p className="text-lg font-semibold text-orange-300">
-                {pkg.description}
+                {pkg.price + ' $'}
               </p>
-              <p className="text-xs mt-2 opacity-80">{pkg.price}</p>
+              <p className="text-xl mt-2 opacity-80 text-orange-300">{pkg.description}</p>
             </div>
           );
         })}
