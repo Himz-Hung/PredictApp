@@ -207,6 +207,27 @@ body {
     --package-btn-disabled-opacity: 0.45;
     --package-search-note-text: rgba(0, 0, 0, 0.55);
     --packageBg: #10182800;
+    //Delete Record
+    --delete-bg: rgba(255, 255, 255, 0.75);
+    --delete-blur: blur(18px);
+    --delete-text: #ff7a00;
+    --delete-muted: #6b7280;
+  
+    --delete-border: rgba(255, 165, 0, 0.35);
+    --delete-glow: 0 0 0 rgba(255, 165, 0, 0);
+  
+    --delete-shadow:
+      0 20px 40px rgba(255, 140, 0, 0.25),
+      0 0 30px rgba(255, 165, 0, 0.15);
+  
+    /* Buttons */
+    --btn-cancel-border: rgba(255, 165, 0, 0.35);
+    --btn-cancel-text: #ff8c00;
+  
+  /* Delete button */
+  --btn-delete-bg: rgba(255, 140, 0, 0.12);   
+  --btn-delete-border: rgba(255, 140, 0, 0.38);
+  --btn-delete-text: #e53935;                
   }
 
   &.dark {
@@ -429,5 +450,19 @@ body {
     --package-btn-disabled-opacity: 0.45;
     --package-search-note-text: rgba(255, 255, 255, 0.65);
     --packageBg: #101828;
+    //Delete Record
+    --delete-bg: rgb(20, 20, 20);
+    --delete-text: #ff7a00;
+    --delete-muted: #9ca3af;
+  
+    --delete-border: rgba(255, 165, 0, 0.45);
+    --delete-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.7),
+      0 0 35px rgba(255, 165, 0, 0.25);
+  
+    --btn-cancel-text: #ffb366;
+    --btn-delete-bg: rgba(255, 166, 0, 0.088);
+    --btn-delete-border: rgba(255, 180, 90, 0.45);
+    --btn-delete-text: #ff6b6b; 
   }
 }

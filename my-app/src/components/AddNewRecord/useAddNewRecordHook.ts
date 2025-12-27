@@ -215,6 +215,7 @@ export default function useAddNewRecordHook(
   const formatUpdateGameData = (game: GameRecordData): UpdateRecordModal => ({
     profit: game.profit || 0,
     result: game.result.toLowerCase() || "pending",
+    predictValue: game.predictValue.toString(),
     id: getValues("recordId") || "",
   });
 

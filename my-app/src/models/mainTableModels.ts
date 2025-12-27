@@ -120,6 +120,7 @@ interface CreateGameRecordData {
 interface UpdateRecordModal {
   profit: number;
   result: string;
+  predictValue: string;
   id: string;
 }
 export type {

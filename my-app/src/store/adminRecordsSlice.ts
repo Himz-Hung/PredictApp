@@ -109,6 +109,7 @@ export const updateRecord = createAsyncThunk<
       {
         result: data.result,
         profit: data.profit,
+        predictValue: data.predictValue,
       },
       {
         headers: {

@@ -9,6 +9,7 @@ import {
   formatFromDateForApi,
   formatToDateForApi,
 } from "../../utils/dateUtils";
+import DeleteRecord from "../DeleteRecord/DeleteRecord";
 
 export default function MainTable({
   tableTitle,
@@ -33,9 +34,11 @@ export default function MainTable({
   const { state, handler } = useMainTableHook({
     totalRecords,
     initialPageSize: 10,
+    onSearchDate,
   });
-  const { page, pageSize, totalPages } = state;
-  const { setPage, setPageSize } = handler;
+  const { page, pageSize, totalPages, deleteRecord } = state;
+  const { setPage, setPageSize, setDeleteRecord, deleteRecordHandler } =
+    handler;
   const totalProfit = tableMainData.reduce(
     (acc, record) => acc + record.profit,
     0
@@ -158,7 +161,7 @@ export default function MainTable({
 
                           <button
                             className="rounded-lg border border-orange-400 text-yellow-500 px-3 py-1 font-medium
-                              transition-all duration-300 hover:border-yellow-500 hover:bg-yellow-200/20 hover:scale-105 active:scale-95"
+                              transition-all duration-300 hover:border-yellow-500 hover:bg-yellow-200/20 hover:scale-105 active:scale-95 mr-4"
                             onClick={() =>
                               setIsOpenRecord({
                                 id: `${index}`,
@@ -168,6 +171,28 @@ export default function MainTable({
                           >
                             Edit
                           </button>
+                          <button
+                            className="rounded-lg border border-red-400 text-red-500 px-3 py-1 font-medium
+    transition-all duration-300 hover:border-red-500 hover:bg-red-200/20
+    hover:scale-105 active:scale-95"
+                            onClick={() =>
+                              setDeleteRecord({
+                                recordId: p.recordId || "",
+                                games: p.games,
+                                date: p.date,
+                                sportType: p.sportType,
+                              })
+                            }
+                          >
+                            Delete
+                          </button>
+
+                          <DeleteRecord
+                            open={!!deleteRecord}
+                            record={deleteRecord}
+                            onClose={() => setDeleteRecord(null)}
+                            onDelete={deleteRecordHandler}
+                          />
                         </div>
                       </td>
                     )}

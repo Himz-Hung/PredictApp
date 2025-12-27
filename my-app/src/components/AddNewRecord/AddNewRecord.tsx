@@ -276,8 +276,7 @@ export default function AddNewRecord({
                 <input
                   type="text"
                   disabled={
-                    isOpenRecord.action === "view" ||
-                    isOpenRecord.action === "edit"
+                    isOpenRecord.action === "view"
                   }
                   inputMode="text"
                   {...register("predictValue", { required: "Enter a value" })}
