@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./PaymentPage.scss";
 import { LABEL_BY_STATUS, type PaymentInfo } from "../../models/paymentModels";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -15,11 +15,13 @@ export default function PaymentPage() {
   const [data, setData] = useState<PaymentInfo | null>(null);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const cancelCallOderId = useRef<boolean>(false);
   const [paymentLink, setPaymentLink] = useState<string>('');
   const currentPackage = useAppSelector(state => state.userPackageSlice.data);
   const getOrderById = useCallback(
     async (id: string, showPageLoading = true) => {
       try {
+        cancelCallOderId.current = true;
         if (showPageLoading) setLoading(true);
         const respond = await axiosClient.get(`/orders/${id}`);
         if (respond.status === 200 || respond.status === 201) {
@@ -50,35 +52,38 @@ export default function PaymentPage() {
   );
 
   useEffect(() => {
-    if (orderId && !currentPackage) {
+    if (orderId && !currentPackage && !cancelCallOderId.current) {
       setData(null);
       getOrderById(orderId);
       return;
     }
 
-    if (!currentPackage || currentPackage.length === 0) {
+    if ((!currentPackage || currentPackage.length === 0) && !orderId ) {
       setLoading(true);
       dispatch(fetchUserPackage()).finally(() => setLoading(false));
       return;
     }
 
-    const pkg = currentPackage[0];
-    const expires = new Date(pkg.expiresAt).toLocaleString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-    setData({
-      status: pkg.status as keyof typeof LABEL_BY_STATUS,
-      packageCode: pkg.packageCode,
-      sports: pkg.sports,
-      expiresAt: expires,
-      limit: pkg.sports.length.toString(),
-    });
-
+    if (currentPackage && currentPackage.length > 0) {
+      const pkg = currentPackage[0];
+      const expires = new Date(pkg.expiresAt).toLocaleString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+  
+      setData({
+        status: pkg.status as keyof typeof LABEL_BY_STATUS,
+        packageCode: pkg.packageCode,
+        sports: pkg.sports,
+        expiresAt: expires,
+        limit: pkg.sports.length.toString(),
+      });
+      setLoading(false);
+      return;
+    }
     setLoading(false);
   }, [currentPackage, dispatch, getOrderById, orderId]);
   const handleGoToPayment = () => {

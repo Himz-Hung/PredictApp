@@ -369,7 +369,9 @@
     color: var(--package-search-text);
     // background-color: var(--packageBg);
   }
-
+  .text-xs{
+    color: var(--package-search-text);
+  }
   .order-search-btn {
     padding: 12px 28px;
     border-radius: 999px;
